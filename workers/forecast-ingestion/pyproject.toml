@@ -1,0 +1,23 @@
+[project]
+name = "forecast-ingestion"
+version = "0.1.0"
+description = "Cloud Run Job that ingests forecast model runs for active weather grid points"
+requires-python = ">=3.12"
+dependencies = ["weather-api[weathernext]"]
+
+[project.scripts]
+forecast-ingestion = "forecast_ingestion.__main__:main"
+
+[tool.uv.sources]
+weather-api = { workspace = true }
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/forecast_ingestion"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-p no:logging"

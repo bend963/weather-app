@@ -1,0 +1,43 @@
+# uv workspace root. The Python code lives in apps/api (API + shared forecast
+# domain code) and workers/forecast-ingestion (the Cloud Run Job entrypoint).
+[project]
+name = "weather-app"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = ["weather-api", "forecast-ingestion"]
+
+[tool.uv]
+package = false
+
+[tool.uv.sources]
+weather-api = { workspace = true }
+forecast-ingestion = { workspace = true }
+
+[tool.uv.workspace]
+members = ["apps/api", "workers/forecast-ingestion"]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3",
+    "ruff>=0.8",
+    "mypy>=1.13",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+extend-exclude = ["*.md"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM"]
+# Line length is the formatter's job (ruff format); long strings and URLs are fine.
+ignore = ["E501"]
+
+[tool.ruff.lint.flake8-bugbear]
+# FastAPI dependency injection uses calls in argument defaults by design.
+extend-immutable-calls = ["fastapi.Depends", "fastapi.Query"]
+
+[tool.mypy]
+python_version = "3.12"
+ignore_missing_imports = true
+check_untyped_defs = true

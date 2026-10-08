@@ -1,0 +1,7 @@
+{
+  "name": "@weather/config",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Shared TypeScript configuration for the web app and packages.",
+  "files": ["tsconfig.base.json"]
+}
