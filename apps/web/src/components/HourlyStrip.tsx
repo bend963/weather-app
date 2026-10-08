@@ -27,14 +27,16 @@ export function HourlyStrip({
   const width = hours.length * COL;
 
   return (
-    <section aria-labelledby="next-24" className="mt-8">
+    <section aria-labelledby="next-24" className="dash-section mt-8">
       <div className="flex items-baseline justify-between">
         <h2 id="next-24" className="label">
           Next 24 hours
         </h2>
-        <span className="hidden text-xs text-faint sm:inline">Shaded band: likely range (10th–90th percentile)</span>
+        <span className="note hidden text-xs text-faint sm:inline">
+          Shaded band: likely range (10th–90th percentile)
+        </span>
       </div>
-      <div className="scroll-x -mx-4 mt-2 px-4">
+      <div className="chart-paper scroll-x -mx-4 mt-2 px-4">
         <div style={{ width }}>
           <ComposedChart
             width={width}

@@ -98,7 +98,7 @@ export function Dashboard({ locationId }: { locationId: string }) {
   const today = ready?.current ? localDate(ready.current.time, tz) : (ready?.daily[0]?.date ?? "");
 
   return (
-    <div className="mx-auto max-w-3xl px-4 pb-16">
+    <div className="page mx-auto max-w-3xl px-4 pb-16">
       <LocationBar
         locations={locations}
         currentId={locationId}

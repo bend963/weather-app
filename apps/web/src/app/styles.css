@@ -1,0 +1,633 @@
+/*
+ * Dashboard styles. Each style is chosen with data-style on <html> (see
+ * lib/styles.ts) and works by re-pointing the design tokens from globals.css,
+ * plus a few overrides on marker classes the components carry:
+ *
+ *   .page .topbar .chip-active .current .place-name .hero-temp .hero-cond
+ *   .dash-section .chart-paper .card .note .label
+ *
+ * Each style defines light and dark tokens, following the same three-state
+ * pattern as globals.css (system / data-theme="light" / data-theme="dark").
+ * This file is deliberately unlayered so it wins over Tailwind's utilities.
+ */
+
+:root {
+  --page-max: 48rem;
+  --sky-top: var(--bg);
+  --sky-bottom: var(--bg);
+  --grid: transparent;
+  --hero-bg: transparent;
+  --hero-ink: var(--ink);
+}
+
+:root[data-style] .page {
+  max-width: var(--page-max);
+}
+
+.hero-temp {
+  font-family: var(--font-display);
+}
+
+/* ---------------------------------------------------------------------------
+ * Timetable: Swiss transit board. Heavy rules, no boxes, red only for rain.
+ * Schibsted Grotesk + Spline Sans Mono.
+ */
+:root[data-style="timetable"] {
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --surface-2: #f2f2f2;
+  --ink: #111111;
+  --muted: #555555;
+  --faint: #8a8a8a;
+  --line: #d4d4d4;
+  --rain: #e2231a;
+  --rain-soft: rgba(226, 35, 26, 0.14);
+  --warm: #111111;
+  --band: rgba(17, 17, 17, 0.1);
+  --alert: #e2231a;
+  --ok: #1d7a3a;
+  --mid: #9a6700;
+  --font-body: var(--ff-schibsted), "Helvetica Neue", Arial, sans-serif;
+  --font-display: var(--font-body);
+  --font-data: var(--ff-spline-mono), ui-monospace, monospace;
+  --font-note: var(--font-data);
+  --page-max: 64rem;
+}
+@media (prefers-color-scheme: dark) {
+  :root[data-style="timetable"]:not([data-theme="light"]) {
+    --bg: #0d0d0d;
+    --surface: #0d0d0d;
+    --surface-2: #1c1c1c;
+    --ink: #f5f5f5;
+    --muted: #a8a8a8;
+    --faint: #6e6e6e;
+    --line: #333333;
+    --rain: #ff4a3d;
+    --rain-soft: rgba(255, 74, 61, 0.18);
+    --warm: #f5f5f5;
+    --band: rgba(245, 245, 245, 0.12);
+    --alert: #ff4a3d;
+    --ok: #4cc27a;
+    --mid: #e0b341;
+  }
+}
+:root[data-style="timetable"][data-theme="dark"] {
+  --bg: #0d0d0d;
+  --surface: #0d0d0d;
+  --surface-2: #1c1c1c;
+  --ink: #f5f5f5;
+  --muted: #a8a8a8;
+  --faint: #6e6e6e;
+  --line: #333333;
+  --rain: #ff4a3d;
+  --rain-soft: rgba(255, 74, 61, 0.18);
+  --warm: #f5f5f5;
+  --band: rgba(245, 245, 245, 0.12);
+  --alert: #ff4a3d;
+  --ok: #4cc27a;
+  --mid: #e0b341;
+}
+[data-style="timetable"] .topbar {
+  border-bottom: 4px solid var(--ink);
+  margin-bottom: 1rem;
+}
+[data-style="timetable"] .chip-active {
+  border-radius: 0;
+  background: transparent;
+  color: var(--ink);
+  font-weight: 700;
+  box-shadow: inset 0 -2px 0 var(--rain);
+}
+[data-style="timetable"] .place-name {
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+[data-style="timetable"] .hero-temp {
+  font-size: clamp(5rem, 18vw, 11rem);
+  font-weight: 900;
+  letter-spacing: -0.07em;
+  line-height: 0.8;
+}
+[data-style="timetable"] .hero-cond {
+  font-size: 1.375rem;
+}
+[data-style="timetable"] .dash-section {
+  border-top: 4px solid var(--ink);
+  padding-top: 0.5rem;
+}
+[data-style="timetable"] .label {
+  color: var(--ink);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+[data-style="timetable"] .card {
+  border: 0;
+  border-top: 4px solid var(--ink);
+  border-radius: 0;
+  background: transparent;
+  padding-inline: 0;
+}
+[data-style="timetable"] .note {
+  font-family: var(--font-note);
+}
+
+/* ---------------------------------------------------------------------------
+ * Letter: a written note. Serif headlines and italic margin-style notes.
+ * Instrument Serif + Public Sans.
+ */
+:root[data-style="letter"] {
+  --bg: #edf0f1;
+  --surface: #f5f7f8;
+  --surface-2: #e2e8eb;
+  --ink: #1c2a38;
+  --muted: #566778;
+  --faint: #8b9aa7;
+  --line: #c5cfd6;
+  --rain: #3b6c8a;
+  --rain-soft: rgba(59, 108, 138, 0.16);
+  --warm: #1c2a38;
+  --band: rgba(59, 108, 138, 0.18);
+  --alert: #8a4b2e;
+  --ok: #2f6b4f;
+  --mid: #8a6a1e;
+  --font-body: var(--ff-public-sans), system-ui, sans-serif;
+  --font-display: var(--ff-instrument-serif), Georgia, serif;
+  --font-data: var(--font-body);
+  --font-note: var(--font-display);
+  --page-max: 52rem;
+}
+@media (prefers-color-scheme: dark) {
+  :root[data-style="letter"]:not([data-theme="light"]) {
+    --bg: #141b22;
+    --surface: #1a232c;
+    --surface-2: #22303b;
+    --ink: #e6ecf0;
+    --muted: #9fb0bd;
+    --faint: #6d7f8c;
+    --line: #2c3a46;
+    --rain: #8db8d3;
+    --rain-soft: rgba(141, 184, 211, 0.18);
+    --warm: #e6ecf0;
+    --band: rgba(141, 184, 211, 0.2);
+    --alert: #e0a184;
+    --ok: #8cc7a4;
+    --mid: #d9b871;
+  }
+}
+:root[data-style="letter"][data-theme="dark"] {
+  --bg: #141b22;
+  --surface: #1a232c;
+  --surface-2: #22303b;
+  --ink: #e6ecf0;
+  --muted: #9fb0bd;
+  --faint: #6d7f8c;
+  --line: #2c3a46;
+  --rain: #8db8d3;
+  --rain-soft: rgba(141, 184, 211, 0.18);
+  --warm: #e6ecf0;
+  --band: rgba(141, 184, 211, 0.2);
+  --alert: #e0a184;
+  --ok: #8cc7a4;
+  --mid: #d9b871;
+}
+[data-style="letter"] .topbar {
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 1rem;
+}
+[data-style="letter"] .place-name {
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+[data-style="letter"] .hero-temp {
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+[data-style="letter"] .hero-cond {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.75rem;
+  color: var(--rain);
+}
+[data-style="letter"] .label {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ink);
+}
+[data-style="letter"] .card {
+  border: 0;
+  border-top: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
+  padding-inline: 0;
+}
+[data-style="letter"] .note {
+  font-family: var(--font-note);
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--muted);
+}
+
+/* ---------------------------------------------------------------------------
+ * Dusk: the page takes on the sky's color. Dark is the evening sky, light is
+ * a daytime sky. Bricolage Grotesque + Figtree.
+ */
+:root[data-style="dusk"] {
+  --bg: #e4eff5;
+  --sky-top: #cfe3ee;
+  --sky-bottom: #f3f7f9;
+  --surface: rgba(255, 255, 255, 0.55);
+  --surface-2: rgba(255, 255, 255, 0.8);
+  --ink: #13303f;
+  --muted: #4d6a78;
+  --faint: #86a0ac;
+  --line: rgba(19, 48, 63, 0.12);
+  --rain: #2a6fb0;
+  --rain-soft: rgba(42, 111, 176, 0.18);
+  --warm: #d7811f;
+  --band: rgba(19, 48, 63, 0.12);
+  --alert: #b6452c;
+  --ok: #2f7a52;
+  --mid: #a8700b;
+  --font-body: var(--ff-figtree), system-ui, sans-serif;
+  --font-display: var(--ff-bricolage), var(--font-body);
+  --font-data: var(--font-body);
+  --font-note: var(--font-body);
+  --page-max: 60rem;
+}
+@media (prefers-color-scheme: dark) {
+  :root[data-style="dusk"]:not([data-theme="light"]) {
+    --bg: #1f3441;
+    --sky-top: #132029;
+    --sky-bottom: #36505c;
+    --surface: rgba(238, 243, 244, 0.06);
+    --surface-2: rgba(238, 243, 244, 0.1);
+    --ink: #eef3f4;
+    --muted: #a9bcc3;
+    --faint: #6f8790;
+    --line: rgba(238, 243, 244, 0.12);
+    --rain: #8fc3ee;
+    --rain-soft: rgba(143, 195, 238, 0.2);
+    --warm: #f2c14e;
+    --band: rgba(238, 243, 244, 0.12);
+    --alert: #f59a7b;
+    --ok: #8fdcae;
+    --mid: #f2c14e;
+  }
+}
+:root[data-style="dusk"][data-theme="dark"] {
+  --bg: #1f3441;
+  --sky-top: #132029;
+  --sky-bottom: #36505c;
+  --surface: rgba(238, 243, 244, 0.06);
+  --surface-2: rgba(238, 243, 244, 0.1);
+  --ink: #eef3f4;
+  --muted: #a9bcc3;
+  --faint: #6f8790;
+  --line: rgba(238, 243, 244, 0.12);
+  --rain: #8fc3ee;
+  --rain-soft: rgba(143, 195, 238, 0.2);
+  --warm: #f2c14e;
+  --band: rgba(238, 243, 244, 0.12);
+  --alert: #f59a7b;
+  --ok: #8fdcae;
+  --mid: #f2c14e;
+}
+:root[data-style="dusk"] {
+  background: var(--sky-bottom);
+}
+:root[data-style="dusk"] body {
+  min-height: 100dvh;
+  background: linear-gradient(180deg, var(--sky-top), var(--sky-bottom));
+}
+[data-style="dusk"] .chip-active {
+  background: var(--surface-2);
+  color: var(--ink);
+}
+[data-style="dusk"] .place-name,
+[data-style="dusk"] .label {
+  font-family: var(--font-display);
+}
+[data-style="dusk"] .hero-temp {
+  font-weight: 300;
+  font-size: clamp(6rem, 14vw, 10rem);
+  letter-spacing: -0.04em;
+}
+[data-style="dusk"] .hero-cond {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+[data-style="dusk"] .label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color: var(--ink);
+}
+[data-style="dusk"] .card {
+  border: 0;
+  border-radius: 1.25rem;
+  background: var(--surface);
+}
+
+/* ---------------------------------------------------------------------------
+ * Chart recorder: grid paper, pen-ink traces, boxed readouts.
+ * IBM Plex Sans Condensed + IBM Plex Mono.
+ */
+:root[data-style="recorder"] {
+  --bg: #e3e9df;
+  --surface: #eef2eb;
+  --surface-2: #d8e0d3;
+  --ink: #22302a;
+  --muted: #4c5c53;
+  --faint: #7f8f86;
+  --line: #b8c7b1;
+  --grid: #d2dccd;
+  --rain: #2b5b8a;
+  --rain-soft: rgba(43, 91, 138, 0.16);
+  --warm: #b3264f;
+  --band: rgba(179, 38, 79, 0.16);
+  --alert: #b3264f;
+  --ok: #2f6b3f;
+  --mid: #8a6100;
+  --font-body: var(--ff-plex-condensed), "Arial Narrow", sans-serif;
+  --font-display: var(--ff-plex-mono), ui-monospace, monospace;
+  --font-data: var(--font-display);
+  --font-note: var(--font-display);
+  --page-max: 64rem;
+}
+@media (prefers-color-scheme: dark) {
+  :root[data-style="recorder"]:not([data-theme="light"]) {
+    --bg: #161c18;
+    --surface: #1c241f;
+    --surface-2: #25302a;
+    --ink: #dfe8e1;
+    --muted: #9aab9f;
+    --faint: #66766b;
+    --line: #34443a;
+    --grid: #25302a;
+    --rain: #7fb0e0;
+    --rain-soft: rgba(127, 176, 224, 0.18);
+    --warm: #ff6f93;
+    --band: rgba(255, 111, 147, 0.16);
+    --alert: #ff6f93;
+    --ok: #7fcf95;
+    --mid: #e5b952;
+  }
+}
+:root[data-style="recorder"][data-theme="dark"] {
+  --bg: #161c18;
+  --surface: #1c241f;
+  --surface-2: #25302a;
+  --ink: #dfe8e1;
+  --muted: #9aab9f;
+  --faint: #66766b;
+  --line: #34443a;
+  --grid: #25302a;
+  --rain: #7fb0e0;
+  --rain-soft: rgba(127, 176, 224, 0.18);
+  --warm: #ff6f93;
+  --band: rgba(255, 111, 147, 0.16);
+  --alert: #ff6f93;
+  --ok: #7fcf95;
+  --mid: #e5b952;
+}
+[data-style="recorder"] .topbar {
+  border-bottom: 1.5px solid var(--ink);
+  margin-bottom: 1rem;
+}
+[data-style="recorder"] .chip-active {
+  border-radius: 0;
+}
+[data-style="recorder"] .place-name {
+  font-family: var(--font-data);
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+[data-style="recorder"] .hero-temp {
+  font-weight: 500;
+  letter-spacing: -0.04em;
+}
+[data-style="recorder"] .label {
+  font-family: var(--font-data);
+  color: var(--ink);
+  letter-spacing: 0.06em;
+}
+[data-style="recorder"] .chart-paper {
+  background-color: var(--surface);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 16px 16px;
+  border-block: 1.5px solid var(--ink);
+}
+[data-style="recorder"] .card {
+  border: 1.5px solid var(--ink);
+  border-radius: 0;
+  background: transparent;
+}
+[data-style="recorder"] .note {
+  font-family: var(--font-note);
+}
+
+/* ---------------------------------------------------------------------------
+ * Poster: loud, full-width color bands, condensed display type.
+ * Big Shoulders + Work Sans.
+ */
+:root[data-style="poster"] {
+  --bg: #e3e9f0;
+  --surface: #eef2f6;
+  --surface-2: #d3dce6;
+  --ink: #1b2433;
+  --muted: #4a5568;
+  --faint: #7b8798;
+  --line: #c3cdd9;
+  --rain: #2b5fa8;
+  --rain-soft: rgba(43, 95, 168, 0.16);
+  --warm: #1b2433;
+  --band: rgba(27, 36, 51, 0.12);
+  --alert: #c2412d;
+  --ok: #23704a;
+  --mid: #9a6400;
+  --hero-bg: #34465f;
+  --hero-ink: #f3f5f8;
+  --font-body: var(--ff-work-sans), system-ui, sans-serif;
+  --font-display: var(--ff-big-shoulders), "Arial Narrow", sans-serif;
+  --font-data: var(--font-body);
+  --font-note: var(--font-body);
+  --page-max: 64rem;
+}
+@media (prefers-color-scheme: dark) {
+  :root[data-style="poster"]:not([data-theme="light"]) {
+    --bg: #121822;
+    --surface: #1a2230;
+    --surface-2: #232d3d;
+    --ink: #eef2f7;
+    --muted: #a5b1c2;
+    --faint: #6d7a8c;
+    --line: #2c3748;
+    --rain: #7fb0f5;
+    --rain-soft: rgba(127, 176, 245, 0.18);
+    --warm: #eef2f7;
+    --band: rgba(238, 242, 247, 0.12);
+    --alert: #f08a76;
+    --ok: #6fd19a;
+    --mid: #f0c45a;
+    --hero-bg: #2b3a52;
+  }
+}
+:root[data-style="poster"][data-theme="dark"] {
+  --bg: #121822;
+  --surface: #1a2230;
+  --surface-2: #232d3d;
+  --ink: #eef2f7;
+  --muted: #a5b1c2;
+  --faint: #6d7a8c;
+  --line: #2c3748;
+  --rain: #7fb0f5;
+  --rain-soft: rgba(127, 176, 245, 0.18);
+  --warm: #eef2f7;
+  --band: rgba(238, 242, 247, 0.12);
+  --alert: #f08a76;
+  --ok: #6fd19a;
+  --mid: #f0c45a;
+  --hero-bg: #2b3a52;
+}
+/* The current-conditions block becomes a full-bleed color band. */
+[data-style="poster"] .current {
+  --ink: var(--hero-ink);
+  --muted: color-mix(in srgb, var(--hero-ink) 72%, transparent);
+  --faint: color-mix(in srgb, var(--hero-ink) 55%, transparent);
+  color: var(--ink);
+  background: var(--hero-bg);
+  box-shadow: 0 0 0 100vmax var(--hero-bg);
+  clip-path: inset(0 -100vmax);
+  padding-block: 1.5rem;
+}
+[data-style="poster"] .place-name,
+[data-style="poster"] .hero-cond,
+[data-style="poster"] .label {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+}
+[data-style="poster"] .place-name {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+[data-style="poster"] .hero-temp {
+  font-size: clamp(5.5rem, 20vw, 14rem);
+  font-weight: 900;
+  line-height: 0.8;
+  letter-spacing: -0.01em;
+}
+[data-style="poster"] .hero-cond {
+  font-size: clamp(2rem, 7vw, 2.75rem);
+  font-weight: 800;
+  line-height: 0.9;
+}
+[data-style="poster"] .label {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+}
+[data-style="poster"] .card {
+  border: 0;
+  border-radius: 0;
+  background: var(--surface-2);
+}
+
+/* ---------------------------------------------------------------------------
+ * Annotated: a clean graphic with handwritten-feeling italic notes.
+ * Onest + Literata Italic.
+ */
+:root[data-style="annotated"] {
+  --bg: #f7f8fa;
+  --surface: #ffffff;
+  --surface-2: #eceef3;
+  --ink: #1a1f2b;
+  --muted: #646c7c;
+  --faint: #8a91a0;
+  --line: #d8dce4;
+  --rain: #2b62d9;
+  --rain-soft: rgba(43, 98, 217, 0.16);
+  --warm: #9a5a00;
+  --band: rgba(242, 201, 111, 0.55);
+  --alert: #b1412f;
+  --ok: #2f7a4a;
+  --mid: #946200;
+  --font-body: var(--ff-onest), system-ui, sans-serif;
+  --font-display: var(--font-body);
+  --font-data: var(--font-body);
+  --font-note: var(--ff-literata), Georgia, serif;
+  --page-max: 60rem;
+}
+@media (prefers-color-scheme: dark) {
+  :root[data-style="annotated"]:not([data-theme="light"]) {
+    --bg: #12151c;
+    --surface: #191d26;
+    --surface-2: #222733;
+    --ink: #e8ebf1;
+    --muted: #a0a7b5;
+    --faint: #6c7384;
+    --line: #2b303c;
+    --rain: #7aa2f7;
+    --rain-soft: rgba(122, 162, 247, 0.18);
+    --warm: #f2c96f;
+    --band: rgba(242, 201, 111, 0.22);
+    --alert: #f08a76;
+    --ok: #7fcf95;
+    --mid: #f0c45a;
+  }
+}
+:root[data-style="annotated"][data-theme="dark"] {
+  --bg: #12151c;
+  --surface: #191d26;
+  --surface-2: #222733;
+  --ink: #e8ebf1;
+  --muted: #a0a7b5;
+  --faint: #6c7384;
+  --line: #2b303c;
+  --rain: #7aa2f7;
+  --rain-soft: rgba(122, 162, 247, 0.18);
+  --warm: #f2c96f;
+  --band: rgba(242, 201, 111, 0.22);
+  --alert: #f08a76;
+  --ok: #7fcf95;
+  --mid: #f0c45a;
+}
+[data-style="annotated"] .hero-temp {
+  font-weight: 600;
+  letter-spacing: -0.04em;
+}
+[data-style="annotated"] .hero-cond {
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+[data-style="annotated"] .label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ink);
+}
+[data-style="annotated"] .card {
+  border: 0;
+  border-top: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
+  padding-inline: 0;
+}
+[data-style="annotated"] .note {
+  font-family: var(--font-note);
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--muted);
+}

@@ -2,6 +2,7 @@
 
 import type { Location, Units } from "@weather/api-types";
 import Link from "next/link";
+import { StylePicker } from "./StylePicker";
 import { ThemeToggle } from "./ThemeToggle";
 
 export function LocationBar({
@@ -18,7 +19,7 @@ export function LocationBar({
   onToggleUnits?: () => void;
 }) {
   return (
-    <header className="flex items-center gap-3 py-3">
+    <header className="topbar flex items-center gap-3 py-3">
       <nav aria-label="Saved locations" className="scroll-x -ml-1 flex min-w-0 flex-1 gap-1 pl-1">
         {locations.map((loc) => (
           <Link
@@ -26,7 +27,7 @@ export function LocationBar({
             href={`/weather/${loc.id}`}
             aria-current={loc.id === currentId ? "page" : undefined}
             className={`shrink-0 rounded-full px-3 py-1 text-sm ${
-              loc.id === currentId ? "bg-ink text-bg" : "text-muted hover:bg-surface-2 hover:text-ink"
+              loc.id === currentId ? "chip-active bg-ink text-bg" : "text-muted hover:bg-surface-2 hover:text-ink"
             }`}
           >
             {loc.name}
@@ -48,6 +49,7 @@ export function LocationBar({
           °{units.temperature === "F" ? "F" : "C"}
         </button>
       )}
+      <StylePicker />
       <ThemeToggle />
     </header>
   );

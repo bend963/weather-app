@@ -20,6 +20,13 @@
   --alert: #b42318;
   --ok: #2f7d4f;
   --mid: #a16207;
+  /* Type roles. Dashboard styles (styles.css) point these at their own faces. */
+  --font-body:
+    ui-sans-serif, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    sans-serif;
+  --font-display: var(--font-body);
+  --font-data: var(--font-body);
+  --font-note: var(--font-body);
   color-scheme: light;
 }
 
@@ -88,7 +95,7 @@ body {
 }
 
 body {
-  font-family: var(--font-sans);
+  font-family: var(--font-body);
   font-feature-settings:
     "tnum" 1,
     "cv11" 1;

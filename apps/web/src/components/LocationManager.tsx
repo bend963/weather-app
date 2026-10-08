@@ -30,7 +30,7 @@ export function LocationManager({
         Manage locations {open ? "▴" : "▾"}
       </button>
       {open && (
-        <ul className="mt-2 divide-y divide-line rounded-2xl border border-line bg-surface">
+        <ul className="card mt-2 divide-y divide-line rounded-2xl border border-line bg-surface">
           {locations.map((loc) => (
             <li key={loc.id} className="flex items-center justify-between gap-3 px-4 py-2.5 text-sm">
               <span className="min-w-0 truncate">

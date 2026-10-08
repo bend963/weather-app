@@ -21,7 +21,7 @@ export function ConfidencePanel({
   onSelect: (day: DailyForecast) => void;
 }) {
   return (
-    <section aria-labelledby="confidence" className="mt-8">
+    <section aria-labelledby="confidence" className="dash-section mt-8">
       <h2 id="confidence" className="label">
         Forecast confidence
       </h2>
@@ -30,7 +30,7 @@ export function ConfidencePanel({
           <button
             key={d.date}
             onClick={() => onSelect(d)}
-            className="rounded-2xl border border-line bg-surface p-4 text-left hover:bg-surface-2"
+            className="card rounded-2xl border border-line bg-surface p-4 text-left hover:bg-surface-2"
           >
             <div className="text-sm font-semibold" title={formatDate(d.date)}>
               {relativeDay(d.date, today)}
@@ -48,7 +48,7 @@ export function ConfidencePanel({
           </button>
         ))}
       </div>
-      <p className="mt-2 text-xs text-faint">
+      <p className="note mt-2 text-xs text-faint">
         Confidence reflects how closely the forecast&apos;s ensemble members agree. It isn&apos;t a guarantee.
       </p>
     </section>
