@@ -21,16 +21,16 @@ export function DailyStrip({
   const y = (t: number | null | undefined) => (t == null ? 0 : ((max - t) / Math.max(max - min, 1)) * BAR_H);
 
   return (
-    <section aria-labelledby="daily" className="mt-8">
+    <section aria-labelledby="daily" className="dash-section mt-8">
       <div className="flex items-baseline justify-between">
         <h2 id="daily" className="label">
           {days.length}-day forecast
         </h2>
-        <span className="hidden text-xs text-faint sm:inline">
+        <span className="note hidden text-xs text-faint sm:inline">
           Bars: likely high/low · whiskers: 10th–90th percentile
         </span>
       </div>
-      <ol className="scroll-x -mx-4 mt-2 flex gap-1 px-4 pb-1" aria-label="Daily forecast">
+      <ol className="chart-paper scroll-x -mx-4 mt-2 flex gap-1 px-4 pb-1" aria-label="Daily forecast">
         {days.map((d) => (
           <li key={d.date} className="shrink-0">
             <button

@@ -1,5 +1,8 @@
 import type { Metadata, Viewport } from "next";
+import { STYLE_KEY, STYLES } from "@/lib/styles";
+import { fontVariables } from "./fonts";
 import "./globals.css";
+import "./styles.css";
 
 export const metadata: Metadata = {
   title: "Weather, with uncertainty",
@@ -16,12 +19,14 @@ export const viewport: Viewport = {
   ],
 };
 
-// Applies a saved light/dark choice before first paint to avoid a flash.
-const themeScript = `try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t}catch(e){}`;
+// Applies a saved light/dark choice and dashboard style before first paint to
+// avoid a flash.
+const styleIds = JSON.stringify(STYLES.map((s) => s.id).filter((id) => id !== "original"));
+const themeScript = `try{var d=document.documentElement,t=localStorage.getItem("theme");if(t==="light"||t==="dark")d.dataset.theme=t;var s=localStorage.getItem("${STYLE_KEY}");if(${styleIds}.indexOf(s)>=0)d.dataset.style=s}catch(e){}`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className={fontVariables} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>

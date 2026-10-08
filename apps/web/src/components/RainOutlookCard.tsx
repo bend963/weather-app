@@ -4,7 +4,7 @@ import { formatPercent, formatPrecip } from "@/lib/format";
 export function RainOutlookCard({ outlook, units }: { outlook: RainOutlook; units: Units }) {
   const rain = outlook.next_rain;
   return (
-    <section aria-labelledby="rain-outlook" className="rounded-2xl border border-line bg-surface p-4">
+    <section aria-labelledby="rain-outlook" className="card rounded-2xl border border-line bg-surface p-4">
       <h2 id="rain-outlook" className="label">
         Rain outlook
       </h2>
