@@ -1,0 +1,1893 @@
+{
+  "components": {
+    "schemas": {
+      "Condition": {
+        "properties": {
+          "code": {
+            "title": "Code",
+            "type": "string"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "label"
+        ],
+        "title": "Condition",
+        "type": "object"
+      },
+      "Confidence": {
+        "description": "Ensemble agreement. Not a calibrated probability of being correct.",
+        "properties": {
+          "level": {
+            "anyOf": [
+              {
+                "enum": [
+                  "high",
+                  "medium",
+                  "low"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Level"
+          },
+          "score": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Score"
+          }
+        },
+        "required": [
+          "score",
+          "level"
+        ],
+        "title": "Confidence",
+        "type": "object"
+      },
+      "CurrentConditions": {
+        "properties": {
+          "cloud_cover": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cloud Cover"
+          },
+          "condition": {
+            "$ref": "#/components/schemas/Condition"
+          },
+          "dewpoint": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dewpoint"
+          },
+          "feels_like": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Feels Like"
+          },
+          "humidity": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Humidity"
+          },
+          "precip_probability": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Precip Probability"
+          },
+          "source": {
+            "enum": [
+              "forecast",
+              "observation"
+            ],
+            "title": "Source",
+            "type": "string"
+          },
+          "temperature": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Temperature"
+          },
+          "time": {
+            "format": "date-time",
+            "title": "Time",
+            "type": "string"
+          },
+          "wind_direction": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wind Direction"
+          },
+          "wind_direction_deg": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wind Direction Deg"
+          },
+          "wind_speed": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wind Speed"
+          }
+        },
+        "required": [
+          "source",
+          "time",
+          "temperature",
+          "feels_like",
+          "dewpoint",
+          "humidity",
+          "wind_speed",
+          "wind_direction_deg",
+          "wind_direction",
+          "cloud_cover",
+          "precip_probability",
+          "condition"
+        ],
+        "title": "CurrentConditions",
+        "type": "object"
+      },
+      "DailyForecast": {
+        "properties": {
+          "condition": {
+            "$ref": "#/components/schemas/Condition"
+          },
+          "confidence": {
+            "$ref": "#/components/schemas/DayConfidence"
+          },
+          "date": {
+            "format": "date",
+            "title": "Date",
+            "type": "string"
+          },
+          "high": {
+            "$ref": "#/components/schemas/Range"
+          },
+          "high_distribution": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Distribution"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "hours_covered": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Hours Covered"
+          },
+          "low": {
+            "$ref": "#/components/schemas/Range"
+          },
+          "members": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Members"
+          },
+          "precip_amount": {
+            "$ref": "#/components/schemas/Spread"
+          },
+          "precip_exceedance": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "number"
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Precip Exceedance"
+          },
+          "precip_probability": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Precip Probability"
+          },
+          "wind_max": {
+            "$ref": "#/components/schemas/Spread"
+          }
+        },
+        "required": [
+          "date",
+          "high",
+          "low",
+          "precip_probability",
+          "precip_amount",
+          "precip_exceedance",
+          "wind_max",
+          "condition",
+          "confidence",
+          "high_distribution",
+          "hours_covered",
+          "members"
+        ],
+        "title": "DailyForecast",
+        "type": "object"
+      },
+      "DayConfidence": {
+        "properties": {
+          "overall": {
+            "$ref": "#/components/schemas/Confidence"
+          },
+          "precipitation": {
+            "$ref": "#/components/schemas/Confidence"
+          },
+          "precipitation_summary": {
+            "title": "Precipitation Summary",
+            "type": "string"
+          },
+          "temperature": {
+            "$ref": "#/components/schemas/Confidence"
+          },
+          "temperature_summary": {
+            "title": "Temperature Summary",
+            "type": "string"
+          }
+        },
+        "required": [
+          "overall",
+          "temperature",
+          "precipitation",
+          "temperature_summary",
+          "precipitation_summary"
+        ],
+        "title": "DayConfidence",
+        "type": "object"
+      },
+      "Distribution": {
+        "properties": {
+          "counts": {
+            "items": {
+              "type": "integer"
+            },
+            "title": "Counts",
+            "type": "array"
+          },
+          "edges": {
+            "items": {
+              "type": "number"
+            },
+            "title": "Edges",
+            "type": "array"
+          }
+        },
+        "required": [
+          "edges",
+          "counts"
+        ],
+        "title": "Distribution",
+        "type": "object"
+      },
+      "Forecast": {
+        "properties": {
+          "current": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CurrentConditions"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "daily": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/DailyForecast"
+            },
+            "title": "Daily",
+            "type": "array"
+          },
+          "hourly": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/HourlyForecast"
+            },
+            "title": "Hourly",
+            "type": "array"
+          },
+          "location": {
+            "$ref": "#/components/schemas/Location"
+          },
+          "message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Message"
+          },
+          "model_run": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ModelRun"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "rain_outlook": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RainOutlook"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "status": {
+            "enum": [
+              "ok",
+              "processing",
+              "unavailable"
+            ],
+            "title": "Status",
+            "type": "string"
+          },
+          "summary": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Summary"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "units": {
+            "$ref": "#/components/schemas/Units"
+          }
+        },
+        "required": [
+          "status",
+          "location",
+          "units"
+        ],
+        "title": "Forecast",
+        "type": "object"
+      },
+      "ForecastHistory": {
+        "properties": {
+          "available_dates": {
+            "items": {
+              "format": "date",
+              "type": "string"
+            },
+            "title": "Available Dates",
+            "type": "array"
+          },
+          "entries": {
+            "items": {
+              "$ref": "#/components/schemas/HistoryEntry"
+            },
+            "title": "Entries",
+            "type": "array"
+          },
+          "location": {
+            "$ref": "#/components/schemas/Location"
+          },
+          "metric": {
+            "enum": [
+              "temperature",
+              "precipitation",
+              "wind"
+            ],
+            "title": "Metric",
+            "type": "string"
+          },
+          "target_date": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Target Date"
+          },
+          "target_time": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Target Time"
+          },
+          "units": {
+            "$ref": "#/components/schemas/Units"
+          }
+        },
+        "required": [
+          "location",
+          "units",
+          "metric",
+          "entries",
+          "available_dates"
+        ],
+        "title": "ForecastHistory",
+        "type": "object"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "title": "Detail",
+            "type": "array"
+          }
+        },
+        "title": "HTTPValidationError",
+        "type": "object"
+      },
+      "Health": {
+        "properties": {
+          "status": {
+            "const": "ok",
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status"
+        ],
+        "title": "Health",
+        "type": "object"
+      },
+      "HistoryEntry": {
+        "properties": {
+          "lead_time_hours": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lead Time Hours"
+          },
+          "model_run": {
+            "$ref": "#/components/schemas/ModelRun"
+          },
+          "values": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/HistoryValue"
+            },
+            "title": "Values",
+            "type": "object"
+          }
+        },
+        "required": [
+          "model_run",
+          "lead_time_hours",
+          "values"
+        ],
+        "title": "HistoryEntry",
+        "type": "object"
+      },
+      "HistoryValue": {
+        "properties": {
+          "p10": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "P10"
+          },
+          "p50": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "P50"
+          },
+          "p90": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "P90"
+          },
+          "probability": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Probability"
+          }
+        },
+        "title": "HistoryValue",
+        "type": "object"
+      },
+      "HourlyForecast": {
+        "properties": {
+          "cloud_cover": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cloud Cover"
+          },
+          "condition": {
+            "$ref": "#/components/schemas/Condition"
+          },
+          "confidence": {
+            "$ref": "#/components/schemas/Confidence"
+          },
+          "dewpoint": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dewpoint"
+          },
+          "feels_like": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Feels Like"
+          },
+          "lead_time_hours": {
+            "title": "Lead Time Hours",
+            "type": "integer"
+          },
+          "precip_amount": {
+            "$ref": "#/components/schemas/Spread"
+          },
+          "precip_exceedance": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "number"
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Precip Exceedance"
+          },
+          "precip_probability": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Precip Probability"
+          },
+          "temperature": {
+            "$ref": "#/components/schemas/Range"
+          },
+          "time": {
+            "format": "date-time",
+            "title": "Time",
+            "type": "string"
+          },
+          "wind_direction": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wind Direction"
+          },
+          "wind_direction_deg": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wind Direction Deg"
+          },
+          "wind_speed": {
+            "$ref": "#/components/schemas/Spread"
+          }
+        },
+        "required": [
+          "time",
+          "lead_time_hours",
+          "temperature",
+          "feels_like",
+          "dewpoint",
+          "wind_speed",
+          "wind_direction_deg",
+          "wind_direction",
+          "precip_probability",
+          "precip_amount",
+          "precip_exceedance",
+          "cloud_cover",
+          "condition",
+          "confidence"
+        ],
+        "title": "HourlyForecast",
+        "type": "object"
+      },
+      "Location": {
+        "description": "A saved location. Exact coordinates are returned only to its owner.",
+        "properties": {
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "is_default": {
+            "title": "Is Default",
+            "type": "boolean"
+          },
+          "latitude": {
+            "title": "Latitude",
+            "type": "number"
+          },
+          "longitude": {
+            "title": "Longitude",
+            "type": "number"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "timezone": {
+            "title": "Timezone",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "latitude",
+          "longitude",
+          "timezone",
+          "is_default",
+          "created_at"
+        ],
+        "title": "Location",
+        "type": "object"
+      },
+      "LocationCreate": {
+        "additionalProperties": false,
+        "properties": {
+          "latitude": {
+            "maximum": 90.0,
+            "minimum": -90.0,
+            "title": "Latitude",
+            "type": "number"
+          },
+          "longitude": {
+            "maximum": 180.0,
+            "minimum": -180.0,
+            "title": "Longitude",
+            "type": "number"
+          },
+          "name": {
+            "maxLength": 80,
+            "minLength": 1,
+            "title": "Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "latitude",
+          "longitude"
+        ],
+        "title": "LocationCreate",
+        "type": "object"
+      },
+      "LocationUpdate": {
+        "additionalProperties": false,
+        "properties": {
+          "is_default": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Is Default"
+          },
+          "name": {
+            "anyOf": [
+              {
+                "maxLength": 80,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          }
+        },
+        "title": "LocationUpdate",
+        "type": "object"
+      },
+      "Me": {
+        "properties": {
+          "default_location_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Default Location Id"
+          },
+          "location_count": {
+            "title": "Location Count",
+            "type": "integer"
+          },
+          "preferences": {
+            "$ref": "#/components/schemas/Preferences"
+          },
+          "visitor": {
+            "$ref": "#/components/schemas/VisitorProfile"
+          }
+        },
+        "required": [
+          "visitor",
+          "preferences",
+          "location_count",
+          "default_location_id"
+        ],
+        "title": "Me",
+        "type": "object"
+      },
+      "ModelRun": {
+        "properties": {
+          "forecast_horizon_hours": {
+            "title": "Forecast Horizon Hours",
+            "type": "integer"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "ingested_at": {
+            "format": "date-time",
+            "title": "Ingested At",
+            "type": "string"
+          },
+          "initialization_time": {
+            "format": "date-time",
+            "title": "Initialization Time",
+            "type": "string"
+          },
+          "model": {
+            "title": "Model",
+            "type": "string"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "model",
+          "initialization_time",
+          "ingested_at",
+          "forecast_horizon_hours",
+          "status"
+        ],
+        "title": "ModelRun",
+        "type": "object"
+      },
+      "Place": {
+        "properties": {
+          "country_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Country Code"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "latitude": {
+            "title": "Latitude",
+            "type": "number"
+          },
+          "longitude": {
+            "title": "Longitude",
+            "type": "number"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "label",
+          "latitude",
+          "longitude"
+        ],
+        "title": "Place",
+        "type": "object"
+      },
+      "Preferences": {
+        "properties": {
+          "precipitation_unit": {
+            "enum": [
+              "in",
+              "mm"
+            ],
+            "title": "Precipitation Unit",
+            "type": "string"
+          },
+          "show_advanced_forecast": {
+            "title": "Show Advanced Forecast",
+            "type": "boolean"
+          },
+          "temperature_unit": {
+            "enum": [
+              "F",
+              "C"
+            ],
+            "title": "Temperature Unit",
+            "type": "string"
+          },
+          "wind_unit": {
+            "enum": [
+              "mph",
+              "kmh",
+              "mps",
+              "kt"
+            ],
+            "title": "Wind Unit",
+            "type": "string"
+          }
+        },
+        "required": [
+          "temperature_unit",
+          "precipitation_unit",
+          "wind_unit",
+          "show_advanced_forecast"
+        ],
+        "title": "Preferences",
+        "type": "object"
+      },
+      "PreferencesUpdate": {
+        "properties": {
+          "precipitation_unit": {
+            "anyOf": [
+              {
+                "enum": [
+                  "in",
+                  "mm"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Precipitation Unit"
+          },
+          "show_advanced_forecast": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Show Advanced Forecast"
+          },
+          "temperature_unit": {
+            "anyOf": [
+              {
+                "enum": [
+                  "F",
+                  "C"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Temperature Unit"
+          },
+          "wind_unit": {
+            "anyOf": [
+              {
+                "enum": [
+                  "mph",
+                  "kmh",
+                  "mps",
+                  "kt"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wind Unit"
+          }
+        },
+        "title": "PreferencesUpdate",
+        "type": "object"
+      },
+      "RainOutlook": {
+        "properties": {
+          "horizon_hours": {
+            "title": "Horizon Hours",
+            "type": "integer"
+          },
+          "next_rain": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RainWindow"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "summary": {
+            "title": "Summary",
+            "type": "string"
+          }
+        },
+        "required": [
+          "next_rain",
+          "summary",
+          "horizon_hours"
+        ],
+        "title": "RainOutlook",
+        "type": "object"
+      },
+      "RainWindow": {
+        "properties": {
+          "end": {
+            "format": "date-time",
+            "title": "End",
+            "type": "string"
+          },
+          "expected_amount": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expected Amount"
+          },
+          "high_end_amount": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "High End Amount"
+          },
+          "peak_probability": {
+            "title": "Peak Probability",
+            "type": "number"
+          },
+          "start": {
+            "format": "date-time",
+            "title": "Start",
+            "type": "string"
+          }
+        },
+        "required": [
+          "start",
+          "end",
+          "peak_probability",
+          "expected_amount",
+          "high_end_amount"
+        ],
+        "title": "RainWindow",
+        "type": "object"
+      },
+      "Range": {
+        "properties": {
+          "p10": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "P10"
+          },
+          "p50": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "P50"
+          },
+          "p90": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "P90"
+          }
+        },
+        "required": [
+          "p10",
+          "p50",
+          "p90"
+        ],
+        "title": "Range",
+        "type": "object"
+      },
+      "Spread": {
+        "properties": {
+          "p50": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "P50"
+          },
+          "p90": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "P90"
+          }
+        },
+        "required": [
+          "p50",
+          "p90"
+        ],
+        "title": "Spread",
+        "type": "object"
+      },
+      "Summary": {
+        "properties": {
+          "members": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Members"
+          },
+          "next_24h_expected_precip": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next 24H Expected Precip"
+          },
+          "next_24h_high": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next 24H High"
+          },
+          "next_24h_low": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next 24H Low"
+          },
+          "next_24h_max_precip_probability": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next 24H Max Precip Probability"
+          }
+        },
+        "required": [
+          "next_24h_high",
+          "next_24h_low",
+          "next_24h_max_precip_probability",
+          "next_24h_expected_precip",
+          "members"
+        ],
+        "title": "Summary",
+        "type": "object"
+      },
+      "Units": {
+        "properties": {
+          "precipitation": {
+            "enum": [
+              "in",
+              "mm"
+            ],
+            "title": "Precipitation",
+            "type": "string"
+          },
+          "temperature": {
+            "enum": [
+              "F",
+              "C"
+            ],
+            "title": "Temperature",
+            "type": "string"
+          },
+          "wind": {
+            "enum": [
+              "mph",
+              "kmh",
+              "mps",
+              "kt"
+            ],
+            "title": "Wind",
+            "type": "string"
+          }
+        },
+        "required": [
+          "temperature",
+          "precipitation",
+          "wind"
+        ],
+        "title": "Units",
+        "type": "object"
+      },
+      "ValidationError": {
+        "properties": {
+          "ctx": {
+            "title": "Context",
+            "type": "object"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Location",
+            "type": "array"
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError",
+        "type": "object"
+      },
+      "VisitorProfile": {
+        "properties": {
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "kind": {
+            "const": "anonymous",
+            "default": "anonymous",
+            "title": "Kind",
+            "type": "string"
+          }
+        },
+        "required": [
+          "created_at"
+        ],
+        "title": "VisitorProfile",
+        "type": "object"
+      }
+    }
+  },
+  "info": {
+    "title": "WeatherNext Personal Weather API",
+    "version": "0.1.0"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/api/v1/geocode/reverse": {
+      "get": {
+        "operationId": "reverse_api_v1_geocode_reverse_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "lat",
+            "required": true,
+            "schema": {
+              "maximum": 90,
+              "minimum": -90,
+              "title": "Lat",
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "lon",
+            "required": true,
+            "schema": {
+              "maximum": 180,
+              "minimum": -180,
+              "title": "Lon",
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/Place"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "title": "Response Reverse Api V1 Geocode Reverse Get"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Reverse",
+        "tags": [
+          "geocode"
+        ]
+      }
+    },
+    "/api/v1/geocode/search": {
+      "get": {
+        "operationId": "search_api_v1_geocode_search_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "q",
+            "required": true,
+            "schema": {
+              "maxLength": 120,
+              "minLength": 2,
+              "title": "Q",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Place"
+                  },
+                  "title": "Response Search Api V1 Geocode Search Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Search",
+        "tags": [
+          "geocode"
+        ]
+      }
+    },
+    "/api/v1/locations": {
+      "get": {
+        "operationId": "get_locations_api_v1_locations_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Location"
+                  },
+                  "title": "Response Get Locations Api V1 Locations Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Locations",
+        "tags": [
+          "locations"
+        ]
+      },
+      "post": {
+        "operationId": "post_location_api_v1_locations_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LocationCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Location"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Post Location",
+        "tags": [
+          "locations"
+        ]
+      }
+    },
+    "/api/v1/locations/{location_id}": {
+      "delete": {
+        "operationId": "remove_location_api_v1_locations__location_id__delete",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "location_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Location Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Remove Location",
+        "tags": [
+          "locations"
+        ]
+      },
+      "patch": {
+        "operationId": "patch_location_api_v1_locations__location_id__patch",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "location_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Location Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LocationUpdate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Location"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Patch Location",
+        "tags": [
+          "locations"
+        ]
+      }
+    },
+    "/api/v1/locations/{location_id}/forecast": {
+      "get": {
+        "operationId": "get_forecast_api_v1_locations__location_id__forecast_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "location_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Location Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "hours",
+            "required": false,
+            "schema": {
+              "default": 72,
+              "maximum": 384,
+              "minimum": 1,
+              "title": "Hours",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forecast"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Forecast",
+        "tags": [
+          "locations"
+        ]
+      }
+    },
+    "/api/v1/locations/{location_id}/forecast-history": {
+      "get": {
+        "operationId": "get_forecast_history_api_v1_locations__location_id__forecast_history_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "location_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Location Id",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Target hour. Without an offset it is read in the location's timezone.",
+            "in": "query",
+            "name": "target_time",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Target hour. Without an offset it is read in the location's timezone.",
+              "title": "Target Time"
+            }
+          },
+          {
+            "description": "Target local date (daily history).",
+            "in": "query",
+            "name": "target_date",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "date",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Target local date (daily history).",
+              "title": "Target Date"
+            }
+          },
+          {
+            "in": "query",
+            "name": "metric",
+            "required": false,
+            "schema": {
+              "default": "temperature",
+              "enum": [
+                "temperature",
+                "precipitation",
+                "wind"
+              ],
+              "title": "Metric",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForecastHistory"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Forecast History",
+        "tags": [
+          "locations"
+        ]
+      }
+    },
+    "/api/v1/me": {
+      "get": {
+        "description": "The anonymous visitor's profile. The first call issues the visitor cookie.",
+        "operationId": "get_me_api_v1_me_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Me"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Me",
+        "tags": [
+          "visitor"
+        ]
+      }
+    },
+    "/api/v1/me/preferences": {
+      "patch": {
+        "operationId": "update_preferences_api_v1_me_preferences_patch",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PreferencesUpdate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Preferences"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Update Preferences",
+        "tags": [
+          "visitor"
+        ]
+      }
+    },
+    "/health": {
+      "get": {
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Health"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Health"
+      }
+    }
+  }
+}

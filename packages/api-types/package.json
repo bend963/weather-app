@@ -1,0 +1,15 @@
+{
+  "name": "@weather/api-types",
+  "version": "0.1.0",
+  "private": true,
+  "description": "TypeScript types generated from the FastAPI OpenAPI schema.",
+  "type": "module",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "generate": "cd ../.. && uv run python scripts/export_openapi.py packages/api-types/openapi.json && npx openapi-typescript packages/api-types/openapi.json -o packages/api-types/src/openapi.ts"
+  },
+  "devDependencies": {
+    "openapi-typescript": "7.13.0"
+  }
+}

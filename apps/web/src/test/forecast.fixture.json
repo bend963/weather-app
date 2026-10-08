@@ -1,0 +1,2126 @@
+{
+ "status": "ok",
+ "message": null,
+ "location": {
+  "id": "11111111-1111-4111-8111-111111111111",
+  "name": "Home",
+  "latitude": 28.54,
+  "longitude": -81.38,
+  "timezone": "America/New_York",
+  "is_default": true,
+  "created_at": "2026-10-08T01:09:39.573245Z"
+ },
+ "units": {
+  "temperature": "F",
+  "precipitation": "in",
+  "wind": "mph"
+ },
+ "model_run": {
+  "id": "b0d66f89-3c07-493b-85a8-c638a712fc1b",
+  "model": "mock_weathernext",
+  "initialization_time": "2026-10-08T00:00:00Z",
+  "ingested_at": "2026-10-08T01:09:39.737531Z",
+  "forecast_horizon_hours": 360,
+  "status": "processing"
+ },
+ "current": {
+  "source": "forecast",
+  "time": "2026-10-08T11:00:00-04:00",
+  "temperature": 75.3,
+  "feels_like": 75.3,
+  "dewpoint": 66.6,
+  "humidity": 75.0,
+  "wind_speed": 13.1,
+  "wind_direction_deg": 18.556,
+  "wind_direction": "NNE",
+  "cloud_cover": 0.732,
+  "precip_probability": 0.0,
+  "condition": {
+   "code": "mostly-cloudy",
+   "label": "Mostly cloudy"
+  }
+ },
+ "hourly": [
+  {
+   "time": "2026-10-08T11:00:00-04:00",
+   "lead_time_hours": 15,
+   "temperature": {
+    "p10": 73.7,
+    "p50": 75.3,
+    "p90": 76.1
+   },
+   "feels_like": 75.3,
+   "dewpoint": 66.6,
+   "wind_speed": {
+    "p50": 13.1,
+    "p90": 14.5
+   },
+   "wind_direction_deg": 18.556,
+   "wind_direction": "NNE",
+   "precip_probability": 0.0,
+   "precip_amount": {
+    "p50": 0.0,
+    "p90": 0.0
+   },
+   "precip_exceedance": {
+    "trace": 0.0,
+    "0.01in": 0.0,
+    "0.10in": 0.0,
+    "0.25in": 0.0,
+    "0.50in": 0.0,
+    "1.00in": 0.0
+   },
+   "cloud_cover": 0.732,
+   "condition": {
+    "code": "mostly-cloudy",
+    "label": "Mostly cloudy"
+   },
+   "confidence": {
+    "score": 95.0,
+    "level": "high"
+   }
+  },
+  {
+   "time": "2026-10-08T12:00:00-04:00",
+   "lead_time_hours": 16,
+   "temperature": {
+    "p10": 75.4,
+    "p50": 76.7,
+    "p90": 78.0
+   },
+   "feels_like": 76.7,
+   "dewpoint": 67.8,
+   "wind_speed": {
+    "p50": 12.7,
+    "p90": 15.1
+   },
+   "wind_direction_deg": 18.549,
+   "wind_direction": "NNE",
+   "precip_probability": 0.0,
+   "precip_amount": {
+    "p50": 0.0,
+    "p90": 0.0
+   },
+   "precip_exceedance": {
+    "trace": 0.0,
+    "0.01in": 0.0,
+    "0.10in": 0.0,
+    "0.25in": 0.0,
+    "0.50in": 0.0,
+    "1.00in": 0.0
+   },
+   "cloud_cover": 0.776,
+   "condition": {
+    "code": "mostly-cloudy",
+    "label": "Mostly cloudy"
+   },
+   "confidence": {
+    "score": 94.0,
+    "level": "high"
+   }
+  },
+  {
+   "time": "2026-10-08T13:00:00-04:00",
+   "lead_time_hours": 17,
+   "temperature": {
+    "p10": 76.9,
+    "p50": 78.4,
+    "p90": 79.9
+   },
+   "feels_like": 78.4,
+   "dewpoint": 69.2,
+   "wind_speed": {
+    "p50": 12.3,
+    "p90": 14.3
+   },
+   "wind_direction_deg": 21.508,
+   "wind_direction": "NNE",
+   "precip_probability": 0.0,
+   "precip_amount": {
+    "p50": 0.0,
+    "p90": 0.0
+   },
+   "precip_exceedance": {
+    "trace": 0.0,
+    "0.01in": 0.0,
+    "0.10in": 0.0,
+    "0.25in": 0.0,
+    "0.50in": 0.0,
+    "1.00in": 0.0
+   },
+   "cloud_cover": 0.74,
+   "condition": {
+    "code": "mostly-cloudy",
+    "label": "Mostly cloudy"
+   },
+   "confidence": {
+    "score": 91.0,
+    "level": "high"
+   }
+  },
+  {
+   "time": "2026-10-08T14:00:00-04:00",
+   "lead_time_hours": 18,
+   "temperature": {
+    "p10": 78.6,
+    "p50": 79.5,
+    "p90": 81.3
+   },
+   "feels_like": 79.5,
+   "dewpoint": 70.1,
+   "wind_speed": {
+    "p50": 11.7,
+    "p90": 14.1
+   },
+   "wind_direction_deg": 25.213,
+   "wind_direction": "NNE",
+   "precip_probability": 0.0,
+   "precip_amount": {
+    "p50": 0.0,
+    "p90": 0.0
+   },
+   "precip_exceedance": {
+    "trace": 0.0,
+    "0.01in": 0.0,
+    "0.10in": 0.0,
+    "0.25in": 0.0,
+    "0.50in": 0.0,
+    "1.00in": 0.0
+   },
+   "cloud_cover": 0.736,
+   "condition": {
+    "code": "mostly-cloudy",
+    "label": "Mostly cloudy"
+   },
+   "confidence": {
+    "score": 93.0,
+    "level": "high"
+   }
+  },
+  {
+   "time": "2026-10-08T15:00:00-04:00",
+   "lead_time_hours": 19,
+   "temperature": {
+    "p10": 79.2,
+    "p50": 80.5,
+    "p90": 82.3
+   },
+   "feels_like": 84.0,
+   "dewpoint": 70.5,
+   "wind_speed": {
+    "p50": 12.7,
+    "p90": 14.1
+   },
+   "wind_direction_deg": 25.512,
+   "wind_direction": "NNE",
+   "precip_probability": 0.0,
+   "precip_amount": {
+    "p50": 0.0,
+    "p90": 0.0
+   },
+   "precip_exceedance": {
+    "trace": 0.0,
+    "0.01in": 0.0,
+    "0.10in": 0.0,
+    "0.25in": 0.0,
+    "0.50in": 0.0,
+    "1.00in": 0.0
+   },
+   "cloud_cover": 0.766,
+   "condition": {
+    "code": "mostly-cloudy",
+    "label": "Mostly cloudy"
+   },
+   "confidence": {
+    "score": 90.0,
+    "level": "high"
+   }
+  },
+  {
+   "time": "2026-10-08T16:00:00-04:00",
+   "lead_time_hours": 20,
+   "temperature": {
+    "p10": 79.9,
+    "p50": 81.6,
+    "p90": 83.1
+   },
+   "feels_like": 85.9,
+   "dewpoint": 71.3,
+   "wind_speed": {
+    "p50": 11.8,
+    "p90": 13.6
+   },
+   "wind_direction_deg": 30.132,
+   "wind_direction": "NNE",
+   "precip_probability": 0.0,
+   "precip_amount": {
+    "p50": 0.0,
+    "p90": 0.0
+   },
+   "precip_exceedance": {
+    "trace": 0.0,
+    "0.01in": 0.0,
+    "0.10in": 0.0,
+    "0.25in": 0.0,
+    "0.50in": 0.0,
+    "1.00in": 0.0
+   },
+   "cloud_cover": 0.754,
+   "condition": {
+    "code": "mostly-cloudy",
+    "label": "Mostly cloudy"
+   },
+   "confidence": {
+    "score": 89.0,
+    "level": "high"
+   }
+  },
+  {
+   "time": "2026-10-08T17:00:00-04:00",
+   "lead_time_hours": 21,
+   "temperature": {
+    "p10": 80.3,
+    "p50": 82.2,
+    "p90": 83.8
+   },
+   "feels_like": 87.2,
+   "dewpoint": 72.0,
+   "wind_speed": {
+    "p50": 11.5,
+    "p90": 13.5
+   },
+   "wind_direction_deg": 36.431,
+   "wind_direction": "NE",
+   "precip_probability": 0.0,
+   "precip_amount": {
+    "p50": 0.0,
+    "p90": 0.0
+   },
+   "precip_exceedance": {
+    "trace": 0.0,
+    "0.01in": 0.0,
+    "0.10in": 0.0,
+    "0.25in": 0.0,
+    "0.50in": 0.0,
+    "1.00in": 0.0
+   },
+   "cloud_cover": 0.746,
+   "condition": {
+    "code": "mostly-cloudy",
+    "label": "Mostly cloudy"
+   },
+   "confidence": {
+    "score": 87.0,
+    "level": "high"
+   }
+  },
+  {
+   "time": "2026-10-08T18:00:00-04:00",
+   "lead_time_hours": 22,
+   "temperature": {
+    "p10": 80.6,
+    "p50": 82.2,
+    "p90": 84.0
+   },
+   "feels_like": 87.3,
+   "dewpoint": 72.4,
+   "wind_speed": {
+    "p50": 11.7,
+    "p90": 13.3
+   },
+   "wind_direction_deg": 36.66,
+   "wind_direction": "NE",
+   "precip_probability": 0.0,
+   "precip_amount": {
+    "p50": 0.0,
+    "p90": 0.0
+   },
+   "precip_exceedance": {
+    "trace": 0.0,
+    "0.01in": 0.0,
+    "0.10in": 0.0,
+    "0.25in": 0.0,
+    "0.50in": 0.0,
+    "1.00in": 0.0
+   },
+   "cloud_cover": 0.775,
+   "condition": {
+    "code": "mostly-cloudy",
+    "label": "Mostly cloudy"
+   },
+   "confidence": {
+    "score": 88.0,
+    "level": "high"
+   }
+  },
+  {
+   "time": "2026-10-08T19:00:00-04:00",
+   "lead_time_hours": 23,
+   "temperature": {
+    "p10": 80.4,
+    "p50": 82.0,
+    "p90": 84.0
+   },
+   "feels_like": 87.2,
+   "dewpoint": 72.7,
+   "wind_speed": {
+    "p50": 11.0,
+    "p90": 12.7
+   },
+   "wind_direction_deg": 35.858,
+   "wind_direction": "NE",
+   "precip_probability": 0.0,
+   "precip_amount": {
+    "p50": 0.0,
+    "p90": 0.0
+   },
+   "precip_exceedance": {
+    "trace": 0.0,
+    "0.01in": 0.0,
+    "0.10in": 0.0,
+    "0.25in": 0.0,
+    "0.50in": 0.0,
+    "1.00in": 0.0
+   },
+   "cloud_cover": 0.79,
+   "condition": {
+    "code": "mostly-cloudy",
+    "label": "Mostly cloudy"
+   },
+   "confidence": {
+    "score": 87.0,
+    "level": "high"
+   }
+  },
+  {
+   "time": "2026-10-08T20:00:00-04:00",
+   "lead_time_hours": 24,
+   "temperature": {
+    "p10": 80.1,
+    "p50": 81.9,
+    "p90": 83.7
+   },
+   "feels_like": 87.2,
+   "dewpoint": 72.9,
+   "wind_speed": {
+    "p50": 11.1,
+    "p90": 12.4
+   },
+   "wind_direction_deg": 38.558,
+   "wind_direction": "NE",
+   "precip_probability": 0.0,
+   "precip_amount": {
+    "p50": 0.0,
+    "p90": 0.0
+   },
+   "precip_exceedance": {
+    "trace": 0.0,
+    "0.01in": 0.0,
+    "0.10in": 0.0,
+    "0.25in": 0.0,
+    "0.50in": 0.0,
+    "1.00in": 0.0
+   },
+   "cloud_cover": 0.772,
+   "condition": {
+    "code": "mostly-cloudy",
+    "label": "Mostly cloudy"
+   },
+   "confidence": {
+    "score": 87.0,
+    "level": "high"
+   }
+  },
+  {
+   "time": "2026-10-08T21:00:00-04:00",
+   "lead_time_hours": 25,
+   "temperature": {
+    "p10": 79.8,
+    "p50": 81.3,
+    "p90": 82.4
+   },
+   "feels_like": 86.3,
+   "dewpoint": 72.9,
+   "wind_speed": {
+    "p50": 10.8,
+    "p90": 12.5
+   },
+   "wind_direction_deg": 43.482,
+   "wind_direction": "NE",
+   "precip_probability": 0.0,
+   "precip_amount": {
+    "p50": 0.0,
+    "p90": 0.0
+   },
+   "precip_exceedance": {
+    "trace": 0.0,
+    "0.01in": 0.0,
+    "0.10in": 0.0,
+    "0.25in": 0.0,
+    "0.50in": 0.0,
+    "1.00in": 0.0
+   },
+   "cloud_cover": 0.773,
+   "condition": {
+    "code": "mostly-cloudy",
+    "label": "Mostly cloudy"
+   },
+   "confidence": {
+    "score": 93.0,
+    "level": "high"
+   }
+  },
+  {
+   "time": "2026-10-08T22:00:00-04:00",
+   "lead_time_hours": 26,
+   "temperature": {
+    "p10": 78.9,
+    "p50": 80.8,
+    "p90": 82.5
+   },
+   "feels_like": 85.5,
+   "dewpoint": 73.0,
+   "wind_speed": {
+    "p50": 10.4,
+    "p90": 12.7
+   },
+   "wind_direction_deg": 43.442,
+   "wind_direction": "NE",
+   "precip_probability": 0.0,
+   "precip_amount": {
+    "p50": 0.0,
+    "p90": 0.0
+   },
+   "precip_exceedance": {
+    "trace": 0.0,
+    "0.01in": 0.0,
+    "0.10in": 0.0,
+    "0.25in": 0.0,
+    "0.50in": 0.0,
+    "1.00in": 0.0
+   },
+   "cloud_cover": 0.763,
+   "condition": {
+    "code": "mostly-cloudy",
+    "label": "Mostly cloudy"
+   },
+   "confidence": {
+    "score": 86.0,
+    "level": "high"
+   }
+  },
+  {
+   "time": "2026-10-08T23:00:00-04:00",
+   "lead_time_hours": 27,
+   "temperature": {
+    "p10": 77.9,
+    "p50": 79.8,
+    "p90": 81.4
+   },
+   "feels_like": 79.8,
+   "dewpoint": 72.9,
+   "wind_speed": {
+    "p50": 10.2,
+    "p90": 12.0
+   },
+   "wind_direction_deg": 45.674,
+   "wind_direction": "NE",
+   "precip_probability": 0.0,
+   "precip_amount": {
+    "p50": 0.0,
+    "p90": 0.0
+   },
+   "precip_exceedance": {
+    "trace": 0.0,
+    "0.01in": 0.0,
+    "0.10in": 0.0,
+    "0.25in": 0.0,
+    "0.50in": 0.0,
+    "1.00in": 0.0
+   },
+   "cloud_cover": 0.761,
+   "condition": {
+    "code": "mostly-cloudy",
+    "label": "Mostly cloudy"
+   },
+   "confidence": {
+    "score": 87.0,
+    "level": "high"
+   }
+  },
+  {
+   "time": "2026-10-09T00:00:00-04:00",
+   "lead_time_hours": 28,
+   "temperature": {
+    "p10": 77.5,
+    "p50": 79.0,
+    "p90": 80.9
+   },
+   "feels_like": 79.0,
+   "dewpoint": 72.0,
+   "wind_speed": {
+    "p50": 9.8,
+    "p90": 11.6
+   },
+   "wind_direction_deg": 45.398,
+   "wind_direction": "NE",
+   "precip_probability": 0.0,
+   "precip_amount": {
+    "p50": 0.0,
+    "p90": 0.0
+   },
+   "precip_exceedance": {
+    "trace": 0.0,
+    "0.01in": 0.0,
+    "0.10in": 0.0,
+    "0.25in": 0.0,
+    "0.50in": 0.0,
+    "1.00in": 0.0
+   },
+   "cloud_cover": 0.774,
+   "condition": {
+    "code": "mostly-cloudy",
+    "label": "Mostly cloudy"
+   },
+   "confidence": {
+    "score": 88.0,
+    "level": "high"
+   }
+  },
+  {
+   "time": "2026-10-09T01:00:00-04:00",
+   "lead_time_hours": 29,
+   "temperature": {
+    "p10": 76.8,
+    "p50": 78.5,
+    "p90": 80.0
+   },
+   "feels_like": 78.5,
+   "dewpoint": 71.2,
+   "wind_speed": {
+    "p50": 9.6,
+    "p90": 11.6
+   },
+   "wind_direction_deg": 46.348,
+   "wind_direction": "NE",
+   "precip_probability": 0.0,
+   "precip_amount": {
+    "p50": 0.0,
+    "p90": 0.0
+   },
+   "precip_exceedance": {
+    "trace": 0.0,
+    "0.01in": 0.0,
+    "0.10in": 0.0,
+    "0.25in": 0.0,
+    "0.50in": 0.0,
+    "1.00in": 0.0
+   },
+   "cloud_cover": 0.798,
+   "condition": {
+    "code": "mostly-cloudy",
+    "label": "Mostly cloudy"
+   },
+   "confidence": {
+    "score": 90.0,
+    "level": "high"
+   }
+  },
+  {
+   "time": "2026-10-09T02:00:00-04:00",
+   "lead_time_hours": 30,
+   "temperature": {
+    "p10": 76.3,
+    "p50": 77.9,
+    "p90": 79.3
+   },
+   "feels_like": 77.9,
+   "dewpoint": 71.0,
+   "wind_speed": {
+    "p50": 9.3,
+    "p90": 10.6
+   },
+   "wind_direction_deg": 46.027,
+   "wind_direction": "NE",
+   "precip_probability": 0.0,
+   "precip_amount": {
+    "p50": 0.0,
+    "p90": 0.0
+   },
+   "precip_exceedance": {
+    "trace": 0.0,
+    "0.01in": 0.0,
+    "0.10in": 0.0,
+    "0.25in": 0.0,
+    "0.50in": 0.0,
+    "1.00in": 0.0
+   },
+   "cloud_cover": 0.788,
+   "condition": {
+    "code": "mostly-cloudy",
+    "label": "Mostly cloudy"
+   },
+   "confidence": {
+    "score": 90.0,
+    "level": "high"
+   }
+  },
+  {
+   "time": "2026-10-09T03:00:00-04:00",
+   "lead_time_hours": 31,
+   "temperature": {
+    "p10": 76.1,
+    "p50": 77.5,
+    "p90": 78.9
+   },
+   "feels_like": 77.5,
+   "dewpoint": 70.2,
+   "wind_speed": {
+    "p50": 8.6,
+    "p90": 10.2
+   },
+   "wind_direction_deg": 47.175,
+   "wind_direction": "NE",
+   "precip_probability": 0.0,
+   "precip_amount": {
+    "p50": 0.0,
+    "p90": 0.0
+   },
+   "precip_exceedance": {
+    "trace": 0.0,
+    "0.01in": 0.0,
+    "0.10in": 0.0,
+    "0.25in": 0.0,
+    "0.50in": 0.0,
+    "1.00in": 0.0
+   },
+   "cloud_cover": 0.764,
+   "condition": {
+    "code": "mostly-cloudy",
+    "label": "Mostly cloudy"
+   },
+   "confidence": {
+    "score": 92.0,
+    "level": "high"
+   }
+  },
+  {
+   "time": "2026-10-09T04:00:00-04:00",
+   "lead_time_hours": 32,
+   "temperature": {
+    "p10": 75.7,
+    "p50": 77.4,
+    "p90": 78.9
+   },
+   "feels_like": 77.4,
+   "dewpoint": 70.2,
+   "wind_speed": {
+    "p50": 8.9,
+    "p90": 10.8
+   },
+   "wind_direction_deg": 51.363,
+   "wind_direction": "NE",
+   "precip_probability": 0.0,
+   "precip_amount": {
+    "p50": 0.0,
+    "p90": 0.0
+   },
+   "precip_exceedance": {
+    "trace": 0.0,
+    "0.01in": 0.0,
+    "0.10in": 0.0,
+    "0.25in": 0.0,
+    "0.50in": 0.0,
+    "1.00in": 0.0
+   },
+   "cloud_cover": 0.73,
+   "condition": {
+    "code": "mostly-cloudy",
+    "label": "Mostly cloudy"
+   },
+   "confidence": {
+    "score": 90.0,
+    "level": "high"
+   }
+  },
+  {
+   "time": "2026-10-09T05:00:00-04:00",
+   "lead_time_hours": 33,
+   "temperature": {
+    "p10": 76.1,
+    "p50": 78.0,
+    "p90": 79.2
+   },
+   "feels_like": 78.0,
+   "dewpoint": 70.3,
+   "wind_speed": {
+    "p50": 8.2,
+    "p90": 9.7
+   },
+   "wind_direction_deg": 49.93,
+   "wind_direction": "NE",
+   "precip_probability": 0.0,
+   "precip_amount": {
+    "p50": 0.0,
+    "p90": 0.0
+   },
+   "precip_exceedance": {
+    "trace": 0.0,
+    "0.01in": 0.0,
+    "0.10in": 0.0,
+    "0.25in": 0.0,
+    "0.50in": 0.0,
+    "1.00in": 0.0
+   },
+   "cloud_cover": 0.758,
+   "condition": {
+    "code": "mostly-cloudy",
+    "label": "Mostly cloudy"
+   },
+   "confidence": {
+    "score": 90.0,
+    "level": "high"
+   }
+  },
+  {
+   "time": "2026-10-09T06:00:00-04:00",
+   "lead_time_hours": 34,
+   "temperature": {
+    "p10": 76.3,
+    "p50": 78.3,
+    "p90": 79.7
+   },
+   "feels_like": 78.3,
+   "dewpoint": 69.7,
+   "wind_speed": {
+    "p50": 8.1,
+    "p90": 10.1
+   },
+   "wind_direction_deg": 49.076,
+   "wind_direction": "NE",
+   "precip_probability": 0.0,
+   "precip_amount": {
+    "p50": 0.0,
+    "p90": 0.0
+   },
+   "precip_exceedance": {
+    "trace": 0.0,
+    "0.01in": 0.0,
+    "0.10in": 0.0,
+    "0.25in": 0.0,
+    "0.50in": 0.0,
+    "1.00in": 0.0
+   },
+   "cloud_cover": 0.726,
+   "condition": {
+    "code": "mostly-cloudy",
+    "label": "Mostly cloudy"
+   },
+   "confidence": {
+    "score": 88.0,
+    "level": "high"
+   }
+  },
+  {
+   "time": "2026-10-09T07:00:00-04:00",
+   "lead_time_hours": 35,
+   "temperature": {
+    "p10": 77.0,
+    "p50": 79.0,
+    "p90": 80.5
+   },
+   "feels_like": 79.0,
+   "dewpoint": 70.2,
+   "wind_speed": {
+    "p50": 7.9,
+    "p90": 9.4
+   },
+   "wind_direction_deg": 52.942,
+   "wind_direction": "NE",
+   "precip_probability": 0.0,
+   "precip_amount": {
+    "p50": 0.0,
+    "p90": 0.0
+   },
+   "precip_exceedance": {
+    "trace": 0.0,
+    "0.01in": 0.0,
+    "0.10in": 0.0,
+    "0.25in": 0.0,
+    "0.50in": 0.0,
+    "1.00in": 0.0
+   },
+   "cloud_cover": 0.683,
+   "condition": {
+    "code": "partly-cloudy-night",
+    "label": "Partly cloudy"
+   },
+   "confidence": {
+    "score": 88.0,
+    "level": "high"
+   }
+  },
+  {
+   "time": "2026-10-09T08:00:00-04:00",
+   "lead_time_hours": 36,
+   "temperature": {
+    "p10": 78.3,
+    "p50": 79.9,
+    "p90": 81.2
+   },
+   "feels_like": 79.9,
+   "dewpoint": 70.9,
+   "wind_speed": {
+    "p50": 7.8,
+    "p90": 9.2
+   },
+   "wind_direction_deg": 51.297,
+   "wind_direction": "NE",
+   "precip_probability": 0.0,
+   "precip_amount": {
+    "p50": 0.0,
+    "p90": 0.0
+   },
+   "precip_exceedance": {
+    "trace": 0.0,
+    "0.01in": 0.0,
+    "0.10in": 0.0,
+    "0.25in": 0.0,
+    "0.50in": 0.0,
+    "1.00in": 0.0
+   },
+   "cloud_cover": 0.664,
+   "condition": {
+    "code": "partly-cloudy-day",
+    "label": "Partly cloudy"
+   },
+   "confidence": {
+    "score": 91.0,
+    "level": "high"
+   }
+  },
+  {
+   "time": "2026-10-09T09:00:00-04:00",
+   "lead_time_hours": 37,
+   "temperature": {
+    "p10": 78.4,
+    "p50": 81.0,
+    "p90": 82.4
+   },
+   "feels_like": 85.2,
+   "dewpoint": 71.6,
+   "wind_speed": {
+    "p50": 7.1,
+    "p90": 8.5
+   },
+   "wind_direction_deg": 50.612,
+   "wind_direction": "NE",
+   "precip_probability": 0.0,
+   "precip_amount": {
+    "p50": 0.0,
+    "p90": 0.0
+   },
+   "precip_exceedance": {
+    "trace": 0.0,
+    "0.01in": 0.0,
+    "0.10in": 0.0,
+    "0.25in": 0.0,
+    "0.50in": 0.0,
+    "1.00in": 0.0
+   },
+   "cloud_cover": 0.678,
+   "condition": {
+    "code": "partly-cloudy-day",
+    "label": "Partly cloudy"
+   },
+   "confidence": {
+    "score": 84.0,
+    "level": "high"
+   }
+  },
+  {
+   "time": "2026-10-09T10:00:00-04:00",
+   "lead_time_hours": 38,
+   "temperature": {
+    "p10": 80.1,
+    "p50": 82.0,
+    "p90": 83.4
+   },
+   "feels_like": 87.2,
+   "dewpoint": 72.5,
+   "wind_speed": {
+    "p50": 7.0,
+    "p90": 8.3
+   },
+   "wind_direction_deg": 48.125,
+   "wind_direction": "NE",
+   "precip_probability": 0.0,
+   "precip_amount": {
+    "p50": 0.0,
+    "p90": 0.0
+   },
+   "precip_exceedance": {
+    "trace": 0.0,
+    "0.01in": 0.0,
+    "0.10in": 0.0,
+    "0.25in": 0.0,
+    "0.50in": 0.0,
+    "1.00in": 0.0
+   },
+   "cloud_cover": 0.651,
+   "condition": {
+    "code": "partly-cloudy-day",
+    "label": "Partly cloudy"
+   },
+   "confidence": {
+    "score": 88.0,
+    "level": "high"
+   }
+  }
+ ],
+ "daily": [
+  {
+   "date": "2026-10-08",
+   "high": {
+    "p10": 81.2,
+    "p50": 82.6,
+    "p90": 84.3
+   },
+   "low": {
+    "p10": 64.7,
+    "p50": 65.3,
+    "p90": 66.6
+   },
+   "precip_probability": 0.0,
+   "precip_amount": {
+    "p50": 0.0,
+    "p90": 0.0
+   },
+   "precip_exceedance": {
+    "trace": 0.0,
+    "0.01in": 0.0,
+    "0.10in": 0.0,
+    "0.25in": 0.0,
+    "0.50in": 0.0,
+    "1.00in": 0.0
+   },
+   "wind_max": {
+    "p50": 16.2,
+    "p90": 17.4
+   },
+   "condition": {
+    "code": "mostly-cloudy",
+    "label": "Mostly cloudy"
+   },
+   "confidence": {
+    "overall": {
+     "score": 90.0,
+     "level": "high"
+    },
+    "temperature": {
+     "score": 84.0,
+     "level": "high"
+    },
+    "precipitation": {
+     "score": 100.0,
+     "level": "high"
+    },
+    "temperature_summary": "81\u201384\u00b0F likely",
+    "precipitation_summary": "Members agree it stays dry"
+   },
+   "high_distribution": {
+    "edges": [
+     79.7,
+     80.4,
+     81.1,
+     81.8,
+     82.4,
+     83.1,
+     83.8,
+     84.5,
+     85.2
+    ],
+    "counts": [
+     3,
+     2,
+     5,
+     11,
+     12,
+     8,
+     4,
+     5
+    ]
+   },
+   "hours_covered": 24,
+   "members": 50
+  },
+  {
+   "date": "2026-10-09",
+   "high": {
+    "p10": 86.5,
+    "p50": 88.3,
+    "p90": 90.0
+   },
+   "low": {
+    "p10": 75.5,
+    "p50": 76.9,
+    "p90": 77.9
+   },
+   "precip_probability": 0.0,
+   "precip_amount": {
+    "p50": 0.0,
+    "p90": 0.0
+   },
+   "precip_exceedance": {
+    "trace": 0.0,
+    "0.01in": 0.0,
+    "0.10in": 0.0,
+    "0.25in": 0.0,
+    "0.50in": 0.0,
+    "1.00in": 0.0
+   },
+   "wind_max": {
+    "p50": 10.8,
+    "p90": 12.3
+   },
+   "condition": {
+    "code": "partly-cloudy-day",
+    "label": "Partly cloudy"
+   },
+   "confidence": {
+    "overall": {
+     "score": 87.0,
+     "level": "high"
+    },
+    "temperature": {
+     "score": 79.0,
+     "level": "high"
+    },
+    "precipitation": {
+     "score": 100.0,
+     "level": "high"
+    },
+    "temperature_summary": "86\u201390\u00b0F likely",
+    "precipitation_summary": "Members agree it stays dry"
+   },
+   "high_distribution": {
+    "edges": [
+     85.4,
+     86.1,
+     86.7,
+     87.4,
+     88.1,
+     88.8,
+     89.5,
+     90.2,
+     90.9
+    ],
+    "counts": [
+     4,
+     4,
+     6,
+     8,
+     8,
+     12,
+     4,
+     4
+    ]
+   },
+   "hours_covered": 24,
+   "members": 50
+  },
+  {
+   "date": "2026-10-10",
+   "high": {
+    "p10": 77.3,
+    "p50": 80.0,
+    "p90": 82.5
+   },
+   "low": {
+    "p10": 66.8,
+    "p50": 68.2,
+    "p90": 70.6
+   },
+   "precip_probability": 0.0,
+   "precip_amount": {
+    "p50": 0.0,
+    "p90": 0.0
+   },
+   "precip_exceedance": {
+    "trace": 0.0,
+    "0.01in": 0.0,
+    "0.10in": 0.0,
+    "0.25in": 0.0,
+    "0.50in": 0.0,
+    "1.00in": 0.0
+   },
+   "wind_max": {
+    "p50": 12.1,
+    "p90": 14.1
+   },
+   "condition": {
+    "code": "mostly-clear-day",
+    "label": "Mostly sunny"
+   },
+   "confidence": {
+    "overall": {
+     "score": 77.0,
+     "level": "high"
+    },
+    "temperature": {
+     "score": 62.0,
+     "level": "medium"
+    },
+    "precipitation": {
+     "score": 100.0,
+     "level": "high"
+    },
+    "temperature_summary": "Most likely 80\u00b0F, could be 77\u201382\u00b0F",
+    "precipitation_summary": "Members agree it stays dry"
+   },
+   "high_distribution": {
+    "edges": [
+     75.8,
+     76.8,
+     77.9,
+     78.9,
+     79.9,
+     80.9,
+     81.9,
+     82.9,
+     83.9
+    ],
+    "counts": [
+     3,
+     3,
+     9,
+     10,
+     8,
+     5,
+     9,
+     3
+    ]
+   },
+   "hours_covered": 24,
+   "members": 50
+  },
+  {
+   "date": "2026-10-11",
+   "high": {
+    "p10": 69.1,
+    "p50": 72.6,
+    "p90": 75.5
+   },
+   "low": {
+    "p10": 59.6,
+    "p50": 62.1,
+    "p90": 65.1
+   },
+   "precip_probability": 0.38,
+   "precip_amount": {
+    "p50": 0.0,
+    "p90": 0.11
+   },
+   "precip_exceedance": {
+    "trace": 0.48,
+    "0.01in": 0.38,
+    "0.10in": 0.12,
+    "0.25in": 0.06,
+    "0.50in": 0.0,
+    "1.00in": 0.0
+   },
+   "wind_max": {
+    "p50": 18.3,
+    "p90": 20.5
+   },
+   "condition": {
+    "code": "chance-rain",
+    "label": "Chance of showers"
+   },
+   "confidence": {
+    "overall": {
+     "score": 41.0,
+     "level": "medium"
+    },
+    "temperature": {
+     "score": 53.0,
+     "level": "medium"
+    },
+    "precipitation": {
+     "score": 24.0,
+     "level": "low"
+    },
+    "temperature_summary": "Most likely 73\u00b0F, could be 69\u201376\u00b0F",
+    "precipitation_summary": "Ensemble members disagree"
+   },
+   "high_distribution": {
+    "edges": [
+     67.4,
+     68.6,
+     69.9,
+     71.1,
+     72.4,
+     73.6,
+     74.9,
+     76.1,
+     77.4
+    ],
+    "counts": [
+     4,
+     4,
+     4,
+     12,
+     7,
+     12,
+     4,
+     3
+    ]
+   },
+   "hours_covered": 24,
+   "members": 50
+  },
+  {
+   "date": "2026-10-12",
+   "high": {
+    "p10": 72.7,
+    "p50": 76.6,
+    "p90": 82.1
+   },
+   "low": {
+    "p10": 60.4,
+    "p50": 62.9,
+    "p90": 65.9
+   },
+   "precip_probability": 0.84,
+   "precip_amount": {
+    "p50": 0.16,
+    "p90": 0.58
+   },
+   "precip_exceedance": {
+    "trace": 0.84,
+    "0.01in": 0.84,
+    "0.10in": 0.62,
+    "0.25in": 0.4,
+    "0.50in": 0.22,
+    "1.00in": 0.0
+   },
+   "wind_max": {
+    "p50": 19.3,
+    "p90": 21.6
+   },
+   "condition": {
+    "code": "rain",
+    "label": "Rain"
+   },
+   "confidence": {
+    "overall": {
+     "score": 48.0,
+     "level": "medium"
+    },
+    "temperature": {
+     "score": 35.0,
+     "level": "low"
+    },
+    "precipitation": {
+     "score": 68.0,
+     "level": "high"
+    },
+    "temperature_summary": "Members disagree: highs anywhere from 73 to 82\u00b0F",
+    "precipitation_summary": "Rain likely; members agree"
+   },
+   "high_distribution": {
+    "edges": [
+     70.6,
+     72.3,
+     74.1,
+     75.9,
+     77.7,
+     79.5,
+     81.2,
+     83.0,
+     84.8
+    ],
+    "counts": [
+     3,
+     8,
+     9,
+     10,
+     9,
+     2,
+     6,
+     3
+    ]
+   },
+   "hours_covered": 24,
+   "members": 50
+  },
+  {
+   "date": "2026-10-13",
+   "high": {
+    "p10": 76.3,
+    "p50": 80.6,
+    "p90": 84.5
+   },
+   "low": {
+    "p10": 63.6,
+    "p50": 65.7,
+    "p90": 69.2
+   },
+   "precip_probability": 0.0,
+   "precip_amount": {
+    "p50": 0.0,
+    "p90": 0.0
+   },
+   "precip_exceedance": {
+    "trace": 0.0,
+    "0.01in": 0.0,
+    "0.10in": 0.0,
+    "0.25in": 0.0,
+    "0.50in": 0.0,
+    "1.00in": 0.0
+   },
+   "wind_max": {
+    "p50": 9.1,
+    "p90": 10.1
+   },
+   "condition": {
+    "code": "clear-day",
+    "label": "Sunny"
+   },
+   "confidence": {
+    "overall": {
+     "score": 65.0,
+     "level": "medium"
+    },
+    "temperature": {
+     "score": 41.0,
+     "level": "medium"
+    },
+    "precipitation": {
+     "score": 100.0,
+     "level": "high"
+    },
+    "temperature_summary": "Most likely 81\u00b0F, could be 76\u201384\u00b0F",
+    "precipitation_summary": "Members agree it stays dry"
+   },
+   "high_distribution": {
+    "edges": [
+     74.1,
+     75.5,
+     77.0,
+     78.4,
+     79.9,
+     81.4,
+     82.8,
+     84.3,
+     85.7
+    ],
+    "counts": [
+     3,
+     6,
+     3,
+     7,
+     12,
+     9,
+     4,
+     6
+    ]
+   },
+   "hours_covered": 24,
+   "members": 50
+  },
+  {
+   "date": "2026-10-14",
+   "high": {
+    "p10": 73.1,
+    "p50": 78.0,
+    "p90": 83.2
+   },
+   "low": {
+    "p10": 59.5,
+    "p50": 63.1,
+    "p90": 66.9
+   },
+   "precip_probability": 0.0,
+   "precip_amount": {
+    "p50": 0.0,
+    "p90": 0.0
+   },
+   "precip_exceedance": {
+    "trace": 0.0,
+    "0.01in": 0.0,
+    "0.10in": 0.0,
+    "0.25in": 0.0,
+    "0.50in": 0.0,
+    "1.00in": 0.0
+   },
+   "wind_max": {
+    "p50": 16.4,
+    "p90": 18.6
+   },
+   "condition": {
+    "code": "mostly-clear-day",
+    "label": "Mostly sunny"
+   },
+   "confidence": {
+    "overall": {
+     "score": 59.0,
+     "level": "medium"
+    },
+    "temperature": {
+     "score": 32.0,
+     "level": "low"
+    },
+    "precipitation": {
+     "score": 100.0,
+     "level": "high"
+    },
+    "temperature_summary": "Members disagree: highs anywhere from 73 to 83\u00b0F",
+    "precipitation_summary": "Members agree it stays dry"
+   },
+   "high_distribution": {
+    "edges": [
+     70.0,
+     72.0,
+     74.1,
+     76.1,
+     78.2,
+     80.2,
+     82.3,
+     84.3,
+     86.4
+    ],
+    "counts": [
+     2,
+     5,
+     3,
+     18,
+     11,
+     4,
+     5,
+     2
+    ]
+   },
+   "hours_covered": 24,
+   "members": 50
+  },
+  {
+   "date": "2026-10-15",
+   "high": {
+    "p10": 78.7,
+    "p50": 84.1,
+    "p90": 89.4
+   },
+   "low": {
+    "p10": 65.5,
+    "p50": 70.1,
+    "p90": 73.9
+   },
+   "precip_probability": 0.56,
+   "precip_amount": {
+    "p50": 0.04,
+    "p90": 0.81
+   },
+   "precip_exceedance": {
+    "trace": 0.62,
+    "0.01in": 0.56,
+    "0.10in": 0.46,
+    "0.25in": 0.3,
+    "0.50in": 0.24,
+    "1.00in": 0.04
+   },
+   "wind_max": {
+    "p50": 21.0,
+    "p90": 23.6
+   },
+   "condition": {
+    "code": "rain",
+    "label": "Rain"
+   },
+   "confidence": {
+    "overall": {
+     "score": 22.0,
+     "level": "low"
+    },
+    "temperature": {
+     "score": 29.0,
+     "level": "low"
+    },
+    "precipitation": {
+     "score": 12.0,
+     "level": "low"
+    },
+    "temperature_summary": "Members disagree: highs anywhere from 79 to 89\u00b0F",
+    "precipitation_summary": "Ensemble members disagree"
+   },
+   "high_distribution": {
+    "edges": [
+     76.0,
+     78.0,
+     79.9,
+     81.8,
+     83.7,
+     85.6,
+     87.5,
+     89.5,
+     91.4
+    ],
+    "counts": [
+     4,
+     6,
+     9,
+     3,
+     13,
+     4,
+     6,
+     5
+    ]
+   },
+   "hours_covered": 24,
+   "members": 50
+  },
+  {
+   "date": "2026-10-16",
+   "high": {
+    "p10": 75.4,
+    "p50": 79.3,
+    "p90": 84.5
+   },
+   "low": {
+    "p10": 62.6,
+    "p50": 67.3,
+    "p90": 70.8
+   },
+   "precip_probability": 0.44,
+   "precip_amount": {
+    "p50": 0.0,
+    "p90": 0.19
+   },
+   "precip_exceedance": {
+    "trace": 0.48,
+    "0.01in": 0.44,
+    "0.10in": 0.24,
+    "0.25in": 0.08,
+    "0.50in": 0.02,
+    "1.00in": 0.0
+   },
+   "wind_max": {
+    "p50": 16.7,
+    "p90": 19.2
+   },
+   "condition": {
+    "code": "chance-rain",
+    "label": "Chance of showers"
+   },
+   "confidence": {
+    "overall": {
+     "score": 27.0,
+     "level": "low"
+    },
+    "temperature": {
+     "score": 37.0,
+     "level": "medium"
+    },
+    "precipitation": {
+     "score": 12.0,
+     "level": "low"
+    },
+    "temperature_summary": "Most likely 79\u00b0F, could be 75\u201384\u00b0F",
+    "precipitation_summary": "Ensemble members disagree"
+   },
+   "high_distribution": {
+    "edges": [
+     70.7,
+     72.7,
+     74.7,
+     76.8,
+     78.8,
+     80.8,
+     82.8,
+     84.9,
+     86.9
+    ],
+    "counts": [
+     3,
+     2,
+     7,
+     7,
+     12,
+     7,
+     8,
+     4
+    ]
+   },
+   "hours_covered": 24,
+   "members": 50
+  },
+  {
+   "date": "2026-10-17",
+   "high": {
+    "p10": 67.3,
+    "p50": 73.4,
+    "p90": 79.8
+   },
+   "low": {
+    "p10": 56.1,
+    "p50": 59.5,
+    "p90": 63.8
+   },
+   "precip_probability": 0.22,
+   "precip_amount": {
+    "p50": 0.0,
+    "p90": 0.08
+   },
+   "precip_exceedance": {
+    "trace": 0.28,
+    "0.01in": 0.22,
+    "0.10in": 0.1,
+    "0.25in": 0.02,
+    "0.50in": 0.0,
+    "1.00in": 0.0
+   },
+   "wind_max": {
+    "p50": 10.8,
+    "p90": 12.6
+   },
+   "condition": {
+    "code": "partly-cloudy-day",
+    "label": "Partly cloudy"
+   },
+   "confidence": {
+    "overall": {
+     "score": 36.0,
+     "level": "medium"
+    },
+    "temperature": {
+     "score": 23.0,
+     "level": "low"
+    },
+    "precipitation": {
+     "score": 56.0,
+     "level": "medium"
+    },
+    "temperature_summary": "Members disagree: highs anywhere from 67 to 80\u00b0F",
+    "precipitation_summary": "Some members show rain"
+   },
+   "high_distribution": {
+    "edges": [
+     65.7,
+     67.8,
+     69.8,
+     71.9,
+     73.9,
+     76.0,
+     78.1,
+     80.1,
+     82.2
+    ],
+    "counts": [
+     6,
+     6,
+     7,
+     8,
+     8,
+     2,
+     9,
+     4
+    ]
+   },
+   "hours_covered": 24,
+   "members": 50
+  },
+  {
+   "date": "2026-10-18",
+   "high": {
+    "p10": 75.0,
+    "p50": 80.9,
+    "p90": 84.8
+   },
+   "low": {
+    "p10": 55.5,
+    "p50": 61.6,
+    "p90": 66.8
+   },
+   "precip_probability": 0.04,
+   "precip_amount": {
+    "p50": 0.0,
+    "p90": 0.0
+   },
+   "precip_exceedance": {
+    "trace": 0.06,
+    "0.01in": 0.04,
+    "0.10in": 0.0,
+    "0.25in": 0.0,
+    "0.50in": 0.0,
+    "1.00in": 0.0
+   },
+   "wind_max": {
+    "p50": 19.2,
+    "p90": 23.5
+   },
+   "condition": {
+    "code": "clear-day",
+    "label": "Sunny"
+   },
+   "confidence": {
+    "overall": {
+     "score": 56.0,
+     "level": "medium"
+    },
+    "temperature": {
+     "score": 33.0,
+     "level": "low"
+    },
+    "precipitation": {
+     "score": 92.0,
+     "level": "high"
+    },
+    "temperature_summary": "Members disagree: highs anywhere from 75 to 85\u00b0F",
+    "precipitation_summary": "Members agree it stays dry"
+   },
+   "high_distribution": {
+    "edges": [
+     72.9,
+     74.9,
+     76.8,
+     78.8,
+     80.8,
+     82.7,
+     84.7,
+     86.7,
+     88.6
+    ],
+    "counts": [
+     5,
+     6,
+     5,
+     8,
+     14,
+     7,
+     2,
+     3
+    ]
+   },
+   "hours_covered": 24,
+   "members": 50
+  },
+  {
+   "date": "2026-10-19",
+   "high": {
+    "p10": 69.1,
+    "p50": 74.7,
+    "p90": 80.3
+   },
+   "low": {
+    "p10": 58.5,
+    "p50": 64.8,
+    "p90": 69.1
+   },
+   "precip_probability": 0.78,
+   "precip_amount": {
+    "p50": 0.27,
+    "p90": 1.08
+   },
+   "precip_exceedance": {
+    "trace": 0.78,
+    "0.01in": 0.78,
+    "0.10in": 0.68,
+    "0.25in": 0.52,
+    "0.50in": 0.28,
+    "1.00in": 0.12
+   },
+   "wind_max": {
+    "p50": 22.6,
+    "p90": 24.2
+   },
+   "condition": {
+    "code": "rain",
+    "label": "Rain"
+   },
+   "confidence": {
+    "overall": {
+     "score": 39.0,
+     "level": "medium"
+    },
+    "temperature": {
+     "score": 27.0,
+     "level": "low"
+    },
+    "precipitation": {
+     "score": 56.0,
+     "level": "medium"
+    },
+    "temperature_summary": "Members disagree: highs anywhere from 69 to 80\u00b0F",
+    "precipitation_summary": "Rain more likely than not"
+   },
+   "high_distribution": {
+    "edges": [
+     64.5,
+     67.1,
+     69.8,
+     72.4,
+     75.1,
+     77.7,
+     80.4,
+     83.0,
+     85.7
+    ],
+    "counts": [
+     2,
+     6,
+     6,
+     12,
+     10,
+     9,
+     3,
+     2
+    ]
+   },
+   "hours_covered": 24,
+   "members": 50
+  },
+  {
+   "date": "2026-10-20",
+   "high": {
+    "p10": 68.2,
+    "p50": 75.1,
+    "p90": 82.7
+   },
+   "low": {
+    "p10": 56.1,
+    "p50": 62.5,
+    "p90": 67.7
+   },
+   "precip_probability": 0.88,
+   "precip_amount": {
+    "p50": 0.64,
+    "p90": 2.8
+   },
+   "precip_exceedance": {
+    "trace": 0.88,
+    "0.01in": 0.88,
+    "0.10in": 0.84,
+    "0.25in": 0.78,
+    "0.50in": 0.58,
+    "1.00in": 0.34
+   },
+   "wind_max": {
+    "p50": 18.2,
+    "p90": 21.0
+   },
+   "condition": {
+    "code": "rain",
+    "label": "Rain"
+   },
+   "confidence": {
+    "overall": {
+     "score": 41.0,
+     "level": "medium"
+    },
+    "temperature": {
+     "score": 17.0,
+     "level": "low"
+    },
+    "precipitation": {
+     "score": 76.0,
+     "level": "high"
+    },
+    "temperature_summary": "Members disagree: highs anywhere from 68 to 83\u00b0F",
+    "precipitation_summary": "Rain likely; members agree"
+   },
+   "high_distribution": {
+    "edges": [
+     65.6,
+     68.1,
+     70.5,
+     72.9,
+     75.3,
+     77.8,
+     80.2,
+     82.6,
+     85.0
+    ],
+    "counts": [
+     5,
+     3,
+     12,
+     6,
+     5,
+     8,
+     4,
+     7
+    ]
+   },
+   "hours_covered": 24,
+   "members": 50
+  },
+  {
+   "date": "2026-10-21",
+   "high": {
+    "p10": 75.6,
+    "p50": 81.8,
+    "p90": 89.6
+   },
+   "low": {
+    "p10": 59.2,
+    "p50": 64.1,
+    "p90": 72.2
+   },
+   "precip_probability": 0.0,
+   "precip_amount": {
+    "p50": 0.0,
+    "p90": 0.0
+   },
+   "precip_exceedance": {
+    "trace": 0.02,
+    "0.01in": 0.0,
+    "0.10in": 0.0,
+    "0.25in": 0.0,
+    "0.50in": 0.0,
+    "1.00in": 0.0
+   },
+   "wind_max": {
+    "p50": 14.1,
+    "p90": 18.3
+   },
+   "condition": {
+    "code": "clear-day",
+    "label": "Sunny"
+   },
+   "confidence": {
+    "overall": {
+     "score": 51.0,
+     "level": "medium"
+    },
+    "temperature": {
+     "score": 18.0,
+     "level": "low"
+    },
+    "precipitation": {
+     "score": 100.0,
+     "level": "high"
+    },
+    "temperature_summary": "Members disagree: highs anywhere from 76 to 90\u00b0F",
+    "precipitation_summary": "Members agree it stays dry"
+   },
+   "high_distribution": {
+    "edges": [
+     72.1,
+     74.6,
+     77.1,
+     79.7,
+     82.2,
+     84.7,
+     87.2,
+     89.8,
+     92.3
+    ],
+    "counts": [
+     1,
+     12,
+     7,
+     7,
+     7,
+     7,
+     4,
+     5
+    ]
+   },
+   "hours_covered": 24,
+   "members": 50
+  },
+  {
+   "date": "2026-10-22",
+   "high": {
+    "p10": 73.2,
+    "p50": 80.6,
+    "p90": 88.6
+   },
+   "low": {
+    "p10": 60.1,
+    "p50": 66.7,
+    "p90": 71.6
+   },
+   "precip_probability": 0.18,
+   "precip_amount": {
+    "p50": 0.0,
+    "p90": 0.05
+   },
+   "precip_exceedance": {
+    "trace": 0.18,
+    "0.01in": 0.18,
+    "0.10in": 0.04,
+    "0.25in": 0.0,
+    "0.50in": 0.0,
+    "1.00in": 0.0
+   },
+   "wind_max": {
+    "p50": 22.2,
+    "p90": 25.5
+   },
+   "condition": {
+    "code": "mostly-clear-day",
+    "label": "Mostly sunny"
+   },
+   "confidence": {
+    "overall": {
+     "score": 35.0,
+     "level": "low"
+    },
+    "temperature": {
+     "score": 15.0,
+     "level": "low"
+    },
+    "precipitation": {
+     "score": 64.0,
+     "level": "medium"
+    },
+    "temperature_summary": "Members disagree: highs anywhere from 73 to 89\u00b0F",
+    "precipitation_summary": "Some members show rain"
+   },
+   "high_distribution": {
+    "edges": [
+     70.7,
+     73.4,
+     76.1,
+     78.9,
+     81.6,
+     84.4,
+     87.1,
+     89.8,
+     92.6
+    ],
+    "counts": [
+     6,
+     9,
+     4,
+     8,
+     7,
+     7,
+     7,
+     2
+    ]
+   },
+   "hours_covered": 21,
+   "members": 50
+  }
+ ],
+ "rain_outlook": {
+  "next_rain": {
+   "start": "2026-10-12T00:00:00-04:00",
+   "end": "2026-10-12T14:00:00-04:00",
+   "peak_probability": 0.62,
+   "expected_amount": 0.24,
+   "high_end_amount": 0.58
+  },
+  "summary": "Rain likely Monday, 12 AM\u20132 PM",
+  "horizon_hours": 169
+ },
+ "summary": {
+  "next_24h_high": 83.3,
+  "next_24h_low": 76.7,
+  "next_24h_max_precip_probability": 0.0,
+  "next_24h_expected_precip": 0.0,
+  "members": 50
+ }
+}

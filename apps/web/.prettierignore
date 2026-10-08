@@ -1,0 +1,4 @@
+.next
+playwright-report
+test-results
+src/test/forecast.fixture.json
