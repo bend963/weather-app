@@ -14,6 +14,7 @@ from zoneinfo import ZoneInfo
 
 import numpy as np
 
+from weather_api.forecast.conditions import feels_like
 from weather_api.forecast.confidence import (
     combined_agreement,
     precip_agreement,
@@ -159,6 +160,7 @@ def daily_statistics(fc: EnsembleForecast, timezone: str) -> list[DailyStats]:
     local_dates = np.array([t.astimezone(tz).date() for t in fc.valid_times])
     local_hours = np.array([t.astimezone(tz).hour for t in fc.valid_times])
     speed, _ = wind_speed_and_direction(fc.wind_u_mps, fc.wind_v_mps)
+    apparent = _feels_like(fc.temperature_c, fc.dewpoint_c, speed)
 
     rows: list[DailyStats] = []
     for day in sorted(set(local_dates)):
@@ -222,10 +224,24 @@ def daily_statistics(fc: EnsembleForecast, timezone: str) -> list[DailyStats]:
                     # can be followed from day to day (the "how far out" view).
                     "member_highs_c": [_r(x) for x in highs],
                     "member_lows_c": [_r(x) for x in lows],
+                    "member_precip_mm": [_r(x) for x in totals],
+                    "member_dewpoints_c": [_r(x) for x in fc.dewpoint_c[:, mask].mean(axis=1)],
+                    "member_feels_highs_c": [_r(x) for x in apparent[:, mask].max(axis=1)],
+                    "member_feels_lows_c": [_r(x) for x in apparent[:, mask].min(axis=1)],
                 },
             )
         )
     return rows
+
+
+_feels_like_ufunc = np.vectorize(feels_like, otypes=[float])
+
+
+def _feels_like(
+    temperature_c: np.ndarray, dewpoint_c: np.ndarray, wind_mps: np.ndarray
+) -> np.ndarray:
+    """Apparent temperature for every member and hour (same formulas as the hourly view)."""
+    return np.asarray(_feels_like_ufunc(temperature_c, dewpoint_c, wind_mps))
 
 
 def _histogram(values: np.ndarray, bins: int = 8) -> dict[str, list[float]]:

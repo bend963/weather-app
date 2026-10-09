@@ -18,6 +18,7 @@ test("new visitor adds a location, sees a forecast, and keeps it after reload", 
   await expect(page.getByRole("heading", { name: "Next 24 hours" })).toBeVisible();
   await expect(page.getByRole("list", { name: "Daily forecast" }).getByRole("listitem").first()).toBeVisible();
   await expect(page.getByRole("heading", { name: "How far out can you trust it?" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "How sure is the rain?" })).toBeVisible();
   await expect(page.getByText("Forecast confidence")).toBeVisible();
   // The URL holds an opaque id, never coordinates.
   expect(page.url()).not.toMatch(/28\.5|81\.3/);

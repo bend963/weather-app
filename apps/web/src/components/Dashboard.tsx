@@ -15,6 +15,7 @@ import { HourlyStrip } from "./HourlyStrip";
 import { LocationBar } from "./LocationBar";
 import { LocationManager } from "./LocationManager";
 import { RainOutlookCard } from "./RainOutlookCard";
+import { RainSpread } from "./RainSpread";
 import { StateMessage, type StateKind } from "./StateMessage";
 import { TrustView } from "./TrustView";
 
@@ -133,6 +134,7 @@ export function Dashboard({ locationId }: { locationId: string }) {
           )}
           <DailyStrip days={ready.daily} today={today} onSelect={(day) => setDrawer({ kind: "day", day })} />
           <TrustView days={ready.daily} today={today} members={ready.summary?.members} />
+          <RainSpread days={ready.daily} today={today} unit={ready.units.precipitation} />
           <ConfidencePanel
             days={ready.daily.slice(1, 4)}
             today={today}

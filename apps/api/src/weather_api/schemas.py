@@ -188,6 +188,11 @@ class DailyForecast(BaseModel):
     # None for runs ingested before these were recorded.
     member_highs: list[float] | None = None
     member_lows: list[float] | None = None
+    # Each member's rain total for the day, mean dewpoint, and feels-like high and low.
+    member_precip: list[float] | None = None
+    member_dewpoints: list[float] | None = None
+    member_feels_highs: list[float] | None = None
+    member_feels_lows: list[float] | None = None
     hours_covered: int | None
     members: int | None
 

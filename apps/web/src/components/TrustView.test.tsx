@@ -1,8 +1,9 @@
 import type { DailyForecast } from "@weather/api-types";
 import { render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import userEvent from "@testing-library/user-event";
+import { afterEach, describe, expect, it } from "vitest";
 import { forecastFixture } from "@/test/fixtures";
-import { roughFrom, trustSummary } from "@/lib/trust";
+import { percentile, readLines, roughFrom, trustSummary } from "@/lib/trust";
 import { TrustView } from "./TrustView";
 
 /** The fixture's days, each given three members spread around its median. */
@@ -11,6 +12,9 @@ function withMembers(days: DailyForecast[]): DailyForecast[] {
     ...d,
     member_highs: [d.high.p10!, d.high.p50!, d.high.p90!],
     member_lows: [d.low.p10!, d.low.p50!, d.low.p90!],
+    member_dewpoints: [d.low.p10! - 4, d.low.p50! - 4, d.low.p90! - 4],
+    member_feels_highs: [d.high.p10! + 3, d.high.p50! + 3, d.high.p90! + 3],
+    member_feels_lows: [d.low.p10!, d.low.p50!, d.low.p90!],
   }));
 }
 
@@ -37,18 +41,46 @@ describe("trust helpers", () => {
     expect(trustSummary(days)).toMatch(/through Sunday, Oct 11\. From Monday, Oct 12 they're \d+ to \d+° apart/);
     expect(trustSummary(withScores([90, 80, 70]))).toMatch(/^The runs stay close on the daily high for all 3 days/);
   });
+
+  it("computes percentiles the way numpy does", () => {
+    expect(percentile([1, 2, 3, 4], 50)).toBe(2.5);
+    expect(percentile([10, 0, 5], 10)).toBe(1);
+  });
 });
 
 describe("TrustView", () => {
+  afterEach(() => localStorage.clear());
+
   it("draws every run's line and the rough-guide marker", () => {
     const days = withMembers(forecastFixture.daily);
     render(<TrustView days={days} today="2026-10-08" members={3} />);
     expect(screen.getByRole("heading", { name: "How far out can you trust it?" })).toBeInTheDocument();
     expect(screen.getByRole("img", { name: /all 3 forecast runs over 15 days/ })).toBeInTheDocument();
-    // Three high lines and three low lines.
+    // Three high lines and three low lines; dewpoint and feels-like start switched off.
     expect(screen.getAllByTestId("member-line")).toHaveLength(6);
     expect(screen.getByText("Rough guide only from here")).toBeInTheDocument();
     expect(screen.getByText("Today")).toBeInTheDocument();
+  });
+
+  it("switches lines on and off and remembers the choice", async () => {
+    const days = withMembers(forecastFixture.daily);
+    const { container } = render(<TrustView days={days} today="2026-10-08" members={3} />);
+    const dew = screen.getByRole("button", { name: "Dewpoint" });
+    expect(dew).toHaveAttribute("aria-pressed", "false");
+
+    await userEvent.click(dew);
+    expect(dew).toHaveAttribute("aria-pressed", "true");
+    expect(screen.getAllByTestId("member-line")).toHaveLength(9);
+
+    await userEvent.click(screen.getByRole("button", { name: "Feels like" }));
+    // Feels-like adds two dashed medians but no per-run lines.
+    expect(container.querySelector('[data-track="feels-high"]')).not.toBeNull();
+    expect(container.querySelector('[data-track="feels-low"]')).not.toBeNull();
+    expect(screen.getAllByTestId("member-line")).toHaveLength(9);
+
+    await userEvent.click(screen.getByRole("button", { name: "Lows" }));
+    expect(screen.getAllByTestId("member-line")).toHaveLength(6);
+    expect(readLines()).toEqual({ highs: true, lows: false, dewpoint: true, feels: true });
   });
 
   it("falls back to bands only when the runs' own values are missing", () => {
@@ -56,6 +88,9 @@ describe("TrustView", () => {
     expect(screen.queryAllByTestId("member-line")).toHaveLength(0);
     expect(screen.getByRole("img", { name: /the forecast runs over 15 days/ })).toBeInTheDocument();
     expect(screen.queryByText(/Thin lines/)).not.toBeInTheDocument();
+    // No member data for dewpoint or feels-like, so no toggles for them.
+    expect(screen.queryByRole("button", { name: "Dewpoint" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Feels like" })).not.toBeInTheDocument();
   });
 
   it("renders nothing for a single day", () => {
