@@ -14,8 +14,9 @@ class Settings(BaseSettings):
 
     database_url: str = "postgresql+psycopg://postgres:postgres@localhost:5432/weather"
 
-    # Which forecast source feeds the app. "mock" needs no credentials.
-    forecast_provider: Literal["mock", "weathernext"] = "mock"
+    # Which forecast source feeds the app. "mock" needs no credentials; "gefs"
+    # (NOAA's public ensemble) needs no credentials either, only the gefs extra.
+    forecast_provider: Literal["mock", "gefs", "weathernext"] = "mock"
 
     google_cloud_project: str | None = None
     weathernext_bigquery_dataset: str | None = None
