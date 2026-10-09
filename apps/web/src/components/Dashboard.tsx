@@ -15,6 +15,7 @@ import { HourlyStrip } from "./HourlyStrip";
 import { LocationBar } from "./LocationBar";
 import { LocationManager } from "./LocationManager";
 import { RainOutlookCard } from "./RainOutlookCard";
+import { RadarLoop } from "./RadarLoop";
 import { RainSpread } from "./RainSpread";
 import { StateMessage, type StateKind } from "./StateMessage";
 import { TrustView } from "./TrustView";
@@ -132,6 +133,11 @@ export function Dashboard({ locationId }: { locationId: string }) {
               <RainOutlookCard outlook={ready.rain_outlook} units={ready.units} />
             </div>
           )}
+          <RadarLoop
+            latitude={ready.location.latitude}
+            longitude={ready.location.longitude}
+            miles={ready.units.wind === "mph"}
+          />
           <DailyStrip days={ready.daily} today={today} onSelect={(day) => setDrawer({ kind: "day", day })} />
           <TrustView days={ready.daily} today={today} members={ready.summary?.members} />
           <RainSpread days={ready.daily} today={today} unit={ready.units.precipitation} />
