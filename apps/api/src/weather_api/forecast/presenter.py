@@ -151,9 +151,17 @@ class ForecastPresenter:
                 if dist
                 else None
             ),
+            member_highs=self._members(raw.get("member_highs_c")),
+            member_lows=self._members(raw.get("member_lows_c")),
             hours_covered=raw.get("hours_covered"),
             members=raw.get("members"),
         )
+
+    def _members(self, values_c: list[float] | None) -> list[float] | None:
+        if not values_c:
+            return None
+        # Tenths, not whole degrees: these are drawn as lines, not read as numbers.
+        return [round(convert_temperature(v, self.p.units.temperature) or 0.0, 1) for v in values_c]
 
     def _day_confidence(self, d: DailyPoint) -> schemas.DayConfidence:
         unit = f"°{self.p.units.temperature}"

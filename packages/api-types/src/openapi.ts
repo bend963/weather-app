@@ -229,6 +229,10 @@ export interface components {
             /** Hours Covered */
             hours_covered: number | null;
             low: components["schemas"]["Range"];
+            /** Member Highs */
+            member_highs?: number[] | null;
+            /** Member Lows */
+            member_lows?: number[] | null;
             /** Members */
             members: number | null;
             precip_amount: components["schemas"]["Spread"];
