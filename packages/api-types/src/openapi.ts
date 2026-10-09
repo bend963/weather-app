@@ -229,10 +229,18 @@ export interface components {
             /** Hours Covered */
             hours_covered: number | null;
             low: components["schemas"]["Range"];
+            /** Member Dewpoints */
+            member_dewpoints?: number[] | null;
+            /** Member Feels Highs */
+            member_feels_highs?: number[] | null;
+            /** Member Feels Lows */
+            member_feels_lows?: number[] | null;
             /** Member Highs */
             member_highs?: number[] | null;
             /** Member Lows */
             member_lows?: number[] | null;
+            /** Member Precip */
+            member_precip?: number[] | null;
             /** Members */
             members: number | null;
             precip_amount: components["schemas"]["Spread"];

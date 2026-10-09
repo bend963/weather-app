@@ -102,7 +102,7 @@ All are listed in [`.env.example`](.env.example). Nothing secret is committed.
 | --- | --- | --- |
 | `DATABASE_URL` | API, worker | SQLAlchemy URL, `postgresql+psycopg://…`. Secret in production. |
 | `ENVIRONMENT` | API, worker | `development`, `test` or `production` (production enables secure cookies, hides `/docs`, requires `COOKIE_SECRET`). |
-| `FORECAST_PROVIDER` | API, worker | `mock` (default) or `weathernext`. |
+| `FORECAST_PROVIDER` | API, worker | `mock` (default), `gefs` (NOAA GEFS, real data) or `weathernext`. |
 | `INGESTION_BACKFILL_RUNS` | API, worker | How many recent model runs are kept filled for every active grid point (default 8). |
 | `GRID_POINT_INACTIVE_DAYS` | worker | Unreferenced grid points stop being ingested after this many days (default 14). |
 | `GOOGLE_CLOUD_PROJECT` | API, worker | GCP project for BigQuery (WeatherNext). |
@@ -154,6 +154,14 @@ a provider never touches the database or the API.
   Seeded by grid cell and run time, so it is fully deterministic. It models
   climatology, a diurnal cycle, passing weather systems, run-to-run error that
   shrinks as the target approaches, and spread that grows with lead time.
+* **`gefs`**: NOAA's 31-member Global Ensemble Forecast System, real data
+  until WeatherNext access arrives. It reads the public `noaa-gefs-pds` S3
+  bucket (0.5°, every 6 hours, 16 days), downloading only the six fields the
+  app needs with ranged requests, and fills 3- and 6-hourly steps in to hourly.
+  It needs the `gefs` extra (`eccodes`), which the Docker image installs. A run
+  takes about 1.5 minutes to download, and runs show up 6–8 hours after their
+  nominal time. Set `INGESTION_BACKFILL_RUNS` low (2 or 3) so a new location
+  doesn't wait on eight downloads.
 * **`weathernext`**: the interface and configuration are in place;
   the BigQuery queries are TODOs until dataset access lets us inspect the real
   schema (deliberately not guessed). See [docs/weathernext.md](docs/weathernext.md).

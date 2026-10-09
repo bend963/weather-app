@@ -1,5 +1,14 @@
 import { expect, test, type Page } from "@playwright/test";
 
+// A 1x1 GIF stands in for the NWS radar loop so the tests never reach the internet.
+const PIXEL = Buffer.from("R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==", "base64");
+
+test.beforeEach(async ({ page }) => {
+  await page.route("https://radar.weather.gov/**", (route) =>
+    route.fulfill({ status: 200, contentType: "image/gif", body: PIXEL }),
+  );
+});
+
 async function addLocation(page: Page, query: string, place: RegExp, name?: string) {
   await page.getByPlaceholder("Search a city or place").fill(query);
   await page.getByRole("button", { name: place }).first().click();
@@ -17,7 +26,10 @@ test("new visitor adds a location, sees a forecast, and keeps it after reload", 
   await expect(page.getByRole("heading", { level: 1, name: "Home" })).toBeVisible({ timeout: 20_000 });
   await expect(page.getByRole("heading", { name: "Next 24 hours" })).toBeVisible();
   await expect(page.getByRole("list", { name: "Daily forecast" }).getByRole("listitem").first()).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Radar now" })).toBeVisible();
+  await expect(page.getByRole("img", { name: /NWS radar KMLB/ })).toBeVisible();
   await expect(page.getByRole("heading", { name: "How far out can you trust it?" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "How sure is the rain?" })).toBeVisible();
   await expect(page.getByText("Forecast confidence")).toBeVisible();
   // The URL holds an opaque id, never coordinates.
   expect(page.url()).not.toMatch(/28\.5|81\.3/);

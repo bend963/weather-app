@@ -50,6 +50,9 @@ def test_new_location_gets_a_forecast(client):
     assert len(day["member_highs"]) == TEST_PROVIDER.members
     assert len(day["member_lows"]) == TEST_PROVIDER.members
     assert min(day["member_highs"]) <= day["high"]["p50"] <= max(day["member_highs"])
+    for field in ("member_precip", "member_dewpoints", "member_feels_highs", "member_feels_lows"):
+        assert len(day[field]) == TEST_PROVIDER.members
+    assert sum(day["member_precip"]) / len(day["member_precip"]) >= 0
 
     assert body["rain_outlook"]["summary"]
     assert body["summary"]["members"] == TEST_PROVIDER.members

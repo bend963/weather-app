@@ -7,6 +7,7 @@
 | 3. Mock weather: provider, ingestion, hourly and daily forecasts | Done |
 | 4. Dashboard: current, hourly, daily, rain outlook, confidence, mobile | First version done; polish with real use |
 | 5. Google WeatherNext provider | Waiting on access. See `docs/weathernext.md` |
+| 5a. NOAA GEFS provider (real ensemble data until WeatherNext) | Done: `FORECAST_PROVIDER=gefs` |
 | 6. NOAA/NWS alerts (`NWSProvider`), shown above the forecast | Not started. UI state for "alerts unavailable" exists |
 | 7. Forecast evolution | Basic page done (`/weather/[id]/history`); richer charts later |
 

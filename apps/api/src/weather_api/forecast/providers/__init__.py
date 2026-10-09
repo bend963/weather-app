@@ -9,12 +9,14 @@ from weather_api.forecast.providers.base import (
     GridPointRef,
     ProviderUnavailable,
 )
+from weather_api.forecast.providers.gefs import GefsProvider
 from weather_api.forecast.providers.mock import MockForecastProvider
 from weather_api.forecast.providers.weathernext import WeatherNextProvider
 
 __all__ = [
     "EnsembleForecast",
     "ForecastProvider",
+    "GefsProvider",
     "GridPointRef",
     "MockForecastProvider",
     "ProviderUnavailable",
@@ -31,4 +33,6 @@ def get_forecast_provider() -> ForecastProvider:
             project=settings.google_cloud_project,
             dataset=settings.weathernext_bigquery_dataset,
         )
+    if settings.forecast_provider == "gefs":
+        return GefsProvider()
     return MockForecastProvider()
