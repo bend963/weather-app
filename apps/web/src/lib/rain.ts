@@ -41,6 +41,9 @@ export function rainSummary(days: DailyForecast[], unit: Units["precipitation"])
     const share = runs?.length
       ? `${count} of ${runs.length} runs`
       : `${Math.round((wettest.precip_probability ?? 0) * 100)}% of runs`;
+    if (runs?.length && count === runs.length) {
+      return ` ${formatDate(wettest.date)} is wet in all ${runs.length} runs, up to ${formatPrecip(max, unit)}.`;
+    }
     return ` The best chance is ${formatDate(wettest.date)}: ${share} bring rain, up to ${formatPrecip(max, unit)}.`;
   })();
 

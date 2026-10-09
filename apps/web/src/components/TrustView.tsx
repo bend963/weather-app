@@ -248,13 +248,20 @@ export function TrustView({ days, today, members }: { days: DailyForecast[]; tod
               <line x1={x(hover)} x2={x(hover)} y1={TOP - 22} y2={BASE} stroke="var(--muted)" strokeOpacity={0.5} />
             )}
             {visible.map((t) => (
-              <polygon key={t.key} points={band(t.bands)} fill={t.color} fillOpacity={t.dashed ? 0.08 : 0.16} />
+              <polygon
+                key={t.key}
+                data-line={t.line}
+                points={band(t.bands)}
+                fill={t.color}
+                fillOpacity={t.dashed ? 0.08 : 0.16}
+              />
             ))}
             {visible.map((t) =>
               t.showMembers
                 ? t.members?.map((vals, m) => (
                     <polyline
                       key={`${t.key}-${m}`}
+                      data-line={t.line}
                       data-testid="member-line"
                       points={line(vals)}
                       fill="none"
@@ -266,7 +273,7 @@ export function TrustView({ days, today, members }: { days: DailyForecast[]; tod
                 : null,
             )}
             {visible.map((t) => (
-              <g key={t.key} data-track={t.key}>
+              <g key={t.key} data-track={t.key} data-line={t.line}>
                 <polyline
                   points={line(t.bands.map((b) => b[1]))}
                   fill="none"

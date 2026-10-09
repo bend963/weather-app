@@ -37,6 +37,13 @@ describe("rain summary", () => {
   });
 });
 
+describe("rain summary when every run is wet", () => {
+  it("says so instead of calling it a chance", () => {
+    const days = rainDays([DRY, [[0.1, 0.2, 0.3, 0.5], "high"]]);
+    expect(rainSummary(days, "in")).toMatch(/Friday, Oct 9 is wet in all 4 runs, up to 0\.50″\.$/);
+  });
+});
+
 describe("RainSpread", () => {
   it("draws a dot for every run on every day", () => {
     const days = rainDays([DRY, DRY, [[0, 0, 0.2, 0.6], "low"]]);
