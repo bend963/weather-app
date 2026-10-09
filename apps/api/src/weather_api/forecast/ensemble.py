@@ -218,6 +218,10 @@ def daily_statistics(fc: EnsembleForecast, timezone: str) -> list[DailyStats]:
                     "daytime_cloud_cover_p50": _r(daytime_cloud),
                     # A coarse histogram of members' highs for the advanced drawer.
                     "high_distribution_c": _histogram(highs),
+                    # Every member's own high and low, in member order, so a member
+                    # can be followed from day to day (the "how far out" view).
+                    "member_highs_c": [_r(x) for x in highs],
+                    "member_lows_c": [_r(x) for x in lows],
                 },
             )
         )

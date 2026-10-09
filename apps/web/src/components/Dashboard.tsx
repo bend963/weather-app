@@ -16,6 +16,7 @@ import { LocationBar } from "./LocationBar";
 import { LocationManager } from "./LocationManager";
 import { RainOutlookCard } from "./RainOutlookCard";
 import { StateMessage, type StateKind } from "./StateMessage";
+import { TrustView } from "./TrustView";
 
 const POLL_MS = 2000;
 const MAX_POLLS = 30;
@@ -131,6 +132,7 @@ export function Dashboard({ locationId }: { locationId: string }) {
             </div>
           )}
           <DailyStrip days={ready.daily} today={today} onSelect={(day) => setDrawer({ kind: "day", day })} />
+          <TrustView days={ready.daily} today={today} members={ready.summary?.members} />
           <ConfidencePanel
             days={ready.daily.slice(1, 4)}
             today={today}

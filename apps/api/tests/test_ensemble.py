@@ -89,6 +89,8 @@ def test_daily_values_are_computed_per_member_then_summarized():
     assert day1.precip_p90_mm == pytest.approx(7.2)
     assert day1.raw_summary["hours_covered"] == 24
     assert sum(day1.raw_summary["high_distribution_c"]["counts"]) == 2
+    assert day1.raw_summary["member_highs_c"] == [30, 30]
+    assert day1.raw_summary["member_lows_c"] == [0, 0]
 
 
 def test_daily_grouping_uses_the_local_timezone():

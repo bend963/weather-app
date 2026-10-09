@@ -184,6 +184,10 @@ class DailyForecast(BaseModel):
     condition: Condition
     confidence: DayConfidence
     high_distribution: Distribution | None
+    # Each ensemble member's high and low, in the same member order every day.
+    # None for runs ingested before these were recorded.
+    member_highs: list[float] | None = None
+    member_lows: list[float] | None = None
     hours_covered: int | None
     members: int | None
 

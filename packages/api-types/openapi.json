@@ -232,6 +232,34 @@
           "low": {
             "$ref": "#/components/schemas/Range"
           },
+          "member_highs": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Member Highs"
+          },
+          "member_lows": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Member Lows"
+          },
           "members": {
             "anyOf": [
               {

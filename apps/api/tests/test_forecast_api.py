@@ -46,6 +46,10 @@ def test_new_location_gets_a_forecast(client):
     assert day["high"]["p50"] >= day["low"]["p50"]
     assert day["confidence"]["temperature_summary"]
     assert day["confidence"]["precipitation_summary"]
+    # One high and low per member, in the same order every day.
+    assert len(day["member_highs"]) == TEST_PROVIDER.members
+    assert len(day["member_lows"]) == TEST_PROVIDER.members
+    assert min(day["member_highs"]) <= day["high"]["p50"] <= max(day["member_highs"])
 
     assert body["rain_outlook"]["summary"]
     assert body["summary"]["members"] == TEST_PROVIDER.members
