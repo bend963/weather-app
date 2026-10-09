@@ -18,19 +18,23 @@ export function highSpread(day: DailyForecast): number | null {
 /** Below this temperature agreement score the runs no longer pin the high down. */
 export const ROUGH_SCORE = 50;
 
+const weak = (day: DailyForecast) => {
+  const score = day.confidence.temperature.score;
+  return score != null && score < ROUGH_SCORE;
+};
+
 /**
- * Index of the first day from which the runs never get back to solid agreement
- * (the start of the trailing run of days scoring under ROUGH_SCORE), or null if
- * the last day still agrees. A single shaky day followed by agreement doesn't count.
+ * Index of the first weak day from which the runs stay apart, or null if they
+ * never do. One later day where the runs happen to line up again doesn't reset
+ * it (far out, that's luck); a second one does.
  */
 export function roughFrom(days: DailyForecast[]): number | null {
-  let start: number | null = null;
-  for (let i = days.length - 1; i >= 0; i--) {
-    const score = days[i]!.confidence.temperature.score;
-    if (score == null || score >= ROUGH_SCORE) break;
-    start = i;
+  for (let i = 0; i < days.length; i++) {
+    if (!weak(days[i]!)) continue;
+    const recoveries = days.slice(i).filter((d) => !weak(d)).length;
+    if (recoveries <= 1) return i;
   }
-  return start;
+  return null;
 }
 
 function degreeRange(days: DailyForecast[]): string {
@@ -48,7 +52,8 @@ export function trustSummary(days: DailyForecast[]): string {
   if (r == null) {
     return `The runs stay close on the daily high for all ${days.length} days (${degreeRange(days)} apart).`;
   }
-  const late = degreeRange(days.slice(r));
+  // The odd far-out day where the runs line up by luck would understate the spread.
+  const late = degreeRange(days.slice(r).filter(weak));
   if (r === 0) {
     return `The runs disagree on the high from the start (${late} apart), so read the middle line as a rough guide throughout.`;
   }

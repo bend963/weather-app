@@ -23,8 +23,10 @@ function withScores(scores: number[]): DailyForecast[] {
 
 describe("trust helpers", () => {
   it("marks the rough guide from the start of the last run of weak agreement", () => {
-    // A shaky day 2 that recovers doesn't count; days 4 on never recover.
-    expect(roughFrom(withScores([90, 80, 40, 70, 45, 30, 20]))).toBe(4);
+    // Day 2 is shaky, and only day 3 lines up again after it: rough from day 2.
+    expect(roughFrom(withScores([90, 80, 40, 70, 45, 30, 20]))).toBe(2);
+    // An early blip the runs recover from for several days doesn't count.
+    expect(roughFrom(withScores([90, 40, 90, 90, 90, 40, 30]))).toBe(5);
     expect(roughFrom(withScores([90, 80, 70]))).toBeNull();
     expect(roughFrom(withScores([40, 30]))).toBe(0);
   });
