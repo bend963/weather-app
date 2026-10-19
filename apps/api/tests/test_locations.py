@@ -13,7 +13,7 @@ def test_create_location_resolves_timezone_and_grid(client, session):
 
     gp = session.scalars(select(WeatherGridPoint)).one()
     assert float(gp.latitude) == 28.5
-    assert float(gp.longitude) == -81.25
+    assert float(gp.longitude) == -81.3
     assert gp.active is True
 
 

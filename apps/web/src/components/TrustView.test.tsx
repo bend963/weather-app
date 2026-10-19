@@ -62,6 +62,14 @@ describe("TrustView", () => {
     expect(screen.getByText("Today")).toBeInTheDocument();
   });
 
+  it("calls the lines spread, not runs, when the model published percentiles", () => {
+    const days = withMembers(forecastFixture.daily);
+    render(<TrustView days={days} today="2026-10-08" members={64} fromPercentiles />);
+    expect(screen.getByRole("img", { name: /the spread of 64 forecast runs over 15 days/ })).toBeInTheDocument();
+    expect(screen.getByText(/Thin lines: the spread of the runs/)).toBeInTheDocument();
+    expect(screen.queryByText(/each of the/)).not.toBeInTheDocument();
+  });
+
   it("switches lines on and off and remembers the choice", async () => {
     const days = withMembers(forecastFixture.daily);
     const { container } = render(<TrustView days={days} today="2026-10-08" members={3} />);

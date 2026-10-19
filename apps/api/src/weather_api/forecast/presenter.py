@@ -159,6 +159,7 @@ class ForecastPresenter:
             member_feels_lows=self._members(raw.get("member_feels_lows_c")),
             hours_covered=raw.get("hours_covered"),
             members=raw.get("members"),
+            from_percentiles=bool(raw.get("from_percentiles")),
         )
 
     def _members_precip(self, values_mm: list[float] | None) -> list[float] | None:
@@ -311,6 +312,7 @@ class ForecastPresenter:
                 sum(h.raw_summary.get("precip_mean_mm", 0.0) for h in next_day)
             ),
             members=next_day[0].raw_summary.get("members"),
+            from_percentiles=bool(next_day[0].raw_summary.get("from_percentiles")),
         )
 
 

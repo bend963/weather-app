@@ -138,7 +138,7 @@ def hourly_statistics(fc: EnsembleForecast) -> list[HourlyStats]:
                 cloud_cover_p50=_r(cloud_p50[i]),
                 confidence_score=_r(overall[i]),
                 raw_summary={
-                    "members": fc.member_count,
+                    **_source(fc),
                     "temperature_p25_c": _r(t_pct[1, i]),
                     "temperature_p75_c": _r(t_pct[3, i]),
                     "wind_speed_p10_mps": _r(w_pct[0, i]),
@@ -205,7 +205,7 @@ def daily_statistics(fc: EnsembleForecast, timezone: str) -> list[DailyStats]:
                 precip_agreement=_r(p_agree),
                 confidence_score=_r(float(combined_agreement(t_agree, p_agree))),
                 raw_summary={
-                    "members": fc.member_count,
+                    **_source(fc),
                     "hours_covered": hours,
                     "high_p25_c": _r(h[1]),
                     "high_p75_c": _r(h[3]),
@@ -232,6 +232,13 @@ def daily_statistics(fc: EnsembleForecast, timezone: str) -> list[DailyStats]:
             )
         )
     return rows
+
+
+def _source(fc: EnsembleForecast) -> dict[str, Any]:
+    """How the spread was produced: real members, or paths through percentiles."""
+    if fc.from_percentiles:
+        return {"members": fc.members_behind, "from_percentiles": True}
+    return {"members": fc.member_count}
 
 
 _feels_like_ufunc = np.vectorize(feels_like, otypes=[float])

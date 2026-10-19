@@ -70,11 +70,21 @@ function Exceedance({ probs, units }: { probs?: Record<string, number> | null; u
   );
 }
 
-function Histogram({ edges, counts, unit }: { edges: number[]; counts: number[]; unit: string }) {
+function Histogram({
+  edges,
+  counts,
+  unit,
+  fromPercentiles = false,
+}: {
+  edges: number[];
+  counts: number[];
+  unit: string;
+  fromPercentiles?: boolean;
+}) {
   const max = Math.max(...counts, 1);
   return (
     <div>
-      <h4 className="label">Ensemble members&apos; highs</h4>
+      <h4 className="label">{fromPercentiles ? "Spread of highs" : "Ensemble members\u2019 highs"}</h4>
       <div className="mt-2 flex h-20 items-end gap-1" aria-hidden="true">
         {counts.map((c, i) => (
           <div key={i} className="flex-1 rounded-t bg-warm/70" style={{ height: `${(c / max) * 100}%` }} />
@@ -85,7 +95,7 @@ function Histogram({ edges, counts, unit }: { edges: number[]; counts: number[];
         <span>{formatTemp(edges[edges.length - 1])}</span>
       </div>
       <p className="sr-only">
-        Member highs range from {formatTemp(edges[0])} to {formatTemp(edges[edges.length - 1])} {unit}
+        {fromPercentiles ? "Highs" : "Member highs"} range from {formatTemp(edges[0])} to {formatTemp(edges[edges.length - 1])} {unit}
       </p>
     </div>
   );
@@ -147,7 +157,11 @@ export function DetailDrawer({
               <Percentiles title="High" {...item.day.high} />
               <Percentiles title="Low" {...item.day.low} />
               {item.day.high_distribution && (
-                <Histogram {...item.day.high_distribution} unit={`°${units.temperature}`} />
+                <Histogram
+                  {...item.day.high_distribution}
+                  unit={`°${units.temperature}`}
+                  fromPercentiles={item.day.from_percentiles}
+                />
               )}
               <div>
                 <h4 className="label">Rain</h4>

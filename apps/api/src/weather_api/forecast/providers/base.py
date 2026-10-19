@@ -35,6 +35,12 @@ class EnsembleForecast:
     Every array has shape (members, len(valid_times)). Deterministic (single
     member) sources use members = 1; statistics then collapse to that value and
     probabilities become 0 or 1.
+
+    Sources that publish percentiles instead of members (WeatherNext 3 in
+    BigQuery) pass "spread paths" built from those percentiles and set
+    from_percentiles, with ensemble_size the number of real members behind
+    the statistics. The paths are not individual runs, so the UI labels them
+    as spread rather than members.
     """
 
     valid_times: list[datetime]  # UTC, hourly
@@ -45,10 +51,17 @@ class EnsembleForecast:
     wind_v_mps: np.ndarray  # 10 m northward wind
     precip_mm: np.ndarray  # accumulation over the hour ending at valid_time
     cloud_cover: np.ndarray  # total cloud fraction, 0–1
+    from_percentiles: bool = False
+    ensemble_size: int | None = None  # defaults to the number of rows
 
     @property
     def member_count(self) -> int:
         return int(self.temperature_c.shape[0])
+
+    @property
+    def members_behind(self) -> int:
+        """How many real ensemble members the statistics come from."""
+        return self.ensemble_size or self.member_count
 
 
 class ForecastProvider(ABC):

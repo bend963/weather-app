@@ -224,6 +224,11 @@ export interface components {
              * Format: date
              */
             date: string;
+            /**
+             * From Percentiles
+             * @default false
+             */
+            from_percentiles: boolean;
             high: components["schemas"]["Range"];
             high_distribution: components["schemas"]["Distribution"] | null;
             /** Hours Covered */
@@ -542,6 +547,11 @@ export interface components {
         };
         /** Summary */
         Summary: {
+            /**
+             * From Percentiles
+             * @default false
+             */
+            from_percentiles: boolean;
             /** Members */
             members: number | null;
             /** Next 24H Expected Precip */

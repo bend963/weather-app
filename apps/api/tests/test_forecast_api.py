@@ -73,7 +73,7 @@ def test_units_follow_preferences(client):
 
 def test_locations_in_one_grid_cell_share_one_forecast(client, other_client):
     a = add_location(client, "Ben's Home", 28.51, -81.31)
-    b = add_location(other_client, "User B's Home", 28.55, -81.28)
+    b = add_location(other_client, "User B's Home", 28.53, -81.28)
     fa = client.get(f"/api/v1/locations/{a['id']}/forecast").json()
     fb = other_client.get(f"/api/v1/locations/{b['id']}/forecast").json()
     assert fa["model_run"]["id"] == fb["model_run"]["id"]

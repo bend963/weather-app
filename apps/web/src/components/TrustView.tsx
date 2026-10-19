@@ -109,7 +109,18 @@ const LINE_SWATCH: Record<LineId, { color: string; dashed: boolean }> = {
  * whole forecast, so you can see where the runs agree and where they fan out.
  * Dewpoint and feels-like can be switched on alongside.
  */
-export function TrustView({ days, today, members }: { days: DailyForecast[]; today: string; members?: number | null }) {
+export function TrustView({
+  days,
+  today,
+  members,
+  fromPercentiles = false,
+}: {
+  days: DailyForecast[];
+  today: string;
+  members?: number | null;
+  // The source published percentiles, not runs: the thin lines are spread, not single runs.
+  fromPercentiles?: boolean;
+}) {
   // The dashboard renders on the client after its fetch, so storage is readable here.
   const [lines, setLines] = useState<LineToggles>(() => (typeof window === "undefined" ? DEFAULT_LINES : readLines()));
   const [hover, setHover] = useState<number | null>(null);
@@ -164,7 +175,7 @@ export function TrustView({ days, today, members }: { days: DailyForecast[]; tod
           How far out can you trust it?
         </h2>
         <span className="note hidden text-xs text-faint sm:inline">
-          {runs ? `All ${runs} runs, ` : ""}
+          {runs ? `${fromPercentiles ? "Spread of" : "All"} ${runs} runs, ` : ""}
           {n} days
         </span>
       </div>
@@ -205,7 +216,7 @@ export function TrustView({ days, today, members }: { days: DailyForecast[]; tod
             viewBox={`0 0 ${W} ${H}`}
             role="img"
             aria-label={`Daily ${visible.map((t) => t.label.toLowerCase()).join(", ") || "temperatures"} from ${
-              runs ? `all ${runs}` : "the"
+              runs ? `${fromPercentiles ? "the spread of" : "all"} ${runs}` : "the"
             } forecast runs over ${n} days`}
             className="block h-auto w-full overflow-visible"
             style={{ fontFamily: "var(--font-data)", fontVariantNumeric: "tabular-nums" }}
@@ -339,7 +350,11 @@ export function TrustView({ days, today, members }: { days: DailyForecast[]; tod
         </div>
       </div>
       <p className="note mt-2 text-xs text-faint">
-        {memberCount ? `Thin lines: each of the ${memberCount} runs. ` : ""}Shading: where 8 in 10 runs fall.
+        {memberCount
+          ? fromPercentiles
+            ? "Thin lines: the spread of the runs, drawn from the model's published percentiles. "
+            : `Thin lines: each of the ${memberCount} runs. `
+          : ""}Shading: where 8 in 10 runs fall.
         {lines.feels && available.has("feels") ? " Dashed: feels like (heat index or wind chill)." : ""} Spread: how far
         apart the runs put the high.
       </p>

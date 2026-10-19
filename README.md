@@ -171,7 +171,7 @@ a provider never touches the database or the API.
 
 ```
 Ben's Home ──────┐
-User B's Home ───┼──▶ weather_grid_point (0.25° cell) ──▶ forecast_runs ──▶ hourly/daily forecasts
+User B's Home ───┼──▶ weather_grid_point (0.1° cell)  ──▶ forecast_runs ──▶ hourly/daily forecasts
 User C's Home ───┘
 ```
 

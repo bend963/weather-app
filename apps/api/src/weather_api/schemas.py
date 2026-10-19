@@ -195,6 +195,9 @@ class DailyForecast(BaseModel):
     member_feels_lows: list[float] | None = None
     hours_covered: int | None
     members: int | None
+    # True when the source published percentiles, not members (WeatherNext 3):
+    # the member_* lists are then spread paths through those percentiles.
+    from_percentiles: bool = False
 
 
 class RainWindow(BaseModel):
@@ -217,6 +220,7 @@ class Summary(BaseModel):
     next_24h_max_precip_probability: float | None
     next_24h_expected_precip: float | None
     members: int | None
+    from_percentiles: bool = False
 
 
 ForecastStatus = Literal["ok", "processing", "unavailable"]

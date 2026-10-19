@@ -205,6 +205,11 @@
             "title": "Date",
             "type": "string"
           },
+          "from_percentiles": {
+            "default": false,
+            "title": "From Percentiles",
+            "type": "boolean"
+          },
           "high": {
             "$ref": "#/components/schemas/Range"
           },
@@ -1308,6 +1313,11 @@
       },
       "Summary": {
         "properties": {
+          "from_percentiles": {
+            "default": false,
+            "title": "From Percentiles",
+            "type": "boolean"
+          },
           "members": {
             "anyOf": [
               {
