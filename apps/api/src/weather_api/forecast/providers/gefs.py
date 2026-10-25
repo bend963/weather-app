@@ -10,7 +10,10 @@ How a run is read:
   step: 3-hourly to 72 h, then 6-hourly to 360 h (the horizon used here).
 * Each file has a `.idx` sidecar listing every field's byte offset, so only the
   six fields we need are downloaded, with one ranged GET per file. That is
-  about 2,600 small requests per run, done in parallel (roughly 1.5 minutes).
+  about 2,600 small requests per run, done 8 at a time (roughly 1–2 minutes).
+  More threads were not faster here and cost more memory: each one holds a
+  decoded global field, and a run peaked near 640 MB with 24 threads against
+  about 320 MB with 8, which matters on a server with a 512 MB cap.
 * Values are bilinearly interpolated from the 0.5° grid to each grid point.
   The app's grid stays at 0.25° (see weather_api.grid), so switching to
   WeatherNext later keeps the same grid identifiers.
@@ -202,7 +205,7 @@ class GefsProvider(ForecastProvider):
     steps = STEPS
 
     def __init__(
-        self, base_url: str = BASE_URL, workers: int = 24, fetch: Fetch | None = None
+        self, base_url: str = BASE_URL, workers: int = 8, fetch: Fetch | None = None
     ) -> None:
         self.base_url = base_url.rstrip("/")
         self.workers = workers
