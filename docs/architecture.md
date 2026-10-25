@@ -38,7 +38,7 @@ remaining one.
 ## Grid points
 
 `weather_api.grid.normalize_to_grid` snaps a coordinate to the nearest node of
-the 0.25° grid and produces a stable identifier (`"<lat_index>:<lon_index>"`,
+the 0.1° grid (WeatherNext 3's resolution) and produces a stable identifier (`"<lat_index>:<lon_index>"`,
 longitude on 0–360 so the dateline is continuous). `(model_name,
 model_grid_identifier)` is unique, and creation is an `INSERT … ON CONFLICT DO
 UPDATE`, so concurrent saves in one cell share one row.

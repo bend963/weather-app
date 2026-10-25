@@ -62,3 +62,40 @@ export function trustSummary(days: DailyForecast[]): string {
     `From ${formatDate(days[r]!.date)} they're ${late} apart, so read the middle line there as a rough guide, not a forecast.`
   );
 }
+
+/** Linear-interpolated percentile, the same method numpy uses on the API side. */
+export function percentile(values: number[], p: number): number {
+  const sorted = [...values].sort((a, b) => a - b);
+  const pos = ((sorted.length - 1) * p) / 100;
+  const lo = Math.floor(pos);
+  const hi = Math.ceil(pos);
+  return sorted[lo]! + (sorted[hi]! - sorted[lo]!) * (pos - lo);
+}
+
+/** The lines the trust chart can show, each switched on or off by the viewer. */
+export const LINE_IDS = ["highs", "lows", "dewpoint", "feels"] as const;
+export type LineId = (typeof LINE_IDS)[number];
+export type LineToggles = Record<LineId, boolean>;
+
+export const DEFAULT_LINES: LineToggles = { highs: true, lows: true, dewpoint: false, feels: false };
+const LINES_KEY = "trust-lines";
+
+export function readLines(): LineToggles {
+  try {
+    const saved = JSON.parse(localStorage.getItem(LINES_KEY) ?? "null") as Partial<LineToggles> | null;
+    if (!saved || typeof saved !== "object") return DEFAULT_LINES;
+    return Object.fromEntries(
+      LINE_IDS.map((id) => [id, typeof saved[id] === "boolean" ? saved[id] : DEFAULT_LINES[id]]),
+    ) as LineToggles;
+  } catch {
+    return DEFAULT_LINES;
+  }
+}
+
+export function saveLines(lines: LineToggles) {
+  try {
+    localStorage.setItem(LINES_KEY, JSON.stringify(lines));
+  } catch {
+    // Private mode or storage blocked: the choice just won't persist.
+  }
+}

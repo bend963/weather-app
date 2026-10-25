@@ -3,7 +3,7 @@ name = "forecast-ingestion"
 version = "0.1.0"
 description = "Cloud Run Job that ingests forecast model runs for active weather grid points"
 requires-python = ">=3.12"
-dependencies = ["weather-api[weathernext]"]
+dependencies = ["weather-api[weathernext,gefs]"]
 
 [project.scripts]
 forecast-ingestion = "forecast_ingestion.__main__:main"

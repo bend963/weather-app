@@ -153,9 +153,19 @@ class ForecastPresenter:
             ),
             member_highs=self._members(raw.get("member_highs_c")),
             member_lows=self._members(raw.get("member_lows_c")),
+            member_precip=self._members_precip(raw.get("member_precip_mm")),
+            member_dewpoints=self._members(raw.get("member_dewpoints_c")),
+            member_feels_highs=self._members(raw.get("member_feels_highs_c")),
+            member_feels_lows=self._members(raw.get("member_feels_lows_c")),
             hours_covered=raw.get("hours_covered"),
             members=raw.get("members"),
+            from_percentiles=bool(raw.get("from_percentiles")),
         )
+
+    def _members_precip(self, values_mm: list[float] | None) -> list[float] | None:
+        if not values_mm:
+            return None
+        return [self.mm(v) or 0.0 for v in values_mm]
 
     def _members(self, values_c: list[float] | None) -> list[float] | None:
         if not values_c:
@@ -302,6 +312,7 @@ class ForecastPresenter:
                 sum(h.raw_summary.get("precip_mean_mm", 0.0) for h in next_day)
             ),
             members=next_day[0].raw_summary.get("members"),
+            from_percentiles=bool(next_day[0].raw_summary.get("from_percentiles")),
         )
 
 

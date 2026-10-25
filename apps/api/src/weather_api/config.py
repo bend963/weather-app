@@ -3,7 +3,7 @@
 from functools import lru_cache
 from typing import Annotated, Literal
 
-from pydantic import Field, field_validator
+from pydantic import Field, SecretStr, field_validator
 from pydantic_settings import BaseSettings, NoDecode, SettingsConfigDict
 
 
@@ -14,11 +14,18 @@ class Settings(BaseSettings):
 
     database_url: str = "postgresql+psycopg://postgres:postgres@localhost:5432/weather"
 
-    # Which forecast source feeds the app. "mock" needs no credentials.
-    forecast_provider: Literal["mock", "weathernext"] = "mock"
+    # Which forecast source feeds the app. "mock" needs no credentials; "gefs"
+    # (NOAA's public ensemble) needs no credentials either, only the gefs extra.
+    forecast_provider: Literal["mock", "gefs", "weathernext"] = "mock"
 
+    # WeatherNext 3 (BigQuery). The dataset is the one Analytics Hub linked into
+    # a project: "dataset" (in google_cloud_project) or "project.dataset".
     google_cloud_project: str | None = None
     weathernext_bigquery_dataset: str | None = None
+    # A service-account JSON key. Unset means Application Default Credentials.
+    weathernext_sa_key: SecretStr | None = None
+    # Each query fails, unbilled, if it would read more than this.
+    weathernext_max_bytes_billed: int | None = Field(default=1_000_000_000_000, ge=1)
 
     # How many of the most recent model runs the ingestion job keeps filled for
     # every active grid point. Older runs are never deleted; this only bounds

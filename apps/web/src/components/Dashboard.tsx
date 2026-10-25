@@ -15,11 +15,33 @@ import { HourlyStrip } from "./HourlyStrip";
 import { LocationBar } from "./LocationBar";
 import { LocationManager } from "./LocationManager";
 import { RainOutlookCard } from "./RainOutlookCard";
+import { RadarLoop } from "./RadarLoop";
+import { RainSpread } from "./RainSpread";
 import { StateMessage, type StateKind } from "./StateMessage";
 import { TrustView } from "./TrustView";
 
 const POLL_MS = 2000;
 const MAX_POLLS = 30;
+
+const MODEL_LABELS: Record<string, string> = {
+  mock_weathernext: "Mock ensemble (development data)",
+  noaa_gefs: "NOAA GEFS",
+  weathernext_3: "Google DeepMind WeatherNext 3",
+};
+
+function modelLabel(model: string | undefined): string | undefined {
+  return model ? (MODEL_LABELS[model] ?? model) : undefined;
+}
+
+/** Google's terms for real-time WeatherNext data require this disclaimer and notice wherever it is shown. */
+export function WeatherNextNotice() {
+  return (
+    <p className="mt-3 text-xs text-faint">
+      This data is intended for experimental modelling only and is not intended, validated, or approved for real
+      world use. WeatherNext forecasts copyright 2024-6 Google LLC.
+    </p>
+  );
+}
 
 export function Dashboard({ locationId }: { locationId: string }) {
   const router = useRouter();
@@ -131,8 +153,19 @@ export function Dashboard({ locationId }: { locationId: string }) {
               <RainOutlookCard outlook={ready.rain_outlook} units={ready.units} />
             </div>
           )}
+          <RadarLoop
+            latitude={ready.location.latitude}
+            longitude={ready.location.longitude}
+            miles={ready.units.wind === "mph"}
+          />
           <DailyStrip days={ready.daily} today={today} onSelect={(day) => setDrawer({ kind: "day", day })} />
-          <TrustView days={ready.daily} today={today} members={ready.summary?.members} />
+          <TrustView
+            days={ready.daily}
+            today={today}
+            members={ready.summary?.members}
+            fromPercentiles={ready.summary?.from_percentiles}
+          />
+          <RainSpread days={ready.daily} today={today} unit={ready.units.precipitation} />
           <ConfidencePanel
             days={ready.daily.slice(1, 4)}
             today={today}
@@ -140,9 +173,7 @@ export function Dashboard({ locationId }: { locationId: string }) {
           />
           <footer className="mt-10 flex flex-wrap items-center justify-between gap-3 text-xs text-faint">
             <span>
-              {ready.model_run?.model === "mock_weathernext"
-                ? "Mock ensemble (development data)"
-                : ready.model_run?.model}
+              {modelLabel(ready.model_run?.model)}
               {ready.model_run && ` · run ${formatCycle(ready.model_run.initialization_time)}`}
               {ready.summary?.members ? ` · ${ready.summary.members} members` : ""}
             </span>
@@ -150,6 +181,7 @@ export function Dashboard({ locationId }: { locationId: string }) {
               How has this forecast changed? →
             </Link>
           </footer>
+          {ready.model_run?.model.startsWith("weathernext") && <WeatherNextNotice />}
           <LocationManager locations={locations} onMakeDefault={makeDefault} onDelete={remove} />
         </main>
       )}

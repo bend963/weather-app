@@ -9,10 +9,11 @@ COPY pyproject.toml uv.lock ./
 COPY apps/api/pyproject.toml apps/api/pyproject.toml
 COPY workers/forecast-ingestion/pyproject.toml workers/forecast-ingestion/pyproject.toml
 RUN mkdir -p apps/api/src/weather_api workers/forecast-ingestion/src/forecast_ingestion \
- && uv sync --frozen --no-dev --no-install-workspace --package weather-api --extra weathernext
+ && uv sync --frozen --no-dev --no-install-workspace --package weather-api --extra weathernext --extra gefs
 COPY apps/api apps/api
-# The weathernext extra (BigQuery client) lets the API backfill new grid points.
-RUN uv sync --frozen --no-dev --no-editable --package weather-api --extra weathernext
+# The weathernext (BigQuery client) and gefs (GRIB decoding) extras let the API
+# backfill new grid points from either real-data provider.
+RUN uv sync --frozen --no-dev --no-editable --package weather-api --extra weathernext --extra gefs
 
 FROM python:3.12-slim
 RUN useradd --create-home --uid 10001 app

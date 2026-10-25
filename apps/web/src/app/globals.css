@@ -20,6 +20,7 @@
   --alert: #b42318;
   --ok: #2f7d4f;
   --mid: #a16207;
+  --dew: #0e9a6e;
   /* Type roles. Dashboard styles (styles.css) point these at their own faces. */
   --font-body:
     ui-sans-serif, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", Arial,
@@ -46,6 +47,7 @@
     --alert: #f97066;
     --ok: #4ade80;
     --mid: #facc15;
+    --dew: #2dd4bf;
     color-scheme: dark;
   }
 }
@@ -65,6 +67,7 @@
   --alert: #f97066;
   --ok: #4ade80;
   --mid: #facc15;
+  --dew: #2dd4bf;
   color-scheme: dark;
 }
 
@@ -82,6 +85,7 @@
   --color-alert: var(--alert);
   --color-ok: var(--ok);
   --color-mid: var(--mid);
+  --color-dew: var(--dew);
   --font-sans:
     ui-sans-serif, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", Arial,
     sans-serif;

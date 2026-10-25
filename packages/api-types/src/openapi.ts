@@ -224,15 +224,28 @@ export interface components {
              * Format: date
              */
             date: string;
+            /**
+             * From Percentiles
+             * @default false
+             */
+            from_percentiles: boolean;
             high: components["schemas"]["Range"];
             high_distribution: components["schemas"]["Distribution"] | null;
             /** Hours Covered */
             hours_covered: number | null;
             low: components["schemas"]["Range"];
+            /** Member Dewpoints */
+            member_dewpoints?: number[] | null;
+            /** Member Feels Highs */
+            member_feels_highs?: number[] | null;
+            /** Member Feels Lows */
+            member_feels_lows?: number[] | null;
             /** Member Highs */
             member_highs?: number[] | null;
             /** Member Lows */
             member_lows?: number[] | null;
+            /** Member Precip */
+            member_precip?: number[] | null;
             /** Members */
             members: number | null;
             precip_amount: components["schemas"]["Spread"];
@@ -534,6 +547,11 @@ export interface components {
         };
         /** Summary */
         Summary: {
+            /**
+             * From Percentiles
+             * @default false
+             */
+            from_percentiles: boolean;
             /** Members */
             members: number | null;
             /** Next 24H Expected Precip */

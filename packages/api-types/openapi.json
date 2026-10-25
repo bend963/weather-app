@@ -205,6 +205,11 @@
             "title": "Date",
             "type": "string"
           },
+          "from_percentiles": {
+            "default": false,
+            "title": "From Percentiles",
+            "type": "boolean"
+          },
           "high": {
             "$ref": "#/components/schemas/Range"
           },
@@ -231,6 +236,48 @@
           },
           "low": {
             "$ref": "#/components/schemas/Range"
+          },
+          "member_dewpoints": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Member Dewpoints"
+          },
+          "member_feels_highs": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Member Feels Highs"
+          },
+          "member_feels_lows": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Member Feels Lows"
           },
           "member_highs": {
             "anyOf": [
@@ -259,6 +306,20 @@
               }
             ],
             "title": "Member Lows"
+          },
+          "member_precip": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Member Precip"
           },
           "members": {
             "anyOf": [
@@ -1252,6 +1313,11 @@
       },
       "Summary": {
         "properties": {
+          "from_percentiles": {
+            "default": false,
+            "title": "From Percentiles",
+            "type": "boolean"
+          },
           "members": {
             "anyOf": [
               {

@@ -91,6 +91,11 @@ def test_daily_values_are_computed_per_member_then_summarized():
     assert sum(day1.raw_summary["high_distribution_c"]["counts"]) == 2
     assert day1.raw_summary["member_highs_c"] == [30, 30]
     assert day1.raw_summary["member_lows_c"] == [0, 0]
+    assert day1.raw_summary["member_precip_mm"] == [8, 0]
+    assert len(day1.raw_summary["member_dewpoints_c"]) == 2
+    # At 30 °C the heat index never reads cooler than the air.
+    assert all(f >= 30 for f in day1.raw_summary["member_feels_highs_c"])
+    assert len(day1.raw_summary["member_feels_lows_c"]) == 2
 
 
 def test_daily_grouping_uses_the_local_timezone():
