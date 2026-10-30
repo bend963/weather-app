@@ -906,6 +906,25 @@
         "title": "LocationCreate",
         "type": "object"
       },
+      "LocationOrder": {
+        "additionalProperties": false,
+        "properties": {
+          "location_ids": {
+            "items": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "maxItems": 100,
+            "title": "Location Ids",
+            "type": "array"
+          }
+        },
+        "required": [
+          "location_ids"
+        ],
+        "title": "LocationOrder",
+        "type": "object"
+      },
       "LocationUpdate": {
         "additionalProperties": false,
         "properties": {
@@ -1659,6 +1678,52 @@
           }
         },
         "summary": "Post Location",
+        "tags": [
+          "locations"
+        ]
+      }
+    },
+    "/api/v1/locations/order": {
+      "put": {
+        "description": "Save the cities list order. The first city becomes the default.",
+        "operationId": "put_location_order_api_v1_locations_order_put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LocationOrder"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Location"
+                  },
+                  "title": "Response Put Location Order Api V1 Locations Order Put",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Put Location Order",
         "tags": [
           "locations"
         ]

@@ -134,6 +134,8 @@ class SavedLocation(Base):
     timezone: Mapped[str] = mapped_column(Text, nullable=False)
     elevation_m: Mapped[float | None] = mapped_column(REAL, nullable=True)
     is_default: Mapped[bool] = mapped_column(Boolean, nullable=False, server_default=text("false"))
+    # The owner's own order for the cities list; the first one is the default.
+    position: Mapped[int] = mapped_column(Integer, nullable=False, server_default=text("0"))
     created_at: Mapped[datetime] = _created_at()
     updated_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), nullable=False, server_default=func.now(), onupdate=func.now()

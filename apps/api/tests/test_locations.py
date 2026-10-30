@@ -129,3 +129,42 @@ def test_locations_require_cookie_to_create(client, session):
     )
     assert response.status_code == 201
     assert session.scalar(select(func.count()).select_from(SavedLocation)) == 1
+
+
+def test_reorder_locations_saves_order_and_makes_first_default(client):
+    home = add_location(client, "Home", 28.5, -81.3)
+    lake = add_location(client, "Lake House", 43.48, -110.76)
+    city = add_location(client, "City", 40.71, -74.0)
+    # New cities go to the end.
+    assert [loc["name"] for loc in client.get("/api/v1/locations").json()] == [
+        "Home",
+        "Lake House",
+        "City",
+    ]
+
+    order = [city["id"], home["id"], lake["id"]]
+    response = client.put("/api/v1/locations/order", json={"location_ids": order})
+    assert response.status_code == 200
+    assert [loc["id"] for loc in response.json()] == order
+    listed = client.get("/api/v1/locations").json()
+    assert [loc["id"] for loc in listed] == order
+    assert [loc["is_default"] for loc in listed] == [True, False, False]
+    assert client.get("/api/v1/me").json()["default_location_id"] == city["id"]
+
+    # Deleting the first city promotes the next one in the list.
+    client.delete(f"/api/v1/locations/{city['id']}")
+    listed = client.get("/api/v1/locations").json()
+    assert [loc["name"] for loc in listed] == ["Home", "Lake House"]
+    assert listed[0]["is_default"] is True
+
+
+def test_reorder_rejects_a_stale_or_foreign_list(client, other_client):
+    home = add_location(client, "Home", 28.5, -81.3)
+    lake = add_location(client, "Lake House", 43.48, -110.76)
+    theirs = add_location(other_client, "Theirs", 40.71, -74.0)
+    for ids in ([home["id"]], [home["id"], home["id"]], [home["id"], theirs["id"]]):
+        response = client.put("/api/v1/locations/order", json={"location_ids": ids})
+        assert response.status_code == 409, ids
+    # Nothing changed.
+    listed = client.get("/api/v1/locations").json()
+    assert [loc["id"] for loc in listed] == [home["id"], lake["id"]]

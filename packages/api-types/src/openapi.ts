@@ -56,6 +56,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/locations/order": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /**
+         * Put Location Order
+         * @description Save the cities list order. The first city becomes the default.
+         */
+        put: operations["put_location_order_api_v1_locations_order_put"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/locations/{location_id}": {
         parameters: {
             query?: never;
@@ -418,6 +438,11 @@ export interface components {
             /** Name */
             name: string;
         };
+        /** LocationOrder */
+        LocationOrder: {
+            /** Location Ids */
+            location_ids: string[];
+        };
         /** LocationUpdate */
         LocationUpdate: {
             /** Is Default */
@@ -720,6 +745,39 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Location"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    put_location_order_api_v1_locations_order_put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["LocationOrder"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Location"][];
                 };
             };
             /** @description Validation Error */

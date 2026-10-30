@@ -86,6 +86,8 @@ export const api = {
     request<Location>("/api/v1/locations", { method: "POST", body: json(body) }),
   updateLocation: (id: string, body: LocationUpdate) =>
     request<Location>(`/api/v1/locations/${id}`, { method: "PATCH", body: json(body) }),
+  reorderLocations: (ids: string[]) =>
+    request<Location[]>("/api/v1/locations/order", { method: "PUT", body: json({ location_ids: ids }) }),
   deleteLocation: (id: string) => request<void>(`/api/v1/locations/${id}`, { method: "DELETE" }),
   forecast: (id: string, hours = 72) => request<Forecast>(`/api/v1/locations/${id}/forecast?hours=${hours}`),
   history: (id: string, params: { target_date?: string; target_time?: string; metric?: string }) => {
