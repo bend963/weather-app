@@ -31,8 +31,15 @@ its init time; latest_initializations() checks which runs are actually there.
 
 Cost: BigQuery bills by bytes read. Every query filters on one `init_time`
 partition, reads only the columns above, and filters cells with ST_DWITHIN on
-`geography` so clustering can skip blocks. WEATHERNEXT_MAX_BYTES_BILLED caps
-each query; a query over the cap fails without being charged.
+`geography` so clustering can skip blocks. Measured on 2026-10-30: one run for
+three locations bills about 0.3 GB, and the run check bills 10 MB (the minimum).
+
+WEATHERNEXT_MAX_BYTES_BILLED caps each query, but BigQuery compares the cap with
+its estimate *before* clustering prunes blocks: about 1.65 TB for a forecast
+query on the newest runs and 3.75 TB on runs a day or more old, however few
+locations. A cap below that rejects the query (at no charge), so the default is
+5 TB. It still stops a query that would scan many
+runs. A daily project quota in the Cloud console is the better spending limit.
 
 Credentials: WEATHERNEXT_SA_KEY (a service-account JSON key, kept in a secret
 store, never in the repo) or, if unset, Application Default Credentials.
@@ -139,10 +146,14 @@ ORDER BY c.id, s.hours
 
 
 def inits_sql(table: str) -> str:
+    # Every run covers the whole globe, so checking the cells near one point is
+    # enough. The geography filter lets clustering skip almost all blocks
+    # (10 MB billed instead of about 2.3 GB for the init_time column).
     return f"""
 SELECT DISTINCT init_time
 FROM `{table}`
 WHERE init_time IN UNNEST(@candidates)
+  AND ST_DWITHIN(geography, ST_GEOGPOINT(0, 0), {SEARCH_RADIUS_M})
 ORDER BY init_time DESC
 """
 

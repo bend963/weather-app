@@ -28,6 +28,8 @@ _STRUCTURED_FIELDS = (
     "route",
     "points",
     "runs",
+    "bytes_billed",
+    "rows",
 )
 
 
