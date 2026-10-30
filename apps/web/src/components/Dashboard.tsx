@@ -6,13 +6,13 @@ import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { api, ApiFailure } from "@/lib/api";
 import { formatCycle, localDate } from "@/lib/format";
-import { AddLocationDialog } from "./AddLocationDialog";
+import { rememberCity } from "@/lib/lastCity";
 import { ConfidencePanel } from "./ConfidencePanel";
 import { CurrentHeader } from "./CurrentHeader";
 import { DailyStrip } from "./DailyStrip";
 import { DetailDrawer, type DrawerItem } from "./DetailDrawer";
 import { HourlyStrip } from "./HourlyStrip";
-import { LocationBar } from "./LocationBar";
+import { CityDock } from "./CityDock";
 import { LocationManager } from "./LocationManager";
 import { RainOutlookCard } from "./RainOutlookCard";
 import { RadarLoop } from "./RadarLoop";
@@ -37,8 +37,8 @@ function modelLabel(model: string | undefined): string | undefined {
 export function WeatherNextNotice() {
   return (
     <p className="mt-3 text-xs text-faint">
-      This data is intended for experimental modelling only and is not intended, validated, or approved for real
-      world use. WeatherNext forecasts copyright 2024-6 Google LLC.
+      This data is intended for experimental modelling only and is not intended, validated, or approved for real world
+      use. WeatherNext forecasts copyright 2024-6 Google LLC.
     </p>
   );
 }
@@ -48,13 +48,14 @@ export function Dashboard({ locationId }: { locationId: string }) {
   const [locations, setLocations] = useState<Location[]>([]);
   const [forecast, setForecast] = useState<Forecast | null>(null);
   const [state, setState] = useState<StateKind | null>(null);
-  const [adding, setAdding] = useState(false);
   const [drawer, setDrawer] = useState<DrawerItem | null>(null);
   const [reload, setReload] = useState(0);
 
   const refreshLocations = useCallback(async () => {
     setLocations(await api.listLocations());
   }, []);
+
+  useEffect(() => rememberCity(locationId), [locationId]);
 
   useEffect(() => {
     let cancelled = false;
@@ -90,17 +91,6 @@ export function Dashboard({ locationId }: { locationId: string }) {
     };
   }, [locationId, reload]);
 
-  async function toggleUnits() {
-    if (!forecast) return;
-    const metric = forecast.units.temperature === "F";
-    await api.updatePreferences(
-      metric
-        ? { temperature_unit: "C", precipitation_unit: "mm", wind_unit: "kmh" }
-        : { temperature_unit: "F", precipitation_unit: "in", wind_unit: "mph" },
-    );
-    setReload((r) => r + 1);
-  }
-
   async function makeDefault(id: string) {
     await api.updateLocation(id, { is_default: true });
     await refreshLocations();
@@ -121,15 +111,7 @@ export function Dashboard({ locationId }: { locationId: string }) {
   const today = ready?.current ? localDate(ready.current.time, tz) : (ready?.daily[0]?.date ?? "");
 
   return (
-    <div className="page mx-auto max-w-3xl px-4 pb-16">
-      <LocationBar
-        locations={locations}
-        currentId={locationId}
-        onAdd={() => setAdding(true)}
-        units={ready?.units}
-        onToggleUnits={toggleUnits}
-      />
-
+    <div className="page mx-auto max-w-3xl px-4 pb-32 pt-3">
       {state && (
         <StateMessage
           kind={state}
@@ -193,15 +175,7 @@ export function Dashboard({ locationId }: { locationId: string }) {
         run={ready?.model_run}
         timeZone={tz}
       />
-      {adding && (
-        <AddLocationDialog
-          onClose={() => setAdding(false)}
-          onSaved={(loc) => {
-            setAdding(false);
-            router.push(`/weather/${loc.id}`);
-          }}
-        />
-      )}
+      <CityDock locations={locations} currentId={locationId} />
     </div>
   );
 }

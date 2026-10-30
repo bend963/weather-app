@@ -88,6 +88,12 @@ class LocationUpdate(BaseModel):
         return None if value is None else _clean_name(value)
 
 
+class LocationOrder(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    location_ids: list[UUID] = Field(max_length=100)
+
+
 class Place(BaseModel):
     name: str
     label: str

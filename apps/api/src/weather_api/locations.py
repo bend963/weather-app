@@ -59,7 +59,7 @@ def list_locations(session: Session, owner: Owner) -> list[SavedLocation]:
         session.scalars(
             select(SavedLocation)
             .where(owner.owns())
-            .order_by(SavedLocation.is_default.desc(), SavedLocation.created_at, SavedLocation.id)
+            .order_by(SavedLocation.position, SavedLocation.created_at, SavedLocation.id)
         )
     )
 
@@ -96,6 +96,7 @@ def create_location(
         raise ApiError(409, "too_many_locations", f"You can save up to {max_locations} locations.")
 
     grid_point = get_or_create_grid_point(session, latitude, longitude)
+    last = session.scalar(select(func.max(SavedLocation.position)).where(owner.owns()))
     location = SavedLocation(
         **owner.columns(),
         weather_grid_point_id=grid_point.id,
@@ -104,6 +105,7 @@ def create_location(
         longitude=Decimal(str(longitude)).quantize(_SIX_PLACES),
         timezone=timezone_for(latitude, longitude),
         is_default=existing == 0,  # the first location becomes the default
+        position=0 if last is None else last + 1,  # new cities go to the end of the list
     )
     session.add(location)
     session.commit()
@@ -129,11 +131,45 @@ def update_location(
             .values(is_default=False)
         )
         location.is_default = True
+        # The default is always first in the list.
+        first = session.scalar(select(func.min(SavedLocation.position)).where(owner.owns()))
+        location.position = (first or 0) - 1
     # Unsetting the default directly is ignored: an owner with locations always
     # has a default. Choose another location as default instead.
     session.commit()
     session.refresh(location)
     return location
+
+
+def reorder_locations(
+    session: Session, owner: Owner, location_ids: list[uuid.UUID]
+) -> list[SavedLocation]:
+    """Put the owner's locations in the given order; the first becomes the default.
+
+    The ids must be exactly the owner's locations, each once, so a stale list
+    from another tab can't silently drop or duplicate a city.
+    """
+    locations = {loc.id: loc for loc in list_locations(session, owner)}
+    if len(location_ids) != len(set(location_ids)) or set(location_ids) != set(locations):
+        raise ApiError(
+            409, "stale_location_list", "Your saved locations changed. Reload and try again."
+        )
+    if not location_ids:
+        return []
+    first = locations[location_ids[0]]
+    if not first.is_default:
+        # Clear the old default first: the partial unique index allows only one.
+        session.execute(
+            update(SavedLocation)
+            .where(owner.owns(), SavedLocation.is_default)
+            .values(is_default=False)
+        )
+        session.flush()
+        first.is_default = True
+    for index, location_id in enumerate(location_ids):
+        locations[location_id].position = index
+    session.commit()
+    return list_locations(session, owner)
 
 
 def delete_location(session: Session, owner: Owner, location_id: uuid.UUID) -> None:
@@ -146,7 +182,7 @@ def delete_location(session: Session, owner: Owner, location_id: uuid.UUID) -> N
         replacement = session.scalars(
             select(SavedLocation)
             .where(owner.owns())
-            .order_by(SavedLocation.created_at, SavedLocation.id)
+            .order_by(SavedLocation.position, SavedLocation.created_at, SavedLocation.id)
             .limit(1)
         ).first()
         if replacement is not None:

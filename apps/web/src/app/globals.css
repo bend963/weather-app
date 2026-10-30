@@ -124,3 +124,160 @@ body {
   outline: 2px solid var(--rain);
   outline-offset: 2px;
 }
+
+/*
+ * Home-screen web app. viewport-fit=cover (layout.tsx) lets the page run under
+ * the status bar and home indicator, so keep content clear of them with the
+ * phone's own safe-area insets. In a normal browser tab these are all 0.
+ */
+body {
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+}
+body::before {
+  /* Paints the band behind the status bar so scrolled content doesn't show through. */
+  content: "";
+  position: fixed;
+  inset: 0 0 auto;
+  height: env(safe-area-inset-top, 0px);
+  background: var(--bg);
+  z-index: 30;
+}
+
+/* Frosted floating controls, like the iPhone Weather app. */
+.glass {
+  background: color-mix(in srgb, var(--surface) 78%, transparent);
+  -webkit-backdrop-filter: blur(18px) saturate(1.6);
+  backdrop-filter: blur(18px) saturate(1.6);
+  border: 1px solid color-mix(in srgb, var(--ink) 9%, transparent);
+  box-shadow:
+    0 8px 28px rgb(0 0 0 / 0.16),
+    0 1px 3px rgb(0 0 0 / 0.1);
+  color: var(--ink);
+}
+
+.dock {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 14px);
+  z-index: 30;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  pointer-events: none;
+}
+.dock > * {
+  pointer-events: auto;
+}
+.dock-round {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 999px;
+}
+.dock-pill {
+  display: flex;
+  align-items: center;
+  height: 52px;
+  padding: 0 6px;
+  border-radius: 999px;
+}
+.dock-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+}
+.dock-arrow[data-disabled] {
+  opacity: 0.3;
+}
+a.dock-arrow:hover,
+a.dock-round:hover {
+  background: color-mix(in srgb, var(--ink) 7%, transparent);
+}
+.dock-name {
+  width: 136px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.15;
+}
+.dock-name small {
+  display: block;
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+/* Cities page tiles. */
+.city-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+}
+.city-grid > li {
+  position: relative;
+}
+.city-tile {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  aspect-ratio: 1 / 1.05;
+  padding: 14px;
+  border-radius: 22px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  text-align: left;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  transition:
+    transform 0.15s,
+    box-shadow 0.15s;
+}
+.city-tile.is-current {
+  border-color: var(--ink);
+}
+.city-tile.is-lifted {
+  transform: scale(1.04);
+  box-shadow: 0 14px 34px rgb(0 0 0 / 0.22);
+  cursor: grabbing;
+}
+.city-tile-add {
+  align-items: center;
+  justify-content: center;
+  border-style: dashed;
+  border-width: 1.5px;
+  color: var(--muted);
+  font-size: 15px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .city-tile {
+    transition: none;
+  }
+}
+
+/* Bottom sheets clear the home indicator. */
+.sheet {
+  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 1.25rem);
+}
+
+/* Keep the radar map's credits to one short line on phones. */
+.radar-map .leaflet-control-attribution {
+  font-size: 10px;
+  background: color-mix(in srgb, var(--surface) 80%, transparent);
+  color: var(--muted);
+}
+.radar-map .leaflet-control-attribution a {
+  color: var(--rain);
+}

@@ -29,6 +29,7 @@ from weather_api.locations import (
     get_location,
     list_locations,
     mark_grid_point_requested,
+    reorder_locations,
     update_location,
 )
 from weather_api.models import DailyForecast, ForecastRun, SavedLocation, Visitor
@@ -85,6 +86,18 @@ def post_location(
     # than waiting for the next scheduled ingestion.
     background.add_task(ensure_point_forecast, location.weather_grid_point_id, provider, now)
     return _location(location)
+
+
+@router.put("/order", response_model=list[schemas.Location])
+def put_location_order(
+    body: schemas.LocationOrder,
+    visitor: Visitor | None = Depends(optional_visitor),
+    session: Session = Depends(get_db),
+) -> list[schemas.Location]:
+    """Save the cities list order. The first city becomes the default."""
+    return [
+        _location(loc) for loc in reorder_locations(session, _owner(visitor), body.location_ids)
+    ]
 
 
 @router.patch("/{location_id}", response_model=schemas.Location)

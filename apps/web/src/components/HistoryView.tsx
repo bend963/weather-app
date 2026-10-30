@@ -1,13 +1,11 @@
 "use client";
 
-import type { ForecastHistory, Location } from "@weather/api-types";
+import type { ForecastHistory } from "@weather/api-types";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Area, Bar, CartesianGrid, ComposedChart, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { api, ApiFailure } from "@/lib/api";
 import { formatCycle, formatDate, formatPercent, formatShortDate, formatTemp, formatWeekday } from "@/lib/format";
-import { LocationBar } from "./LocationBar";
 import { StateMessage, type StateKind } from "./StateMessage";
 
 type Pair = { temperature: ForecastHistory; precipitation: ForecastHistory };
@@ -17,8 +15,6 @@ type Pair = { temperature: ForecastHistory; precipitation: ForecastHistory };
  * Converging values across runs mean growing confidence in the outcome.
  */
 export function HistoryView({ locationId }: { locationId: string }) {
-  const router = useRouter();
-  const [locations, setLocations] = useState<Location[]>([]);
   const [targetDate, setTargetDate] = useState<string | undefined>(undefined);
   const [data, setData] = useState<Pair | null>(null);
   const [state, setState] = useState<StateKind | null>(null);
@@ -28,16 +24,12 @@ export function HistoryView({ locationId }: { locationId: string }) {
     (async () => {
       try {
         await api.me();
-        const [locs, temperature] = await Promise.all([
-          api.listLocations(),
-          api.history(locationId, { target_date: targetDate, metric: "temperature" }),
-        ]);
+        const temperature = await api.history(locationId, { target_date: targetDate, metric: "temperature" });
         const precipitation = await api.history(locationId, {
           target_date: temperature.target_date ?? undefined,
           metric: "precipitation",
         });
         if (cancelled) return;
-        setLocations(locs);
         setData({ temperature, precipitation });
         setState(temperature.entries.length ? null : "forecast-unavailable");
       } catch (e) {
@@ -70,8 +62,7 @@ export function HistoryView({ locationId }: { locationId: string }) {
   const unit = temp?.units.temperature ?? "F";
 
   return (
-    <div className="mx-auto max-w-3xl px-4 pb-16">
-      <LocationBar locations={locations} currentId={locationId} onAdd={() => router.push("/")} />
+    <div className="mx-auto max-w-3xl px-4 pb-16 pt-4">
       <Link href={`/weather/${locationId}`} className="text-sm text-muted hover:text-ink">
         ← Back to forecast
       </Link>

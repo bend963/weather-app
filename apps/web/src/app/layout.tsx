@@ -8,11 +8,16 @@ export const metadata: Metadata = {
   title: "Weather, with uncertainty",
   description: "A personal weather forecast that shows how sure the forecast is.",
   robots: { index: false },
+  applicationName: "Weather",
+  // Added to the home screen, open full screen with the page running under a
+  // see-through status bar (globals.css pads it clear with safe-area insets).
+  appleWebApp: { capable: true, title: "Weather", statusBarStyle: "black-translucent" },
 };
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
+  viewportFit: "cover",
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#f7f7f5" },
     { media: "(prefers-color-scheme: dark)", color: "#0f1012" },
