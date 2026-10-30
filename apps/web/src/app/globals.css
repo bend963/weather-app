@@ -253,6 +253,45 @@ a.dock-round:hover {
   box-shadow: 0 14px 34px rgb(0 0 0 / 0.22);
   cursor: grabbing;
 }
+/* Edit mode: a remove button on each tile, and the confirm card over it. */
+.city-remove {
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  background: var(--alert);
+  color: #fff;
+  box-shadow: 0 0 0 2px var(--bg);
+}
+.city-confirm {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px;
+  border-radius: 22px;
+  text-align: center;
+  background: var(--surface);
+  border: 1px solid var(--alert);
+}
+.city-confirm-yes {
+  border-radius: 999px;
+  padding: 6px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  background: var(--alert);
+}
 .city-tile-add {
   align-items: center;
   justify-content: center;

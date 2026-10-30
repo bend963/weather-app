@@ -7,7 +7,7 @@ test.beforeEach(async ({ page }) => {
   for (const host of [
     "https://radar.weather.gov/**",
     "https://mesonet.agron.iastate.edu/**",
-    "https://*.basemaps.cartocdn.com/**",
+    "https://server.arcgisonline.com/**",
   ]) {
     await page.route(host, (route) => route.fulfill({ status: 200, contentType: "image/gif", body: PIXEL }));
   }
@@ -138,4 +138,33 @@ test("visitor can reorder cities by dragging, and the first city opens at start"
   await page.getByRole("dialog").getByRole("button", { name: /°C/ }).click();
   await page.getByRole("dialog").getByRole("button", { name: "Done" }).click();
   await expect(page.getByRole("dialog")).toHaveCount(0);
+});
+
+test("visitor can remove a city from the cities page", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("button", { name: "Add your first location" }).click();
+  await addLocation(page, "Orlando", /Orlando/);
+  await expect(page.getByRole("heading", { level: 1, name: "Home" })).toBeVisible({ timeout: 20_000 });
+  await page.getByRole("link", { name: "All cities" }).click();
+  await page.getByRole("button", { name: "Add city" }).click();
+  await addLocation(page, "Denver", /Denver/);
+  await expect(page.getByRole("heading", { level: 1, name: "Denver" })).toBeVisible({ timeout: 20_000 });
+
+  await page.getByRole("link", { name: "All cities" }).click();
+  const grid = page.getByRole("list", { name: "Your cities" });
+  await page.getByRole("button", { name: "Edit" }).click();
+  // Cancel keeps the city.
+  await page.getByRole("button", { name: "Remove Denver" }).click();
+  await page.getByRole("group", { name: "Remove Denver?" }).getByRole("button", { name: "Cancel" }).click();
+  await expect(grid.getByRole("link", { name: /^Denver/ })).toBeVisible();
+
+  await page.getByRole("button", { name: "Remove Denver" }).click();
+  await page.getByRole("group", { name: "Remove Denver?" }).getByRole("button", { name: "Remove" }).click();
+  await expect(grid.getByRole("link", { name: /^Denver/ })).toHaveCount(0);
+  await page.getByRole("button", { name: "Done" }).click();
+
+  // It stays gone after a reload.
+  await page.reload();
+  await expect(grid.getByRole("link")).toHaveCount(1);
+  await expect(grid.getByRole("link").first()).toHaveAccessibleName(/^Home, 1 of 1/);
 });
