@@ -10,6 +10,7 @@ from weather_api.forecast.providers.weathernext import (
     TABLE,
     WeatherNextProvider,
     forecast_sql,
+    inits_sql,
 )
 from weather_api.forecast.spread_paths import (
     PATH_COUNT,
@@ -216,3 +217,11 @@ def test_forecast_sql_filters_every_node_and_reads_only_needed_columns():
     assert "SELECT *\nFROM" not in sql
     for c in COLUMNS:
         assert f"f.{c}" in sql
+
+
+def test_inits_sql_filters_on_geography_so_clustering_prunes():
+    # Without a geography filter the run check reads the whole init_time column
+    # of every candidate run (about 2.3 GB); with it, BigQuery's 10 MB minimum.
+    sql = inits_sql(f"p.d.{TABLE}")
+    assert "init_time IN UNNEST(@candidates)" in sql
+    assert "ST_DWITHIN(geography" in sql

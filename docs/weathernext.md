@@ -21,6 +21,23 @@ details; this page is the setup checklist.
 - Each query reads one `init_time` partition, only the needed columns, and the
   cells near the requested nodes. `WEATHERNEXT_MAX_BYTES_BILLED` caps each query.
 
+## Cost (measured 2026-10-30)
+
+| Query | Dry-run estimate | Billed |
+|---|---|---|
+| Which runs exist (8 candidates) | 18 GB | 10 MB (BigQuery's minimum) |
+| One run, 15 days, 3 locations, all variables | 1.65 TB | 0.28 GB |
+
+The dry-run estimate is an upper bound taken before clustering on `geography`
+skips blocks, and BigQuery checks `WEATHERNEXT_MAX_BYTES_BILLED` against that
+estimate. So the cap must stay above about 1.65 TB (default 2 TB) or every
+forecast query is rejected. For a hard spending limit, set a custom quota
+("Query usage per day") on the billing project in the Cloud console.
+
+At four runs a day the forecast queries bill roughly 35 GB a month for a few
+locations, plus 10 MB for each hourly run check: inside BigQuery's free first
+TB a month.
+
 ## Setup checklist
 
 - [ ] Subscribe to the WeatherNext 3 listing in Analytics Hub; note the project
@@ -30,9 +47,10 @@ details; this page is the setup checklist.
 - [ ] Set `FORECAST_PROVIDER=weathernext`, `GOOGLE_CLOUD_PROJECT`,
       `WEATHERNEXT_BIGQUERY_DATASET`, and either `WEATHERNEXT_SA_KEY` (the JSON
       key, from a secret store) or Application Default Credentials.
-- [ ] Dry-run one forecast query and check the bytes it would read; adjust
-      `WEATHERNEXT_MAX_BYTES_BILLED` if needed.
-- [ ] Run `forecast-ingestion run` and check one location against the table.
+- [x] Dry-run one forecast query and check the bytes it would read (see Cost).
+- [x] Run `forecast-ingestion run` and check one location against the table
+      (done 2026-10-30 against a local database: the 06 UTC run for Orlando,
+      Kimball SD and New York, 360 hours each).
 
 ## Terms of use
 

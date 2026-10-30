@@ -24,8 +24,9 @@ class Settings(BaseSettings):
     weathernext_bigquery_dataset: str | None = None
     # A service-account JSON key. Unset means Application Default Credentials.
     weathernext_sa_key: SecretStr | None = None
-    # Each query fails, unbilled, if it would read more than this.
-    weathernext_max_bytes_billed: int | None = Field(default=1_000_000_000_000, ge=1)
+    # Each query fails, unbilled, if its estimate is over this. BigQuery estimates before
+    # clustering prunes (about 1.65 TB per forecast query), so lower values block every query.
+    weathernext_max_bytes_billed: int | None = Field(default=2_000_000_000_000, ge=1)
 
     # How many of the most recent model runs the ingestion job keeps filled for
     # every active grid point. Older runs are never deleted; this only bounds
