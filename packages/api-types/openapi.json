@@ -125,6 +125,16 @@
             "title": "Source",
             "type": "string"
           },
+          "station": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ObservationStation"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "temperature": {
             "anyOf": [
               {
@@ -162,6 +172,17 @@
               }
             ],
             "title": "Wind Direction Deg"
+          },
+          "wind_gust": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wind Gust"
           },
           "wind_speed": {
             "anyOf": [
@@ -1029,6 +1050,29 @@
           "status"
         ],
         "title": "ModelRun",
+        "type": "object"
+      },
+      "ObservationStation": {
+        "properties": {
+          "distance_km": {
+            "title": "Distance Km",
+            "type": "number"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "distance_km"
+        ],
+        "title": "ObservationStation",
         "type": "object"
       },
       "Place": {

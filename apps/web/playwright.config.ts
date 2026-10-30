@@ -35,6 +35,7 @@ export default defineConfig({
         DATABASE_URL: databaseUrl,
         GEOCODER_PROVIDER: "static",
         FORECAST_PROVIDER: "mock",
+        CURRENT_CONDITIONS_SOURCE: "forecast",
         INGESTION_BACKFILL_RUNS: "3",
         CORS_ALLOWED_ORIGINS: `http://localhost:${WEB_PORT}`,
       },

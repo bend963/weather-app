@@ -40,6 +40,9 @@ class Settings(BaseSettings):
     nominatim_url: str = "https://nominatim.openstreetmap.org"
     # NWS and Nominatim both require an identifying User-Agent with contact info.
     nws_user_agent: str = "weathernext-personal-weather-app (dev@example.com)"
+    # Where "now" comes from: the nearest NWS station's latest observation (US
+    # only, falls back to the forecast), or always the nearest forecast hour.
+    current_conditions_source: Literal["nws", "forecast"] = "nws"
 
     # Used to sign the anonymous visitor cookie so ids cannot be forged.
     cookie_secret: str = "dev-only-insecure-cookie-secret-change-me"

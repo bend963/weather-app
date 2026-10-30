@@ -27,6 +27,7 @@ export function CitiesView() {
   const [adding, setAdding] = useState(false);
   const [reload, setReload] = useState(0);
   const [closeTo, setCloseTo] = useState<string | null>(null);
+  const [editing, setEditing] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -67,6 +68,23 @@ export function CitiesView() {
     }
   }, []);
 
+  async function removeCity(id: string) {
+    try {
+      await api.deleteLocation(id);
+    } catch (e) {
+      setNotice(e instanceof ApiFailure ? e.message : "Couldn't remove that city.");
+      return;
+    }
+    const remaining = (locations ?? []).filter((l) => l.id !== id);
+    setNotice(null);
+    setLocations(remaining);
+    if (remaining.length === 0) {
+      router.replace("/");
+      return;
+    }
+    if (closeTo === id) setCloseTo(remaining[0]!.id);
+  }
+
   async function changeUnits(unit: Units["temperature"]) {
     await api.updatePreferences(
       unit === "C"
@@ -82,19 +100,35 @@ export function CitiesView() {
     <div className="page mx-auto max-w-3xl px-4 pb-32">
       <header className="flex items-center justify-between pt-3">
         <h1 className="text-3xl font-bold tracking-tight">Cities</h1>
-        <button
-          onClick={() => setSettings(true)}
-          className="-mr-2 rounded-full p-2 text-muted hover:bg-surface-2 hover:text-ink"
-          aria-label="Settings: style, appearance and units"
-        >
-          <GearIcon size={24} />
-        </button>
+        <span className="flex items-center gap-1">
+          {locations && locations.length > 0 && (
+            <button
+              onClick={() => setEditing((e) => !e)}
+              className="rounded-full px-3 py-1.5 text-sm font-semibold text-rain hover:bg-surface-2"
+              aria-pressed={editing}
+            >
+              {editing ? "Done" : "Edit"}
+            </button>
+          )}
+          <button
+            onClick={() => setSettings(true)}
+            className="-mr-2 rounded-full p-2 text-muted hover:bg-surface-2 hover:text-ink"
+            aria-label="Settings: style, appearance and units"
+          >
+            <GearIcon size={24} />
+          </button>
+        </span>
       </header>
 
-      {locations && locations.length > 1 && (
-        <p className="mt-1 text-sm text-muted">
-          Hold and drag a city to move it. The first city opens when you start the app.
-        </p>
+      {editing ? (
+        <p className="mt-1 text-sm text-muted">Tap the minus on a city to remove it.</p>
+      ) : (
+        locations &&
+        locations.length > 1 && (
+          <p className="mt-1 text-sm text-muted">
+            Hold and drag a city to move it. The first city opens when you start the app.
+          </p>
+        )
       )}
       {notice && (
         <p role="alert" className="mt-3 text-sm text-alert">
@@ -116,6 +150,8 @@ export function CitiesView() {
             void saveOrder(ids, previous);
           }}
           onAdd={() => setAdding(true)}
+          editing={editing}
+          onRemove={removeCity}
         />
       )}
 
@@ -163,17 +199,23 @@ function CityGrid({
   currentId,
   onReorder,
   onAdd,
+  editing,
+  onRemove,
 }: {
   locations: Location[];
   summaries: Record<string, Summary>;
   currentId: string | null;
   onReorder: (ids: string[]) => void;
   onAdd: () => void;
+  editing: boolean;
+  onRemove: (id: string) => Promise<void>;
 }) {
   const [order, setOrderState] = useState(() => locations.map((l) => l.id));
   const [dragging, setDragging] = useState<string | null>(null);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [announce, setAnnounce] = useState("");
+  const [confirming, setConfirming] = useState<string | null>(null);
+  const [removing, setRemoving] = useState<string | null>(null);
   const drag = useRef<Drag | null>(null);
   const suppressClick = useRef(false);
   const tiles = useRef(new Map<string, HTMLElement>());
@@ -203,6 +245,19 @@ function CityGrid({
 
   const byId = new Map(locations.map((l) => [l.id, l]));
 
+  // Leaving edit mode cancels a pending removal.
+  if (!editing && confirming) setConfirming(null);
+
+  async function confirmRemove(id: string) {
+    setRemoving(id);
+    try {
+      await onRemove(id);
+    } finally {
+      setRemoving(null);
+      setConfirming(null);
+    }
+  }
+
   function activate(d: Drag) {
     d.active = true;
     setDragging(d.id);
@@ -230,7 +285,7 @@ function CityGrid({
   }
 
   function onPointerDown(e: React.PointerEvent, id: string) {
-    if (e.button !== 0 || drag.current) return;
+    if (e.button !== 0 || drag.current || editing) return;
     const slots = orderRef.current.map((i) => tiles.current.get(i)!.getBoundingClientRect());
     const d: Drag = {
       id,
@@ -315,10 +370,32 @@ function CityGrid({
                 onPointerDown={(e) => onPointerDown(e, id)}
                 onContextMenu={(e) => dragging && e.preventDefault()}
                 onKeyDown={(e) => onKeyDown(e, id)}
-                onClick={(e) => suppressClick.current && e.preventDefault()}
+                onClick={(e) => (suppressClick.current || editing) && e.preventDefault()}
               >
                 <TileBody location={loc} summary={summaries[id]} />
               </Link>
+              {editing && confirming !== id && (
+                <button onClick={() => setConfirming(id)} className="city-remove" aria-label={`Remove ${loc.name}`}>
+                  <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
+                    <path d="M3 7h8" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+                  </svg>
+                </button>
+              )}
+              {editing && confirming === id && (
+                <div className="city-confirm" role="group" aria-label={`Remove ${loc.name}?`}>
+                  <span className="text-sm font-semibold">Remove {loc.name}?</span>
+                  <button
+                    onClick={() => void confirmRemove(id)}
+                    disabled={removing === id}
+                    className="city-confirm-yes"
+                  >
+                    {removing === id ? "Removing…" : "Remove"}
+                  </button>
+                  <button onClick={() => setConfirming(null)} className="text-sm text-muted hover:text-ink">
+                    Cancel
+                  </button>
+                </div>
+              )}
             </li>
           );
         })}
