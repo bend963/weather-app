@@ -11,6 +11,7 @@ from zoneinfo import ZoneInfo
 
 from weather_api import schemas
 from weather_api.forecast.conditions import (
+    Condition,
     feels_like,
     is_daytime,
     relative_humidity,
@@ -18,6 +19,7 @@ from weather_api.forecast.conditions import (
 )
 from weather_api.forecast.confidence import level_for
 from weather_api.forecast.current import CurrentConditionsProvider, NearestForecastHour
+from weather_api.forecast.observations import Observation
 from weather_api.forecast.read_model import DailyPoint, GridForecast, HourlyPoint, RunInfo
 from weather_api.units import (
     cardinal_direction,
@@ -206,7 +208,11 @@ class ForecastPresenter:
             precipitation_summary=rain_text,
         )
 
-    def current(self, forecast: GridForecast, now: datetime) -> schemas.CurrentConditions | None:
+    def current(
+        self, forecast: GridForecast, now: datetime, observation: Observation | None = None
+    ) -> schemas.CurrentConditions | None:
+        if observation is not None:
+            return self.observed(observation, forecast, now)
         cur = self.current_provider.current(forecast.hourly, now)
         if cur is None:
             return None
@@ -231,6 +237,48 @@ class ForecastPresenter:
             cloud_cover=cur.cloud_cover,
             precip_probability=cur.precip_probability,
             condition=self._hour_condition(nearest),
+        )
+
+    def observed(
+        self, obs: Observation, forecast: GridForecast, now: datetime
+    ) -> schemas.CurrentConditions:
+        """Now, from a live station reading. The forecast hour fills what the station lacks."""
+        nearest = (
+            min(forecast.hourly, key=lambda h: abs((h.forecast_time - now).total_seconds()))
+            if forecast.hourly
+            else None
+        )
+        cloud = obs.cloud_cover
+        if cloud is None and nearest is not None:
+            cloud = nearest.cloud_cover_p50
+        humidity = obs.humidity
+        if humidity is None and obs.dewpoint_c is not None:
+            humidity = relative_humidity(obs.temperature_c, obs.dewpoint_c)
+        feels = obs.feels_like_c
+        if feels is None:
+            feels = feels_like(obs.temperature_c, obs.dewpoint_c, obs.wind_speed_mps)
+        condition = observed_condition(
+            obs, cloud, is_daytime(self.p.latitude, self.p.longitude, obs.time)
+        )
+        return schemas.CurrentConditions(
+            source="observation",
+            time=self.local(obs.time),
+            station=schemas.ObservationStation(
+                id=obs.station.id,
+                name=obs.station.name,
+                distance_km=round(obs.station.distance_km, 1),
+            ),
+            temperature=self.t(obs.temperature_c),
+            feels_like=self.t(feels),
+            dewpoint=self.t(obs.dewpoint_c),
+            humidity=round(humidity) if humidity is not None else None,
+            wind_speed=self.w(obs.wind_speed_mps),
+            wind_direction_deg=obs.wind_direction_deg,
+            wind_direction=cardinal_direction(obs.wind_direction_deg),
+            wind_gust=self.w(obs.wind_gust_mps),
+            cloud_cover=cloud,
+            precip_probability=nearest.precip_probability if nearest is not None else None,
+            condition=schemas.Condition(code=condition.code, label=condition.label),
         )
 
     def rain_outlook(self, forecast: GridForecast, now: datetime) -> schemas.RainOutlook:
@@ -353,3 +401,34 @@ def _round(x: float | None) -> float | None:
 
 def _whole(x: float | None) -> int | None:
     return None if x is None else round(x)
+
+
+def observed_condition(obs: Observation, cloud_cover: float | None, daytime: bool) -> Condition:
+    """An icon code for a station reading, labeled with the station's own words."""
+    kinds = {w for w, _ in obs.weather}
+    heavy = any(i == "heavy" for _, i in obs.weather)
+    if kinds & {"snow", "snow_grains", "ice_pellets", "snow_pellets", "ice_crystals"}:
+        code = "snow"
+    elif kinds & {
+        "rain",
+        "drizzle",
+        "rain_showers",
+        "thunderstorms",
+        "freezing_rain",
+        "freezing_drizzle",
+    }:
+        code = "heavy-rain" if heavy or "thunderstorms" in kinds else "rain"
+    else:
+        sky = sky_condition(
+            cloud_cover=cloud_cover,
+            precip_probability=0,
+            precip_amount_mm=0,
+            temperature_c=obs.temperature_c,
+            daytime=daytime,
+        )
+        code = sky.code
+        if obs.description is None:
+            return sky
+    if obs.description:
+        return Condition(code, obs.description)
+    return Condition(code, code.replace("-", " ").capitalize())

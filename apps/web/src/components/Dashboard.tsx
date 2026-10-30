@@ -43,6 +43,10 @@ export function WeatherNextNotice() {
   );
 }
 
+/** How often an open page refetches, and the shortest gap when switching back to it. */
+const REFRESH_MS = 5 * 60 * 1000;
+const REFRESH_MIN_MS = 60 * 1000;
+
 export function Dashboard({ locationId }: { locationId: string }) {
   const router = useRouter();
   const [locations, setLocations] = useState<Location[]>([]);
@@ -56,6 +60,23 @@ export function Dashboard({ locationId }: { locationId: string }) {
   }, []);
 
   useEffect(() => rememberCity(locationId), [locationId]);
+
+  // Keep "now" fresh: refetch every few minutes while the page is open, and on
+  // coming back to it. The server answers 304 when nothing changed.
+  useEffect(() => {
+    let last = Date.now();
+    const refresh = () => {
+      if (document.visibilityState !== "visible" || Date.now() - last < REFRESH_MIN_MS) return;
+      last = Date.now();
+      setReload((r) => r + 1);
+    };
+    const timer = setInterval(refresh, REFRESH_MS);
+    document.addEventListener("visibilitychange", refresh);
+    return () => {
+      clearInterval(timer);
+      document.removeEventListener("visibilitychange", refresh);
+    };
+  }, []);
 
   useEffect(() => {
     let cancelled = false;

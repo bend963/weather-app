@@ -221,6 +221,7 @@ export interface components {
              * @enum {string}
              */
             source: "forecast" | "observation";
+            station?: components["schemas"]["ObservationStation"] | null;
             /** Temperature */
             temperature: number | null;
             /**
@@ -232,6 +233,8 @@ export interface components {
             wind_direction: string | null;
             /** Wind Direction Deg */
             wind_direction_deg: number | null;
+            /** Wind Gust */
+            wind_gust?: number | null;
             /** Wind Speed */
             wind_speed: number | null;
         };
@@ -482,6 +485,15 @@ export interface components {
             model: string;
             /** Status */
             status: string;
+        };
+        /** ObservationStation */
+        ObservationStation: {
+            /** Distance Km */
+            distance_km: number;
+            /** Id */
+            id: string;
+            /** Name */
+            name: string;
         };
         /** Place */
         Place: {

@@ -134,9 +134,17 @@ class ModelRun(BaseModel):
     status: str
 
 
+class ObservationStation(BaseModel):
+    id: str
+    name: str
+    distance_km: float
+
+
 class CurrentConditions(BaseModel):
     source: Literal["forecast", "observation"]
     time: datetime
+    # Set when source is "observation": the NWS station the reading came from.
+    station: ObservationStation | None = None
     temperature: float | None
     feels_like: float | None
     dewpoint: float | None
@@ -144,6 +152,7 @@ class CurrentConditions(BaseModel):
     wind_speed: float | None
     wind_direction_deg: float | None
     wind_direction: str | None
+    wind_gust: float | None = None
     cloud_cover: float | None
     precip_probability: float | None
     condition: Condition

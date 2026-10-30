@@ -29,6 +29,7 @@ from weather_api.app import create_app  # noqa: E402
 from weather_api.cache import forecast_cache  # noqa: E402
 from weather_api.clock import get_now  # noqa: E402
 from weather_api.db import get_engine  # noqa: E402
+from weather_api.forecast.observations import NoObservations, get_observation_source
 from weather_api.forecast.providers import MockForecastProvider, get_forecast_provider  # noqa: E402
 from weather_api.routes import geocode, locations  # noqa: E402
 
@@ -37,6 +38,8 @@ FROZEN_NOW = datetime(2026, 10, 8, 15, 30, tzinfo=UTC)
 
 # Small horizon and ensemble keep tests fast while exercising the same code.
 TEST_PROVIDER = MockForecastProvider(members=20, horizon_hours=240)
+# No live NWS calls in tests; a test can swap in a fake via app.dependency_overrides.
+TEST_OBSERVATIONS = NoObservations()
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -80,6 +83,7 @@ def app():  # type: ignore[no-untyped-def]
     application = create_app()
     application.dependency_overrides[get_now] = lambda: FROZEN_NOW
     application.dependency_overrides[get_forecast_provider] = lambda: TEST_PROVIDER
+    application.dependency_overrides[get_observation_source] = lambda: TEST_OBSERVATIONS
     return application
 
 

@@ -15,6 +15,7 @@ from weather_api.db import get_db
 from weather_api.errors import ApiError, not_found
 from weather_api.forecast import read_model
 from weather_api.forecast.backfill import ensure_point_forecast
+from weather_api.forecast.observations import ObservationSource, get_observation_source
 from weather_api.forecast.presenter import (
     ForecastPresenter,
     Presentation,
@@ -147,6 +148,7 @@ def get_forecast(
     visitor: Visitor | None = Depends(optional_visitor),
     session: Session = Depends(get_db),
     provider: ForecastProvider = Depends(get_forecast_provider),
+    observations: ObservationSource = Depends(get_observation_source),
     now: datetime = Depends(get_now),
 ) -> schemas.Forecast | Response:
     location = get_location(session, _owner(visitor), location_id)
@@ -175,16 +177,21 @@ def get_forecast(
         )
 
     # Forecast data only changes when a run is ingested, but "now" moves the
-    # current hour, so the validator includes the hour too.
+    # current hour and a new station reading changes current conditions, so
+    # the validator includes both.
+    observation = observations.latest(float(location.latitude), float(location.longitude), now)
+    observed = observation.time.isoformat() if observation else "-"
     hour = now.replace(minute=0, second=0, microsecond=0)
     etag = (
         '"'
         + hashlib.sha256(
-            f"{location.id}|{location.updated_at.isoformat()}|{run.id}|{presentation.units}|{hours}|{hour.isoformat()}".encode()
+            f"{location.id}|{location.updated_at.isoformat()}|{run.id}|{presentation.units}|{hours}|{hour.isoformat()}|{observed}".encode()
         ).hexdigest()[:32]
         + '"'
     )
     max_age = max(30, min(300, int((hour + timedelta(hours=1) - now).total_seconds())))
+    if observation is not None:
+        max_age = min(max_age, 120)
     cache_headers = {
         "ETag": etag,
         # private: the response is tied to the visitor cookie and their location.
@@ -203,7 +210,7 @@ def get_forecast(
         location=_location(location),
         units=presentation.units,
         model_run=model_run(run),
-        current=presenter.current(forecast, now),
+        current=presenter.current(forecast, now, observation),
         hourly=[presenter.hourly(h) for h in select_hours(forecast, now, hours)],
         daily=[presenter.daily(d) for d in select_days(forecast, today)],
         rain_outlook=presenter.rain_outlook(forecast, now),
