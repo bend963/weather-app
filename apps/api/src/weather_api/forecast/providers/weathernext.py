@@ -35,9 +35,10 @@ partition, reads only the columns above, and filters cells with ST_DWITHIN on
 three locations bills about 0.3 GB, and the run check bills 10 MB (the minimum).
 
 WEATHERNEXT_MAX_BYTES_BILLED caps each query, but BigQuery compares the cap with
-its estimate *before* clustering prunes blocks: about 1.65 TB for any forecast
-query, however few locations. A cap below that rejects every forecast query (at
-no charge), so the default is 2 TB. It still stops a query that would scan many
+its estimate *before* clustering prunes blocks: about 1.65 TB for a forecast
+query on the newest runs and 3.75 TB on runs a day or more old, however few
+locations. A cap below that rejects the query (at no charge), so the default is
+5 TB. It still stops a query that would scan many
 runs. A daily project quota in the Cloud console is the better spending limit.
 
 Credentials: WEATHERNEXT_SA_KEY (a service-account JSON key, kept in a secret

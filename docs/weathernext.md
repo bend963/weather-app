@@ -26,12 +26,12 @@ details; this page is the setup checklist.
 | Query | Dry-run estimate | Billed |
 |---|---|---|
 | Which runs exist (8 candidates) | 18 GB | 10 MB (BigQuery's minimum) |
-| One run, 15 days, 3 locations, all variables | 1.65 TB | 0.28 GB |
+| One run, 15 days, 3 locations, all variables | 1.65 TB (newest runs), 3.75 TB (older runs) | 0.28 GB |
 
 The dry-run estimate is an upper bound taken before clustering on `geography`
 skips blocks, and BigQuery checks `WEATHERNEXT_MAX_BYTES_BILLED` against that
-estimate. So the cap must stay above about 1.65 TB (default 2 TB) or every
-forecast query is rejected. For a hard spending limit, set a custom quota
+estimate. So the cap must stay above about 3.75 TB (default 5 TB) or backfill
+queries for older runs are rejected. For a hard spending limit, set a custom quota
 ("Query usage per day") on the billing project in the Cloud console.
 
 At four runs a day the forecast queries bill roughly 35 GB a month for a few
