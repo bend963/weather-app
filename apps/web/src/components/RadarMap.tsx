@@ -54,12 +54,14 @@ export function RadarMap({ latitude, longitude, onFail }: { latitude: number; lo
       });
       map.attributionControl.setPrefix(false);
 
+      // Esri's gray canvas: keyless public tiles, with light and dark versions
+      // and a separate place-name layer we can draw above the radar.
       const tone = isDark() ? "dark" : "light";
-      const carto = `https://{s}.basemaps.cartocdn.com/${tone}_{kind}/{z}/{x}/{y}{r}.png`;
-      L.tileLayer(carto.replace("{kind}", "nolabels"), {
-        attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
-        subdomains: "abcd",
+      const canvas = (kind: "Base" | "Reference") =>
+        `https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_${tone === "dark" ? "Dark" : "Light"}_Gray_${kind}/MapServer/tile/{z}/{y}/{x}`;
+      L.tileLayer(canvas("Base"), {
+        attribution: "Base map &copy; Esri, HERE, Garmin, &copy; OpenStreetMap contributors",
+        maxNativeZoom: 16,
       }).addTo(map);
 
       // Radar sits between the base map and its place names.
@@ -87,7 +89,7 @@ export function RadarMap({ latitude, longitude, onFail }: { latitude: number; lo
         return layer.addTo(map!);
       });
 
-      L.tileLayer(carto.replace("{kind}", "only_labels"), { subdomains: "abcd", pane: "labels" }).addTo(map);
+      L.tileLayer(canvas("Reference"), { pane: "labels", maxNativeZoom: 16 }).addTo(map);
       L.circleMarker([latitude, longitude], {
         radius: 5,
         weight: 2,
