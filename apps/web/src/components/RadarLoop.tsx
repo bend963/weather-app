@@ -1,18 +1,26 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { nearestRadar, radarLoopUrl, radarPageUrl } from "@/lib/radar";
+import { useCallback, useEffect, useState } from "react";
+import { inMosaic, nearestRadar, radarLoopUrl, radarPageUrl } from "@/lib/radar";
+import { RadarMap } from "./RadarMap";
 
 /** NWS regenerates each loop every few minutes; fetch a fresh one this often. */
 const REFRESH_MS = 5 * 60 * 1000;
 
 const stampNow = () => Math.floor(Date.now() / REFRESH_MS);
 
-/** The live NWS radar loop from the site nearest the location. */
+/**
+ * Live radar. In the lower 48 states it's a zoomable map with the national
+ * NEXRAD mosaic looping on top (RadarMap); elsewhere in NWS coverage it's the
+ * animated loop from the nearest radar site.
+ */
 export function RadarLoop({ latitude, longitude, miles }: { latitude: number; longitude: number; miles: boolean }) {
   const site = nearestRadar(latitude, longitude);
   const [stamp, setStamp] = useState(stampNow);
   const [failed, setFailed] = useState(false);
+  const [mapFailed, setMapFailed] = useState(false);
+  const onMapFail = useCallback(() => setMapFailed(true), []);
+  const useMap = inMosaic(latitude, longitude) && !mapFailed;
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -33,11 +41,13 @@ export function RadarLoop({ latitude, longitude, miles }: { latitude: number; lo
           Radar now
         </h2>
         <span className="note text-xs text-faint">
-          {site.id}, {distance} away
+          {useMap ? "NEXRAD mosaic, last 50 min" : `${site.id}, ${distance} away`}
         </span>
       </div>
       <div className="mt-3 overflow-hidden rounded-xl border border-line bg-surface">
-        {failed ? (
+        {useMap ? (
+          <RadarMap latitude={latitude} longitude={longitude} onFail={onMapFail} />
+        ) : failed ? (
           <p className="px-4 py-10 text-center text-sm text-muted" data-testid="radar-fallback">
             The radar loop didn&apos;t load.{" "}
             <a href={page} target="_blank" rel="noreferrer" className="text-rain hover:underline">
@@ -59,7 +69,9 @@ export function RadarLoop({ latitude, longitude, miles }: { latitude: number; lo
         )}
       </div>
       <p className="note mt-2 text-xs text-faint">
-        Reflectivity loop from the National Weather Service, refreshed every 5 minutes.{" "}
+        {useMap
+          ? "National Weather Service radar, combined every 5 minutes by the Iowa Environmental Mesonet. Pinch or use + and − to zoom."
+          : "Reflectivity loop from the National Weather Service, refreshed every 5 minutes."}{" "}
         <a href={page} target="_blank" rel="noreferrer" className="text-rain hover:underline">
           Full radar controls →
         </a>

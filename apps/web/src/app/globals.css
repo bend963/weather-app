@@ -271,3 +271,13 @@ a.dock-round:hover {
 .sheet {
   padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 1.25rem);
 }
+
+/* Keep the radar map's credits to one short line on phones. */
+.radar-map .leaflet-control-attribution {
+  font-size: 10px;
+  background: color-mix(in srgb, var(--surface) 80%, transparent);
+  color: var(--muted);
+}
+.radar-map .leaflet-control-attribution a {
+  color: var(--rain);
+}

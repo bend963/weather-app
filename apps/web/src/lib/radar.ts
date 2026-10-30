@@ -199,3 +199,30 @@ export function radarLoopUrl(id: string, stamp?: number): string {
 export function radarPageUrl(id: string): string {
   return `https://radar.weather.gov/station/${id.toLowerCase()}/standard`;
 }
+
+/*
+ * National radar mosaic from the Iowa Environmental Mesonet (IEM): NWS NEXRAD
+ * base reflectivity composited every 5 minutes and served as free, public map
+ * tiles. The "-mNNm" layers are the composite from NN minutes ago, so eleven
+ * layers make a 50-minute loop. Lower 48 states only.
+ * https://mesonet.agron.iastate.edu/ogc/
+ */
+
+/** Minutes before now for each loop frame, oldest first. */
+export const LOOP_MINUTES = [50, 45, 40, 35, 30, 25, 20, 15, 10, 5, 0] as const;
+
+/** XYZ tile URL template for the mosaic `minutes` ago. `stamp` makes the browser refetch after an update. */
+export function mosaicTileUrl(minutes: number, stamp: number): string {
+  const layer = minutes === 0 ? "nexrad-n0q-900913" : `nexrad-n0q-900913-m${String(minutes).padStart(2, "0")}m`;
+  return `https://mesonet.agron.iastate.edu/cache/tile.py/1.0.0/${layer}/{z}/{x}/{y}.png?t=${stamp}`;
+}
+
+/** Whether the IEM mosaic covers a point (the lower 48 states and nearby). */
+export function inMosaic(lat: number, lon: number): boolean {
+  return lat >= 23 && lat <= 50.5 && lon >= -126 && lon <= -65;
+}
+
+/** "Now", or how long ago a frame is. */
+export function frameLabel(minutes: number): string {
+  return minutes === 0 ? "Now" : `${minutes} min ago`;
+}
