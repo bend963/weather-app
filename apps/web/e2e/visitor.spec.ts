@@ -130,6 +130,18 @@ test("visitor can reorder cities by dragging, and the first city opens at start"
   await page.goto("/");
   await expect(page.getByRole("heading", { level: 1, name: "Denver" })).toBeVisible();
 
+  // Opening a saved link to another city (an old home-screen icon, a
+  // bookmark) still lands on the default city.
+  const homeHref = (await page.getByRole("link", { name: "Next city: Home" }).getAttribute("href"))!;
+  await page.goto(homeHref);
+  await expect(page.getByRole("heading", { level: 1, name: "Denver" })).toBeVisible();
+  await expect(page).not.toHaveURL(homeHref);
+  // Moving between cities inside the app is unaffected.
+  await page.getByRole("link", { name: "Next city: Home" }).click();
+  await expect(page.getByRole("heading", { level: 1, name: "Home" })).toBeVisible();
+  await page.reload();
+  await expect(page.getByRole("heading", { level: 1, name: "Home" })).toBeVisible();
+
   // The gear opens style, appearance and units.
   await page.getByRole("link", { name: "All cities" }).click();
   await page.getByRole("button", { name: /^Settings/ }).click();
