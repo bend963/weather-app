@@ -69,6 +69,13 @@ const json = (body: unknown) => JSON.stringify(body);
 // making other calls, so parallel first requests can't create two visitors.
 let mePromise: Promise<Me> | null = null;
 
+function changesMe<T>(change: Promise<T>): Promise<T> {
+  return change.then((result) => {
+    mePromise = null;
+    return result;
+  });
+}
+
 export const api = {
   me(force = false): Promise<Me> {
     if (!mePromise || force) {
@@ -82,13 +89,16 @@ export const api = {
   updatePreferences: (body: PreferencesUpdate) =>
     request<Preferences>("/api/v1/me/preferences", { method: "PATCH", body: json(body) }),
   listLocations: () => request<Location[]>("/api/v1/locations"),
+  // Changing the cities can change the default city, so /me is fetched again after.
   createLocation: (body: LocationCreate) =>
-    request<Location>("/api/v1/locations", { method: "POST", body: json(body) }),
+    changesMe(request<Location>("/api/v1/locations", { method: "POST", body: json(body) })),
   updateLocation: (id: string, body: LocationUpdate) =>
-    request<Location>(`/api/v1/locations/${id}`, { method: "PATCH", body: json(body) }),
+    changesMe(request<Location>(`/api/v1/locations/${id}`, { method: "PATCH", body: json(body) })),
   reorderLocations: (ids: string[]) =>
-    request<Location[]>("/api/v1/locations/order", { method: "PUT", body: json({ location_ids: ids }) }),
-  deleteLocation: (id: string) => request<void>(`/api/v1/locations/${id}`, { method: "DELETE" }),
+    changesMe(
+      request<Location[]>("/api/v1/locations/order", { method: "PUT", body: json({ location_ids: ids }) }),
+    ),
+  deleteLocation: (id: string) => changesMe(request<void>(`/api/v1/locations/${id}`, { method: "DELETE" })),
   forecast: (id: string, hours = 72) => request<Forecast>(`/api/v1/locations/${id}/forecast?hours=${hours}`),
   history: (id: string, params: { target_date?: string; target_time?: string; metric?: string }) => {
     const query = new URLSearchParams(Object.entries(params).filter((e): e is [string, string] => Boolean(e[1])));

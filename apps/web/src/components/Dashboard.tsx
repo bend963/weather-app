@@ -7,6 +7,7 @@ import { useCallback, useEffect, useState } from "react";
 import { api, ApiFailure } from "@/lib/api";
 import { formatCycle, localDate } from "@/lib/format";
 import { rememberCity } from "@/lib/lastCity";
+import { isHomeScreenApp, openedFromOutside, RESUME_AFTER_MS } from "@/lib/launch";
 import { ConfidencePanel } from "./ConfidencePanel";
 import { CurrentHeader } from "./CurrentHeader";
 import { DailyStrip } from "./DailyStrip";
@@ -60,6 +61,42 @@ export function Dashboard({ locationId }: { locationId: string }) {
   }, []);
 
   useEffect(() => rememberCity(locationId), [locationId]);
+
+  // Opening the app lands on the default city, even if a city page is what
+  // was opened (an old home-screen icon, a bookmark, a history suggestion) or
+  // the home-screen app comes back after a while.
+  const goToDefault = useCallback(
+    async (fresh: boolean) => {
+      try {
+        const me = await api.me(fresh);
+        if (me.default_location_id && me.default_location_id !== locationId) {
+          router.replace(`/weather/${me.default_location_id}`);
+        }
+      } catch {
+        /* stay on this city; the page shows its own error */
+      }
+    },
+    [locationId, router],
+  );
+
+  useEffect(() => {
+    if (openedFromOutside()) void goToDefault(false);
+  }, [goToDefault]);
+
+  useEffect(() => {
+    let hiddenAt: number | null = null;
+    const onVisibility = () => {
+      if (document.visibilityState === "hidden") {
+        hiddenAt = Date.now();
+      } else if (hiddenAt !== null) {
+        const away = Date.now() - hiddenAt;
+        hiddenAt = null;
+        if (away >= RESUME_AFTER_MS && isHomeScreenApp()) void goToDefault(true);
+      }
+    };
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => document.removeEventListener("visibilitychange", onVisibility);
+  }, [goToDefault]);
 
   // Keep "now" fresh: refetch every few minutes while the page is open, and on
   // coming back to it. The server answers 304 when nothing changed.
