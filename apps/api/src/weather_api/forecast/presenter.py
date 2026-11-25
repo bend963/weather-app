@@ -34,6 +34,21 @@ RAIN_LIKELY_PROBABILITY = 0.4
 RAIN_CONTINUE_PROBABILITY = 0.25
 RAIN_OUTLOOK_HOURS = 7 * 24
 
+# A day's rain or showers icon needs a real chance of measurable rain, not just
+# a trace: Florida-style damp days give 0.01 in chances almost every day at
+# long range. The icon uses the chance of at least this much over the day.
+DAILY_ICON_RAIN_MM = 0.05 * 25.4
+
+
+def daily_icon_rain_chance(
+    member_precip_mm: list[float] | None, fallback: float | None
+) -> float | None:
+    """Chance the day's total reaches DAILY_ICON_RAIN_MM, from the member totals."""
+    if not member_precip_mm:
+        return fallback
+    hits = sum(1 for x in member_precip_mm if x >= DAILY_ICON_RAIN_MM - 1e-9)
+    return hits / len(member_precip_mm)
+
 
 @dataclass(frozen=True)
 class Presentation:
@@ -124,7 +139,9 @@ class ForecastPresenter:
         raw = d.raw_summary
         c = sky_condition(
             cloud_cover=raw.get("daytime_cloud_cover_p50"),
-            precip_probability=d.precip_probability,
+            precip_probability=daily_icon_rain_chance(
+                raw.get("member_precip_mm"), d.precip_probability
+            ),
             precip_amount_mm=d.precip_p50_mm,
             temperature_c=d.high_p50_c,
             hours=24,

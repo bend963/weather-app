@@ -64,3 +64,15 @@ def test_sky_condition_buckets():
         ).code
         == "chance-rain"
     )
+
+
+def test_daily_icon_rain_chance_uses_five_hundredths():
+    from weather_api.forecast.presenter import daily_icon_rain_chance
+
+    # Ten members: four reach 0.05 in (1.27 mm), the rest are damp traces.
+    totals = [0.3] * 6 + [1.27, 2.0, 5.0, 10.0]
+    assert daily_icon_rain_chance(totals, 0.9) == pytest.approx(0.4)
+    # A day of 0.01 in chances only is no longer a showers day.
+    assert daily_icon_rain_chance([0.3] * 8 + [2.0, 2.0], 0.8) == pytest.approx(0.2)
+    # Without member totals, fall back to the stored chance.
+    assert daily_icon_rain_chance(None, 0.45) == 0.45
